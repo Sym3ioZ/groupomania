@@ -4,13 +4,13 @@ import '../../App.css'
 function Footer() {
   return (
     <div>
-      <header className="Footer">
+      <footer className="Footer">
         <img
           className="Footer-logo"
           src={logo}
           alt="logo groupomania monochrome noir"
         />
-      </header>
+      </footer>
     </div>
   )
 }

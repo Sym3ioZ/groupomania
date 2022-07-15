@@ -1,10 +1,18 @@
-const express = require('express');
-require('dotenv').config();  // To use environment vars (secures sensible data such as the DB connection string)
+const express = require('express')
+require('dotenv').config()
 
-const cors = require('cors');
-const app = express();
+const cors = require('cors')
+const app = express()
 
-app.use(express.json());
-app.use(cors());
+app.use(express.json())
+app.use(cors())
 
-module.exports = app;
+app.post('/api/test', (req,res,next) => {
+  console.log("POST OK")
+  return res.status(201).json({message: "POST réussi!" })
+})
+app.get('/api', (req, res, next) => {
+  console.log('TEST OK OKOK')
+  return res.status(200).json({ message: 'TEST OK GET' })
+})
+module.exports = app
