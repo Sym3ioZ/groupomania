@@ -1,5 +1,5 @@
 import logo from '../../assets/icon-black.png'
-import '../../App.css'
+import '../../styles/style.css'
 
 function Footer() {
   return (
@@ -10,6 +10,9 @@ function Footer() {
           src={logo}
           alt="logo groupomania monochrome noir"
         />
+        <a href="mailto:admin@groupomania.fr" className="Mailto">
+          Contacter l'administrateur
+        </a>
       </footer>
     </div>
   )

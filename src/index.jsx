@@ -1,10 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import './index.css'
-import Home from './pages/Home'
+import './styles/style.css'
 import Login from './pages/Login'
-import Test from './pages/Test'
+import Home from './pages/Home'
 import Error from './pages/Error'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -15,9 +14,8 @@ root.render(
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/test/:message" element={<Test />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/home" element={<Home />} />
         <Route path="*" element={<Error />} />
       </Routes>
       <Footer />

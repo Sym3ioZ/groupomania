@@ -1,15 +1,8 @@
-import '../../App.css'
+import '../../styles/style.css'
 
 function Login() {
-  async function Click() {
-    const result = await fetch('http://localhost:3000/api')
-      .then((res) => res.json())
-      .catch((err) => err.json())
-
-    console.log(result.message)
-  }
-
-  async function OnClick(e) {
+  // document.getElementById('LoginTab').className = 'ActiveTab'
+  async function Signup(e) {
     e.preventDefault()
     const email = await document.getElementById('mail').value
     const pass = await document.getElementById('pwd').value
@@ -28,20 +21,29 @@ function Login() {
       body: JSON.stringify(inputs),
     }
     console.log(postOrder)
-    const post = await fetch('http://localhost:3000/api/test', postOrder)
+    const post = await fetch('http://localhost:3000/api/signup', postOrder)
       .then((res) => res.json())
       .catch((error) => console.log(error))
 
     console.log(post)
-    document.location.assign(`/test/${post.message}`)
+    document.location.assign('/home')
   }
 
   return (
-    <div>
+    <div className="Body">
       <h1 className="Maintitle">
         Bienvenue sur le réseau social interne de l'entreprise GROUPOMANIA
       </h1>
       <div className="Login">
+        <div className="Tabs">
+          <div className="ActiveTab" id="LoginTab">
+            CONNEXION
+          </div>
+          <div className="InactiveTab" id="SigninTab">
+            INSCRIPTION
+          </div>
+        </div>
+
         <form className="Loginform">
           <div className="Textarea">
             <label htmlFor="mail">Adresse mail</label>
@@ -55,21 +57,12 @@ function Login() {
             <input
               type="submit"
               className="Button"
-              value="CONNEXION"
+              value="SE CONNECTER"
               id="signin"
-              onClick={OnClick}
-            />
-            <input
-              type="submit"
-              className="Button"
-              value="INSCRIPTION"
-              id="signup"
+              onClick={Signup}
             />
           </div>
         </form>
-        <div className="btn" onClick={Click}>
-          TEST GET
-        </div>
       </div>
     </div>
   )
