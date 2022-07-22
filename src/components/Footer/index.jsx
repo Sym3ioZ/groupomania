@@ -4,14 +4,14 @@ import '../../styles/style.css'
 function Footer() {
   return (
     <div>
-      <footer className="Footer">
+      <footer className="footer">
         <img
-          className="Footer-logo"
+          className="footer__logo"
           src={logo}
           alt="logo groupomania monochrome noir"
         />
-        <a href="mailto:admin@groupomania.fr" className="Mailto">
-          Contacter l'administrateur
+        <a href="mailto:admin@groupomania.fr" className="mailto">
+          <i className="fa-solid fa-envelope"></i>Contacter l'administrateur
         </a>
       </footer>
     </div>

@@ -3,8 +3,8 @@ import '../../styles/style.css'
 
 function Error() {
   return (
-    <div className="Errorpage">
-      <h1 className="Error">La page que vous demandez n'existe pas.</h1>
+    <div className="errorpage">
+      <h1 className="error">La page que vous demandez n'existe pas.</h1>
       <Link to="/login">Retour à la page de connexion</Link>
     </div>
   )

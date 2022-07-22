@@ -1,4 +1,5 @@
 body {
+  width: 100%;
   margin: 0 auto;
   font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -10,7 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.Header {
+.header {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,108 +19,127 @@ code {
   width: 100%;
   border-bottom: 2px solid #808080;
   box-shadow: 0 6px 10px grey;
-  margin-bottom: 15px;
+}
+.header__logo {
+  max-width: 700px;
+}
+@media screen and (max-width: 768px) {
+  .header__logo {
+    max-width: 300px;
+  }
 }
 
-.Footer {
+.footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 150px;
   width: 100%;
   border-top: 2px solid grey;
-  box-shadow: 0 -6px 10px grey;
+  box-shadow: 0 -3px 5px grey;
   margin-top: 50px;
 }
-
-.Footer-logo {
+.footer__logo {
   width: 40%;
   margin: 5px;
 }
+.footer i {
+  color: #4e5166;
+  margin-right: 10px;
+}
 
-.Mailto {
+.mailto {
   margin: 0 30px 0 0;
   text-decoration: none;
   font-size: large;
   color: black;
 }
-.Mailto:hover {
-  color: #a3a6b9;
+.mailto:hover {
+  color: #646883;
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
 }
 
-.Maintitle {
+.maintitle {
   text-align: center;
   font-size: 42px;
   font-weight: 900;
 }
 
-.Body {
+.body {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.Login {
+.login {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 66px 0;
   border-radius: 0 0 20px 20px;
   box-shadow: 0 6px 10px grey;
   width: 70%;
+  height: 700px;
+  margin-bottom: 20px;
+  position: relative;
 }
 
-.Tabs {
+.tabs-block {
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: space-around;
-  margin-top: -50px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.ActiveTab {
-  width: 110%;
-  height: 50px;
-  text-align: center;
+.tabs {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: larger;
-  color: white;
-  background: #4e5166;
-  border-radius: 20px 20px 0 0;
+  width: 50%;
+  height: 50px;
+  box-shadow: 0 2px 3px grey;
+  background: #ffd7d7;
+  color: grey;
+  font-size: large;
+  cursor: pointer;
   transition: all 200ms ease-out;
 }
 
-.ActiveTab:hover {
-  cursor: pointer;
-  background: #a3a6b9;
+.active-tabs {
+  background: #4e5166;
+  color: white;
+  width: 60%;
+  font-size: xx-large;
 }
 
-.InactiveTab {
+.forms-block {
   width: 100%;
-  height: 50px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: larger;
-  color: black;
-  background: #ffd7d7;
-  border-radius: 20px 20px 0 0;
+  margin: 20px 0;
 }
 
-.Loginform {
+.connection-form {
+  width: 100%;
+  display: none;
+}
+
+.active-form {
+  width: 100%;
+  display: block;
+}
+
+.form-inputs {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
 }
 
-.Textarea {
+.textarea {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -129,8 +149,7 @@ code {
   border-radius: 10px;
 }
 
-input[type=text],
-input[type=email] {
+input {
   outline: none;
   border: 2px solid grey;
   border-radius: 10px;
@@ -141,14 +160,14 @@ input[type=email] {
   background: none;
 }
 
-.Buttons {
+.buttons {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.Button {
+.button {
   text-align: center;
   width: 250px;
   height: 75px;
@@ -159,20 +178,23 @@ input[type=email] {
   border: 0px solid black;
   border-radius: 50px;
   box-shadow: 0 5px 7px grey;
+  position: absolute;
+  bottom: 0;
+  transform: scale(1);
+  transition: all 150ms ease-out;
+  cursor: pointer;
+}
+.button:hover {
+  transform: scale(1.1);
+  background: #646883;
 }
 
-.Home {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.Link {
+.link {
   text-align: center;
   text-decoration: none;
   color: #fd2d01;
 }
 
-.Link:hover {
+.link:hover {
   color: #4e5166;
 }/*# sourceMappingURL=style.css.map */

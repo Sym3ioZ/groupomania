@@ -1,7 +1,8 @@
 @import './variables';
 @import './index';
+@import './mixins';
 
-.Header {
+.header {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,106 +10,120 @@
   width: 100%;
   border-bottom: 2px solid #808080;
   box-shadow: 0 6px 10px grey;
-  margin-bottom: 15px;
+  &__logo {
+    max-width: 700px;
+    @include mobile {
+      max-width: 300px;
+    }
+  }
 }
 
-.Footer {
+.footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 150px;
   width: 100%;
   border-top: 2px solid grey;
-  box-shadow: 0 -6px 10px grey;
+  box-shadow: 0 -3px 5px grey;
   margin-top: 50px;
+  &__logo {
+    width: 40%;
+    margin: 5px;
+  }
+  & i {
+    color: $tertiaryColor;
+    margin-right: 10px;
+  }
 }
 
-.Footer-logo {
-  width: 40%;
-  margin: 5px;
-}
-
-.Mailto {
+.mailto {
   margin: 0 30px 0 0;
   text-decoration: none;
   font-size: large;
   color: black;
   &:hover {
-    color: lighten($tertiaryColor, 33%);
+    color: lighten($tertiaryColor, 10%);
+    text-decoration-line: underline;
   }
 }
 
-.Maintitle {
+.maintitle {
   text-align: center;
   font-size: 42px;
   font-weight: 900;
 }
 
-.Body {
+.body {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.Login {
+.login {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 66px 0;
   border-radius: 0 0 20px 20px;
   box-shadow: 0 6px 10px grey;
   width: 70%;
+  height: 700px;
+  margin-bottom: 20px;
+  position: relative;
 }
 
-.Tabs {
+.tabs-block {
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: space-around;
-  margin-top: -50px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.ActiveTab {
-  width: 110%;
-  height: 50px;
-  text-align: center;
+.tabs {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: larger;
-  color: white;
-  background: $tertiaryColor;
-  border-radius: 20px 20px 0 0;
+  width: 50%;
+  height: 50px;
+  box-shadow: 0 2px 3px grey;
+  background: $secondaryColor;
+  color: grey;
+  font-size: large;
+  cursor: pointer;
   transition: all 200ms ease-out;
 }
-.ActiveTab:hover {
-  cursor: pointer;
-  background: lighten($tertiaryColor, 33%);
-}
 
-.InactiveTab {
+.active-tabs {
+  background: $tertiaryColor;
+  color: white;
+  width: 60%;
+  font-size: xx-large;
+}
+.forms-block {
   width: 100%;
-  height: 50px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: larger;
-  color: black;
-  background: $secondaryColor;
-  border-radius: 20px 20px 0 0;
+  margin: 20px 0;
+}
+.connection-form {
+  width: 100%;
+  display: none;
 }
 
-.Loginform {
+.active-form {
+  width: 100%;
+  display: block;
+}
+
+.form-inputs {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
 }
-
-.Textarea {
+.textarea {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -118,8 +133,7 @@
   border-radius: 10px;
 }
 
-input[type='text'],
-input[type='email'] {
+input {
   outline: none;
   border: 2px solid grey;
   border-radius: 10px;
@@ -130,14 +144,14 @@ input[type='email'] {
   background: none;
 }
 
-.Buttons {
+.buttons {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.Button {
+.button {
   text-align: center;
   width: 250px;
   height: 75px;
@@ -148,19 +162,23 @@ input[type='email'] {
   border: 0px solid black;
   border-radius: 50px;
   box-shadow: 0 5px 7px grey;
+  position: absolute;
+  bottom: 0;
+  transform: scale(1);
+  transition: all 150ms ease-out;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    background: lighten($tertiaryColor, 10%);
+  }
 }
 
-.Home {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.Link {
+.link {
   text-align: center;
   text-decoration: none;
   color: $primaryColor;
 }
 
-.Link:hover {
+.link:hover {
   color: $tertiaryColor;
 }
