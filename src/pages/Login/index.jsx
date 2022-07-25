@@ -31,13 +31,13 @@ function Login() {
       .catch((error) => console.log(error))
 
     console.log(post)
-    document.location.assign('/home')
+    document.location.assign('/')
   }
 
-  async function Signin(e) {
+  async function Login(e) {
     e.preventDefault()
-    const email = await document.getElementById('mail').value
-    const pass = await document.getElementById('pwd').value
+    const email = document.getElementById('mail-login').value
+    const pass = document.getElementById('pwd-login').value
     console.log(email)
     console.log(pass)
     const inputs = {
@@ -53,12 +53,17 @@ function Login() {
       body: JSON.stringify(inputs),
     }
     console.log(postOrder)
-    const post = await fetch('http://localhost:3000/api/signup', postOrder)
+    const post = await fetch('http://localhost:3000/api/auth/login', postOrder)
       .then((res) => res.json())
       .catch((error) => console.log(error))
 
-    console.log(post)
-    document.location.assign('/home')
+    console.log(post.error)
+    if (post.error === '401') {
+      const errorMsg = document.getElementById('errorMessage')
+      errorMsg.textContent = 'Mot de passe invalide'
+    } else {
+      document.location.assign('/home')
+    }
   }
 
   return (
@@ -95,7 +100,7 @@ function Login() {
                 <label htmlFor="mail">Adresse mail</label>
                 <input type="email" id="mail-login" name="user_mail" />
               </div>
-              <div className="textarea">
+              <div className="textarea" id="pwdInput">
                 <label htmlFor="pwd">Mot de passe</label>
                 <input
                   type="password"
@@ -104,6 +109,9 @@ function Login() {
                   minLength={8}
                   required
                 />
+                <span id="errorMessage">
+                  <br />{' '}
+                </span>
               </div>
             </div>
             <div className="buttons">
@@ -112,7 +120,7 @@ function Login() {
                 className="button"
                 value="SE CONNECTER"
                 id="signin"
-                onClick={Signin}
+                onClick={Login}
               />
             </div>
           </form>
