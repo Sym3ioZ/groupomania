@@ -9,13 +9,18 @@ function Login() {
 
   async function Signup(e) {
     e.preventDefault()
-    const email = await document.getElementById('mail').value
-    const pass = await document.getElementById('pwd').value
-    console.log(email)
-    console.log(pass)
+    const mail = document.getElementById('mail-signup').value
+    const pass = document.getElementById('pwd-signup').value
+    const name = document.getElementById('name').value
+    const firstName = document.getElementById('firstName').value
+    const sector = document.getElementById('sector').value
+
     const inputs = {
-      mail: email,
+      mail: mail,
       password: pass,
+      name: name,
+      firstName: firstName,
+      sector: sector,
     }
     console.log(inputs)
     const postOrder = {
@@ -26,25 +31,45 @@ function Login() {
       body: JSON.stringify(inputs),
     }
     console.log(postOrder)
-    const post = await fetch('http://localhost:3000/api/signup', postOrder)
+    const post = await fetch('http://localhost:3000/api/auth/signup', postOrder)
       .then((res) => res.json())
       .catch((error) => console.log(error))
 
-    console.log(post)
-    document.location.assign('/')
+    const errors = document.getElementById('errors')
+    if (post.code === '401') {
+      errors.textContent = 'Erreur: adresse mail déjà enregistrée'
+    } else {
+      const orderBody = {
+        mail: mail,
+        password: pass,
+      }
+      console.log(orderBody)
+      const loginOrder = {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(orderBody),
+      }
+      const login = await fetch(
+        'http://localhost:3000/api/auth/login',
+        loginOrder
+      )
+        .then((res) => res.json())
+        .catch((error) => console.log(error))
+      console.log(login)
+      document.location.assign('/home')
+    }
   }
 
-  async function Login(e) {
+  async function Logging(e) {
     e.preventDefault()
-    const email = document.getElementById('mail-login').value
+    const mail = document.getElementById('mail-login').value
     const pass = document.getElementById('pwd-login').value
-    console.log(email)
-    console.log(pass)
     const inputs = {
-      mail: email,
+      mail: mail,
       password: pass,
     }
-    console.log(inputs)
     const postOrder = {
       method: 'POST',
       headers: {
@@ -52,16 +77,18 @@ function Login() {
       },
       body: JSON.stringify(inputs),
     }
-    console.log(postOrder)
     const post = await fetch('http://localhost:3000/api/auth/login', postOrder)
       .then((res) => res.json())
       .catch((error) => console.log(error))
 
-    console.log(post.error)
-    if (post.error === '401') {
-      const errorMsg = document.getElementById('errorMessage')
+    console.log(post)
+    const errorMsg = document.getElementById('errorMessage')
+    if (post.code === '401') {
       errorMsg.textContent = 'Mot de passe invalide'
+      errorMsg.style.color = 'red'
     } else {
+      errorMsg.textContent = 'Mot de passe vérifié'
+      errorMsg.style.color = 'green'
       document.location.assign('/home')
     }
   }
@@ -120,7 +147,7 @@ function Login() {
                 className="button"
                 value="SE CONNECTER"
                 id="signin"
-                onClick={Login}
+                onClick={Logging}
               />
             </div>
           </form>
@@ -133,6 +160,9 @@ function Login() {
             }
           >
             <div className="form-inputs">
+              <span id="errors">
+                <br />{' '}
+              </span>
               <div className="textarea">
                 <label htmlFor="mail">Adresse mail</label>
                 <input type="email" id="mail-signup" name="user_mail" />

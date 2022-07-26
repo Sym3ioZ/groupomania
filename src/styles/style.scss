@@ -40,7 +40,16 @@
 #errorMessage {
   color: red;
 }
-
+.maincontent {
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  & * {
+    margin: 10px;
+  }
+}
 .mailto {
   margin: 0 30px 0 0;
   text-decoration: none;
@@ -177,6 +186,17 @@ input {
   }
 }
 
+.unlocked {
+  position: relative;
+}
+
+.postBlock {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .link {
   text-align: center;
   text-decoration: none;

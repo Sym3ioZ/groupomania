@@ -1,53 +1,57 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const mysql = require('mysql2')
-
-const connection = mysql.createConnection(process.env.DB_CONNECTION_STRING)
-
-connection.connect(function (error) {
-  if (error) throw error
-  else console.log('connected to GROUPOMANIA database!')
-})
+const connection = require('../db')
 
 exports.signup = (req, res, next) => {
-  bcrypt.hash(req.body.password, 10).then((hash) => {
-    const createUser =
-      "INSERT INTO user (mail, password, name, firstName, sector) VALUES ('" +
-      req.body.mail +
-      "','" +
-      hash +
-      "','" +
-      req.body.name +
-      "','" +
-      req.body.firstName +
-      "','" +
-      req.body.sector +
-      "')"
-    connection.query(createUser, function (err, resp) {
-      if (err) throw err
-      console.log('user created and logged in!')
-    })
-  })
+  connection.query(
+    "SELECT * FROM user WHERE mail='" + req.body.mail + "'",
+    function (err, resp) {
+      if (resp.length > 0) {
+        return res.status(401).json({ code: '401', message: 'Unauthorized: mail already used' })
+      } else {
+        bcrypt
+          .hash(req.body.password, 10)
+          .then((hash) => {
+            const createUser =
+              "INSERT INTO user (mail, password, name, firstName, sector) VALUES ('" +
+              req.body.mail +
+              "','" +
+              hash +
+              "','" +
+              req.body.name +
+              "','" +
+              req.body.firstName +
+              "','" +
+              req.body.sector +
+              "')"
+            connection.query(createUser, function (err, resp) {
+              if (err) throw err
+              console.log('user created and logged in!')
+              return res.status(200).json({ code: '200', message: 'User created'})
+            })
+          })
+          .catch((error) => res.status(500).json({ error }))
+      }
+    }
+  )
 }
 
 exports.login = (req, res, next) => {
-  console.log(req.body.mail + ' ' + req.body.password)
-  connection.query('SELECT * FROM user', function (err, resp) {
-    console.log(resp)
-    console.log(resp[0].name)
-    if (err) throw err
-    for (let i = 0; i < resp.length; i++) {
-      if (req.body.mail === resp[i].mail) {
+  connection.query(
+    "SELECT * FROM user WHERE mail='" + req.body.mail + "'",
+    function (err, resp) {
+      if (err) throw err
+      if (resp.length > 0) {
         bcrypt
-          .compare(req.body.password, resp[i].password)
+          .compare(req.body.password, resp[0].password)
           .then((valid) => {
             if (!valid) {
-              return res.status(401).json({ error: '401' })
+              return res.status(401).json({ code: '401', message: "Invalid password"})
             }
             return res.status(200).json({
-              userId: resp[i].id,
+              userId: resp[0].id,
               token: jwt.sign(
-                { userid: resp[i].id },
+                { userid: resp[0].id },
                 process.env.TOKEN_STRING,
                 { expiresIn: '24h' }
               ),
@@ -56,5 +60,5 @@ exports.login = (req, res, next) => {
           .catch((error) => res.status(500).json({ error }))
       }
     }
-  })
+  )
 }
