@@ -1,38 +1,34 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import '../../styles/style.css'
 
 function Home() {
-  // Function called in fetch GET to display all posts in DB Table post
-  function createPostsList(postsList) {
-    console.log(postsList)
-    const postsArray = postsList.resp
-    console.log(postsArray)
-    const mainContent = document.getElementById('main-content')
-    for (let i = 0; i < postsArray.length; i++) {
-      const userId = document.createElement('div')
-      userId.textContent = `${postsArray[i].user_id}`
-      mainContent.appendChild(userId)
-
-      const postText = document.createElement('div')
-      postText.textContent = `${postsArray[i].text}`
-      mainContent.appendChild(postText)
-    }
-  }
+  const [allPosts, setAllPosts] = useState([])
 
   // GET every posts
   useEffect(() => {
-    fetch('http://localhost:3000/api/posts')
-      .then((res) => res.json())
-      .then(function (postList) {
-        console.log(postList)
-        createPostsList(postList)
-      })
-      .catch((error) => console.log(error))
+    const fetchPosts = async () => {
+      const fetchData = await fetch('http://localhost:3000/api/posts')
+      const jsonData = await fetchData.json()
+      setAllPosts(jsonData.resp)
+    }
+    fetchPosts()
   }, [])
+
+  // Retrieving the selected picture
+  const [selectedFile, setSelectedFile] = useState()
+
+  const picChange = (event) => {
+    setSelectedFile(event.target.files[0])
+  }
 
   // POST to publish a post, then reload page
   async function Post(e) {
     e.preventDefault()
+
+    // Declaring formdata to send via fetch
+    const formData = new FormData()
+
+    formData.append('image', selectedFile)
 
     const text = document.getElementById('text').value
 
@@ -41,13 +37,14 @@ function Home() {
       text: text,
     }
 
+    formData.append('userId', inputs.userId)
+    formData.append('text', inputs.text)
+
     const postOrder = {
       method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(inputs),
+      body: formData,
     }
+    console.log(postOrder)
     await fetch('http://localhost:3000/api/posts/post', postOrder)
       .then((res) => res.json())
       .catch((err) => console.log(err))
@@ -60,6 +57,12 @@ function Home() {
       <div className="postBlock">
         <input type="text" id="text"></input>
         <input
+          type="file"
+          name="image"
+          className="image"
+          onChange={picChange}
+        />
+        <input
           type="submit"
           className="button unlocked"
           value="PARTAGER"
@@ -67,7 +70,17 @@ function Home() {
           onClick={Post}
         />
       </div>
-      <div className="maincontent" id="main-content"></div>
+      <div className="maincontent" id="main-content">
+        {allPosts?.map((publish) => {
+          return (
+            <div key={`${publish.id}`} className="post">
+              {publish.user_id} <br />
+              {publish.text} <br />
+              <img src={publish.imageUrl} alt="postPicture" /> <br />
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
