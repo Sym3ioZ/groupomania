@@ -1,0 +1,33 @@
+@import '../variables';
+@import '../index';
+@import '../mixins';
+
+.postCard {
+  max-width: 700px;
+  border: 2px solid $tertiaryColor;
+  border-radius: 25px;
+  margin: 20px 0 30px 0;
+  overflow: hidden;
+  &__user {
+    text-align: left;
+    margin: 15px;
+  }
+  &__image {
+    border-top: 1px solid $tertiaryColor;
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+    background-color: lighten($secondaryColor, 5%);
+    & img {
+      width: 110%;
+      object-fit: fill;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  &__text {
+    font-size: large;
+  }
+}

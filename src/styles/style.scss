@@ -1,54 +1,19 @@
 @import './variables';
 @import './index';
 @import './mixins';
-
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 150px;
-  width: 100%;
-  border-bottom: 2px solid #808080;
-  box-shadow: 0 6px 10px grey;
-  &__logo {
-    max-width: 700px;
-    @include mobile {
-      max-width: 300px;
-    }
-  }
-}
-
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 150px;
-  width: 100%;
-  border-top: 2px solid grey;
-  box-shadow: 0 -3px 5px grey;
-  margin-top: 50px;
-  &__logo {
-    width: 40%;
-    margin: 5px;
-  }
-  & i {
-    color: $tertiaryColor;
-    margin-right: 10px;
-  }
-}
+@import './layout/header';
+@import './layout/footer';
+@import './components/postCard';
 
 #errorMessage {
   color: red;
 }
 .maincontent {
-  width: auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  & * {
-    margin: 10px;
-  }
 }
 .mailto {
   margin: 0 30px 0 0;
@@ -61,13 +26,8 @@
   }
 }
 
-.maintitle {
-  text-align: center;
-  font-size: 42px;
-  font-weight: 900;
-}
-
 .body {
+  padding-top: 150px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -79,7 +39,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 0 0 20px 20px;
-  box-shadow: 0 6px 10px grey;
+  box-shadow: $mediumShadow;
   width: 70%;
   height: 700px;
   margin-bottom: 20px;
@@ -102,7 +62,7 @@
   align-items: center;
   width: 50%;
   height: 50px;
-  box-shadow: 0 2px 3px grey;
+  box-shadow: $lightShadow;
   background: $secondaryColor;
   color: grey;
   font-size: large;
@@ -150,7 +110,7 @@ input {
   outline: none;
   border: 2px solid grey;
   border-radius: 10px;
-  box-shadow: 0 2px 3px grey;
+  box-shadow: $lightShadow;
   height: 25px;
   font-size: large;
   text-align: center;
@@ -174,7 +134,7 @@ input {
   margin: 25px;
   border: 0px solid black;
   border-radius: 50px;
-  box-shadow: 0 5px 7px grey;
+  box-shadow: $mediumShadow;
   position: absolute;
   bottom: 0;
   transform: scale(1);
@@ -190,19 +150,33 @@ input {
   position: relative;
 }
 
-.postBlock {
-  width: 100%;
+.page {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-.link {
-  text-align: center;
-  text-decoration: none;
-  color: $primaryColor;
+  position: relative;
+  padding-top: 150px;
+  &__sidenav {
+    position: fixed;
+    left: 10px;
+    top: 170px;
+  }
 }
 
-.link:hover {
-  color: $tertiaryColor;
+.postBlock {
+  margin: 30px;
+  width: 60%;
+  background: $secondaryColor;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid lightgray;
+  border-radius: 25px;
+  box-shadow: $lightShadow;
+}
+
+.textArea {
+  font-size: larger;
 }

@@ -1,0 +1,66 @@
+@import '../variables';
+@import '../index';
+@import '../mixins';
+
+.header {
+  background: white;
+  z-index: 2;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 2px solid $tertiaryColor;
+  box-shadow: $mediumShadow;
+  &__logo {
+    width: 30%;
+    margin-left: 10px;
+    @include mobile {
+      max-width: 300px;
+    }
+  }
+  & i {
+    font-size: x-large;
+    color: $tertiaryColor;
+  }
+  & h1 {
+    text-align: right;
+    width: 25%;
+    padding: 10px 30px 10px 0px;
+  }
+
+  &__navBlock {
+    width: 33%;
+    display: block;
+    &--off {
+      display: none;
+    }
+  }
+  &__links {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 25px;
+  }
+  &__links__icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: scale(1);
+    transition: all 150ms ease-out;
+    text-decoration: none;
+    & p {
+      color: $tertiaryColor;
+    }
+    &:hover {
+      & i,
+      p {
+        color: lighten($tertiaryColor, 10%);
+      }
+      transform: scale(1.1);
+    }
+  }
+}

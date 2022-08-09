@@ -1,0 +1,17 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-top: 2px solid $tertiaryColor;
+  box-shadow: 0 -3px 5px grey;
+  margin-top: 50px;
+  &__logo {
+    width: 33%;
+    margin: 5px;
+  }
+  & i {
+    color: $tertiaryColor;
+    margin-right: 10px;
+  }
+}

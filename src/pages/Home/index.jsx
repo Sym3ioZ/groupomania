@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import '../../styles/style.css'
 
 function Home() {
@@ -33,7 +34,7 @@ function Home() {
     const text = document.getElementById('text').value
 
     const inputs = {
-      userId: 9,
+      userId: 10,
       text: text,
     }
 
@@ -52,10 +53,21 @@ function Home() {
   }
 
   return (
-    <div>
-      <h1 className="maintitle">Page d'accueil</h1>
+    <div className="page">
+      <div className="page__sidenav">
+        <div className="profileBlock">
+          <Link to="/profile">Profil</Link>
+        </div>
+      </div>
       <div className="postBlock">
-        <input type="text" id="text"></input>
+        <textarea
+          className="textArea"
+          id="text"
+          name="text"
+          rows="2"
+          cols="60"
+          placeholder="Exprimez-vous!"
+        ></textarea>
         <input
           type="file"
           name="image"
@@ -73,10 +85,14 @@ function Home() {
       <div className="maincontent" id="main-content">
         {allPosts?.map((publish) => {
           return (
-            <div key={`${publish.id}`} className="post">
-              {publish.user_id} <br />
-              {publish.text} <br />
-              <img src={publish.imageUrl} alt="postPicture" /> <br />
+            <div key={`${publish.id}`} className="postCard">
+              <p className="postCard__user">
+                {publish.firstName} {publish.name}, le:
+              </p>
+              <p className="postCard__text">{publish.text}</p>
+              <div className="postCard__image">
+                <img src={publish.imageUrl} alt="postPicture" />
+              </div>
             </div>
           )
         })}
