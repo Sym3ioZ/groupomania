@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import dateFormat from 'dateformat'
 import '../../styles/style.css'
 
 function Home() {
@@ -32,20 +33,23 @@ function Home() {
     formData.append('image', selectedFile)
 
     const text = document.getElementById('text').value
-
+    let today = new Date()
+    var createDate =
+      today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     const inputs = {
-      userId: 10,
+      userId: 3,
       text: text,
+      createDate: createDate,
     }
 
     formData.append('userId', inputs.userId)
     formData.append('text', inputs.text)
+    formData.append('createDate', inputs.createDate)
 
     const postOrder = {
       method: 'POST',
       body: formData,
     }
-    console.log(postOrder)
     await fetch('http://localhost:3000/api/posts/post', postOrder)
       .then((res) => res.json())
       .catch((err) => console.log(err))
@@ -61,16 +65,22 @@ function Home() {
       </div>
       <div className="postBlock">
         <textarea
-          className="textArea"
+          className="postBlock__textarea"
           id="text"
           name="text"
-          rows="2"
-          cols="60"
+          rows="3"
+          cols="70"
+          maxLength="500"
           placeholder="Exprimez-vous!"
+          required
         ></textarea>
+        <label htmlFor="image" className="postBlock__imageLabel">
+          <i className="fa-solid fa-image"></i>
+        </label>
         <input
           type="file"
           name="image"
+          id="image"
           className="image"
           onChange={picChange}
         />
@@ -82,16 +92,33 @@ function Home() {
           onClick={Post}
         />
       </div>
-      <div className="maincontent" id="main-content">
+      <div className="maincontent">
         {allPosts?.map((publish) => {
           return (
-            <div key={`${publish.id}`} className="postCard">
-              <p className="postCard__user">
-                {publish.firstName} {publish.name}, le:
-              </p>
-              <p className="postCard__text">{publish.text}</p>
-              <div className="postCard__image">
-                <img src={publish.imageUrl} alt="postPicture" />
+            <div key={`${publish.id}`} className="fullPost">
+              <div className="postCard">
+                <p className="postCard__user">
+                  <img
+                    src={publish.profilePic}
+                    alt="profile avatar"
+                    className="postCard__user__profilePic"
+                  />{' '}
+                  {publish.firstName} {publish.name} , le:{' '}
+                  {dateFormat(publish.createDate, 'dd/mm/yy')}{' '}
+                  {publish.modified === 1 ? publish.modified : ' '} <br />
+                  Secteur: {publish.sector}
+                </p>
+                <p className="postCard__text">{publish.text}</p>
+                <div className="postCard__image">
+                  <img src={publish.imageUrl} alt="postPicture" />
+                </div>
+              </div>
+              <div className="fullPost__icons">
+                <i className="heartIcon fa-brands fa-gratipay"></i>
+                <div className="fullPost__icons__creatorOnly">
+                  <i className="fa-solid fa-pen-to-square"></i>
+                  <i className="fa-solid fa-trash-can"></i>
+                </div>
               </div>
             </div>
           )

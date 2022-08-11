@@ -88,20 +88,30 @@ exports.deleteProfile = (req, res, next) => {
 }
 
 exports.updateProfile = (req, res, next) => {
+  // connection.query(
+  //   "UPDATE user SET mail='" +
+  //     req.body.mail +
+  //     "', name='" +
+  //     req.body.name +
+  //     "', firstName='" +
+  //     req.body.firstName +
+  //     "', sector='" +
+  //     req.body.sector +
+  //     "', bio='" +
+  //     req.body.bio +
+  //     "' WHERE id='" +
+  //     req.body.userId +
+  //     "'",
+  //   function (err, resp) {
+  //     if (err) throw err
+  //   }
+  // )
   connection.query(
-    "UPDATE user SET mail='" +
-      req.body.mail +
-      "', name='" +
-      req.body.name +
-      "', firstName='" +
-      req.body.firstName +
-      "', sector='" +
-      req.body.sector +
-      "', bio='" +
-      req.body.bio +
-      "' WHERE id='" +
-      req.body.userId +
-      "'",
+    "UPDATE user SET profilePic='" +
+      `${req.protocol}://${req.get('host')}/images/profilePics/${
+        req.file.filename
+      }` +
+      "' WHERE id = 3",
     function (err, resp) {
       if (err) throw err
     }

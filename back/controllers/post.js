@@ -18,7 +18,7 @@ exports.getPosts = (req, res, next) => {
 exports.sharePost = (req, res, next) => {
   let postText = replaceChars("'", "\\'", req.body.text)
   connection.query(
-    "INSERT INTO post (user_id, text, imageUrl) VALUES ('" +
+    "INSERT INTO post (user_id, text, imageUrl, createDate) VALUES ('" +
       req.body.userId +
       "','" +
       postText +
@@ -26,6 +26,8 @@ exports.sharePost = (req, res, next) => {
       `${req.protocol}://${req.get('host')}/images/postPics/${
         req.file.filename
       }` +
+      "','" +
+      req.body.createDate +
       "')",
     function (err, resp) {
       if (err) throw err
