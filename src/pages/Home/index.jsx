@@ -19,8 +19,12 @@ function Home() {
   // Retrieving the selected picture
   const [selectedFile, setSelectedFile] = useState()
 
-  const picChange = (event) => {
-    setSelectedFile(event.target.files[0])
+  function picChange(e) {
+    let src = URL.createObjectURL(e.target.files[0])
+    let preview = document.getElementById('imagePreview')
+    preview.src = src
+    preview.style.display = 'block'
+    setSelectedFile(e.target.files[0])
   }
 
   // POST to publish a post, then reload page
@@ -37,7 +41,7 @@ function Home() {
     var createDate =
       today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     const inputs = {
-      userId: 3,
+      userId: 4,
       text: text,
       createDate: createDate,
     }
@@ -64,16 +68,21 @@ function Home() {
         </div>
       </div>
       <div className="postBlock">
-        <textarea
-          className="postBlock__textarea"
-          id="text"
-          name="text"
-          rows="3"
-          cols="70"
-          maxLength="500"
-          placeholder="Exprimez-vous!"
-          required
-        ></textarea>
+        <div className="previewBlock">
+          <textarea
+            className="postBlock__textarea"
+            id="text"
+            name="text"
+            rows="3"
+            cols="300"
+            maxLength="500"
+            placeholder="Exprimez-vous!"
+            required
+          ></textarea>
+          <div className="picturePreview">
+            <img src="#" id="imagePreview" alt="upload preview" />
+          </div>
+        </div>
         <label htmlFor="image" className="postBlock__imageLabel">
           <i className="fa-solid fa-image"></i>
         </label>
@@ -82,6 +91,7 @@ function Home() {
           name="image"
           id="image"
           className="image"
+          accept=".jpg, .jpeg, .png, .gif, .webp"
           onChange={picChange}
         />
         <input
@@ -92,9 +102,10 @@ function Home() {
           onClick={Post}
         />
       </div>
-      <div className="maincontent">
-        {allPosts?.map((publish) => {
-          return (
+
+      {allPosts?.map((publish) => {
+        return (
+          <div className="maincontent">
             <div key={`${publish.id}`} className="fullPost">
               <div className="postCard">
                 <p className="postCard__user">
@@ -114,16 +125,21 @@ function Home() {
                 </div>
               </div>
               <div className="fullPost__icons">
-                <i className="heartIcon fa-brands fa-gratipay"></i>
+                <div className="heart-icon">
+                  <i className="fa-solid fa-heart"></i>
+                  <i className="fa-regular fa-heart"></i>
+                  <p>{publish.likes}</p>
+                </div>
+
                 <div className="fullPost__icons__creatorOnly">
                   <i className="fa-solid fa-pen-to-square"></i>
                   <i className="fa-solid fa-trash-can"></i>
                 </div>
               </div>
             </div>
-          )
-        })}
-      </div>
+          </div>
+        )
+      })}
     </div>
   )
 }

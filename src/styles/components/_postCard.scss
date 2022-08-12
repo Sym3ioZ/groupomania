@@ -1,6 +1,7 @@
 @import '../variables';
 @import '../index';
 @import '../mixins';
+@import '../utils/keyframes';
 
 .fullPost {
   margin: 20px 0 30px 0;
@@ -27,6 +28,41 @@
         transform: scale(1.15);
       }
     }
+    & .heart-icon {
+      color: $primaryColor;
+      width: 40px;
+      height: 40px;
+      position: relative;
+      & p {
+        color: $tertiaryColor;
+        position: relative;
+        left: 50px;
+      }
+      & .fa-regular {
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        background: white;
+      }
+      & .fa-solid {
+        position: absolute;
+        top: 1px;
+        opacity: 1;
+        background: $primaryColor;
+        z-index: 5;
+        -webkit-background-clip: text; /* to fit the background on the icon only */
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transform-origin: bottom;
+        transform: scale(1, 0) rotateY(90deg);
+      }
+      &:hover {
+        cursor: pointer;
+        & .fa-solid {
+          animation: heart-fill 300ms 0ms ease-in-out both;
+        }
+      }
+    }
   }
 }
 .postCard {
@@ -34,6 +70,7 @@
   border: 2px solid $tertiaryColor;
   border-radius: 15px;
   box-shadow: $mediumShadow;
+  background: white;
   overflow: hidden;
   &__user {
     width: fit-content;

@@ -1,0 +1,17 @@
+@keyframes heart-fill {
+  0% {
+    transform: scale(1, 0) rotateY(90deg);
+  }
+  5% {
+    transform: scale(1, 0.15) rotateY(90deg);
+  }
+  90% {
+    transform: scale(1.1, 1.1) rotateY(0deg);
+  }
+  95% {
+    transform: scale(1.07, 1.07) rotateY(0deg);
+  }
+  100% {
+    transform: scale(1.03, 1.03) rotateY(0deg);
+  }
+}

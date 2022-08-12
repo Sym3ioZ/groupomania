@@ -33,6 +33,7 @@ function Profile() {
           type="file"
           name="image"
           className="image"
+          accept=".jpg, .jpeg, .png, .gif, .webp"
           onChange={picChange}
         />
         <input

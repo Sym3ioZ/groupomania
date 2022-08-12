@@ -111,7 +111,7 @@ exports.updateProfile = (req, res, next) => {
       `${req.protocol}://${req.get('host')}/images/profilePics/${
         req.file.filename
       }` +
-      "' WHERE id = 3",
+      "' WHERE id = 4",
     function (err, resp) {
       if (err) throw err
     }
