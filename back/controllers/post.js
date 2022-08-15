@@ -7,7 +7,7 @@ function replaceChars(search, replacement, string) {
 
 exports.getPosts = (req, res, next) => {
   connection.query(
-    'SELECT * FROM post JOIN user ON post.user_id = user.id',
+    'SELECT * FROM post JOIN user ON post.user_id = user.id ORDER BY createDate DESC',
     function (err, resp) {
       if (err) throw err
       return res.status(200).json({ resp })

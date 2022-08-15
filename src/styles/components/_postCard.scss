@@ -16,16 +16,20 @@
       background-color: transparent;
       margin-right: 15px;
       margin-left: 15px;
+      &:hover {
+        color: lighten($primaryColor, 10%);
+        transform: scale(1);
+        transition: all 150ms ease-out;
+        &:hover {
+          cursor: pointer;
+          transform: scale(1.15);
+        }
+      }
       &:first-child {
         color: $tertiaryColor;
-      }
-    }
-    & i {
-      transform: scale(1);
-      transition: all 150ms ease-out;
-      &:hover {
-        cursor: pointer;
-        transform: scale(1.15);
+        &:hover {
+          color: lighten($tertiaryColor, 10%);
+        }
       }
     }
     & .heart-icon {

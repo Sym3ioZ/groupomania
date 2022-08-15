@@ -210,16 +210,20 @@ p {
   margin-right: 15px;
   margin-left: 15px;
 }
-.fullPost__icons__creatorOnly i:first-child {
-  color: #4e5166;
-}
-.fullPost__icons i {
+.fullPost__icons__creatorOnly i:hover {
+  color: #fe5633;
   transform: scale(1);
   transition: all 150ms ease-out;
 }
-.fullPost__icons i:hover {
+.fullPost__icons__creatorOnly i:hover:hover {
   cursor: pointer;
   transform: scale(1.15);
+}
+.fullPost__icons__creatorOnly i:first-child {
+  color: #4e5166;
+}
+.fullPost__icons__creatorOnly i:first-child:hover {
+  color: #646883;
 }
 .fullPost__icons .heart-icon {
   color: #fd2d01;
@@ -448,16 +452,45 @@ p {
 }
 .profileBlock__picture {
   width: 75%;
-  border-radius: 10px;
-  box-shadow: 0 2px 3px grey;
 }
 .profileBlock__picture img {
   width: 100%;
   -o-object-fit: fill;
      object-fit: fill;
+  border-radius: 10px;
+  box-shadow: 0 2px 3px grey;
 }
 .profileBlock__name {
   color: black;
+}
+.profileBlock__icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0px 0 0 15px;
+  font-size: 40px;
+}
+.profileBlock__icons i {
+  margin-right: 15px;
+  margin-left: 15px;
+  transform: scale(1);
+  transition: all 150ms ease-out;
+}
+.profileBlock__icons__pen {
+  color: #4e5166;
+}
+.profileBlock__icons__pen:hover {
+  cursor: pointer;
+  color: #646883;
+  transform: scale(1.15);
+}
+.profileBlock__icons__trash {
+  color: #fd2d01;
+}
+.profileBlock__icons__trash:hover {
+  cursor: pointer;
+  color: #fe5633;
+  transform: scale(1.15);
 }
 
 #errorMessage {

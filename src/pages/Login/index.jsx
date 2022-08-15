@@ -38,7 +38,6 @@ function Login() {
           },
           body: JSON.stringify(inputs),
         }
-        console.log(postOrder)
         const post = await fetch(
           'http://localhost:3000/api/auth/signup',
           postOrder
@@ -54,7 +53,6 @@ function Login() {
             mail: mail,
             password: pass,
           }
-          console.log(orderBody)
           const loginOrder = {
             method: 'POST',
             headers: {
@@ -100,7 +98,6 @@ function Login() {
       .then((res) => res.json())
       .catch((error) => console.log(error))
 
-    console.log(post)
     sessionStorage.setItem('token', post.token)
     sessionStorage.setItem('userId', post.userId)
     const errorMsg = document.getElementById('errorMessage')

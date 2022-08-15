@@ -74,10 +74,14 @@ exports.login = (req, res, next) => {
 }
 
 exports.getProfile = (req, res, next) => {
-  connection.query("SELECT * FROM user WHERE id = '5'", function (err, resp) {
-    if (err) throw err
-    return res.status(200).json({ code: '200', response: resp })
-  })
+  const params = req.params.id.replace(/:/g, '')
+  connection.query(
+    "SELECT * FROM user WHERE id = '" + params + "'",
+    function (err, resp) {
+      if (err) throw err
+      return res.status(200).json({ code: '200', response: resp })
+    }
+  )
 }
 
 exports.deleteProfile = (req, res, next) => {

@@ -5,7 +5,9 @@ import '../../styles/style.css'
 
 function Home() {
   const [allPosts, setAllPosts] = useState([])
-  const [sessionUserId, setSessionUserId] = useState()
+  const [sessionUserId, setSessionUserId] = useState(
+    sessionStorage.getItem('userId')
+  )
   const [userProfile, setUserProfile] = useState([])
   useEffect(() => {
     setSessionUserId(sessionStorage.getItem('userId'))
@@ -53,7 +55,7 @@ function Home() {
 
     const text = document.getElementById('text').value
     let today = new Date()
-    var createDate =
+    let createDate =
       today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     const inputs = {
       userId: 5,
@@ -86,6 +88,15 @@ function Home() {
           <p className="profileBlock__name">
             {userProfile.firstName} {userProfile.name}
           </p>
+
+          <div className="profileBlock__icons">
+            <Link to="/ModifyProfile">
+              <i className="fa-solid fa-pen-to-square profileBlock__icons__pen"></i>
+            </Link>
+            <Link to="/DeleteProfile">
+              <i className="fa-solid fa-trash-can profileBlock__icons__trash"></i>{' '}
+            </Link>
+          </div>
         </div>
       </div>
       <div className="postBlock">
@@ -155,7 +166,7 @@ function Home() {
                 <div
                   className="fullPost__icons__creatorOnly"
                   style={
-                    sessionUserId == publish.user_id
+                    +sessionUserId === +publish.user_id
                       ? { display: 'block' }
                       : { display: 'none' }
                   }
