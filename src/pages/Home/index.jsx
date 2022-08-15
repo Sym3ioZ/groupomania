@@ -5,11 +5,26 @@ import '../../styles/style.css'
 
 function Home() {
   const [allPosts, setAllPosts] = useState([])
+  const [sessionUserId, setSessionUserId] = useState()
+  const [userProfile, setUserProfile] = useState([])
+  useEffect(() => {
+    setSessionUserId(sessionStorage.getItem('userId'))
+    const fetchProfile = async () => {
+      const fetchData = await fetch(
+        `http://localhost:3000/api/auth/getProfile:${sessionUserId}`
+      )
+      const jsonData = await fetchData.json()
+      setUserProfile(jsonData.response[0])
+    }
+    fetchProfile()
+  }, [])
 
   // GET every posts
   useEffect(() => {
     const fetchPosts = async () => {
-      const fetchData = await fetch('http://localhost:3000/api/posts')
+      const fetchData = await fetch('http://localhost:3000/api/posts', {
+        headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') },
+      })
       const jsonData = await fetchData.json()
       setAllPosts(jsonData.resp)
     }
@@ -27,7 +42,7 @@ function Home() {
     setSelectedFile(e.target.files[0])
   }
 
-  // POST to publish a post, then reload page
+  // POST method to publish a post, then reload page
   async function Post(e) {
     e.preventDefault()
 
@@ -41,7 +56,7 @@ function Home() {
     var createDate =
       today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     const inputs = {
-      userId: 4,
+      userId: 5,
       text: text,
       createDate: createDate,
     }
@@ -52,6 +67,7 @@ function Home() {
 
     const postOrder = {
       method: 'POST',
+      headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') },
       body: formData,
     }
     await fetch('http://localhost:3000/api/posts/post', postOrder)
@@ -64,7 +80,12 @@ function Home() {
     <div className="page">
       <div className="page__sidenav">
         <div className="profileBlock">
-          <Link to="/profile">Profil</Link>
+          <div className="profileBlock__picture">
+            <img src={userProfile.profilePic} alt="profile avatar" />
+          </div>
+          <p className="profileBlock__name">
+            {userProfile.firstName} {userProfile.name}
+          </p>
         </div>
       </div>
       <div className="postBlock">
@@ -103,9 +124,9 @@ function Home() {
         />
       </div>
 
-      {allPosts?.map((publish) => {
-        return (
-          <div className="maincontent">
+      <div className="maincontent">
+        {allPosts?.map((publish) => {
+          return (
             <div key={`${publish.id}`} className="fullPost">
               <div className="postCard">
                 <p className="postCard__user">
@@ -116,7 +137,7 @@ function Home() {
                   />{' '}
                   {publish.firstName} {publish.name} , le:{' '}
                   {dateFormat(publish.createDate, 'dd/mm/yy')}{' '}
-                  {publish.modified === 1 ? publish.modified : ' '} <br />
+                  {publish.modified === 1 ? '(Modifié)' : ' '} <br />
                   Secteur: {publish.sector}
                 </p>
                 <p className="postCard__text">{publish.text}</p>
@@ -131,15 +152,22 @@ function Home() {
                   <p>{publish.likes}</p>
                 </div>
 
-                <div className="fullPost__icons__creatorOnly">
+                <div
+                  className="fullPost__icons__creatorOnly"
+                  style={
+                    sessionUserId == publish.user_id
+                      ? { display: 'block' }
+                      : { display: 'none' }
+                  }
+                >
                   <i className="fa-solid fa-pen-to-square"></i>
                   <i className="fa-solid fa-trash-can"></i>
                 </div>
               </div>
             </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
     </div>
   )
 }

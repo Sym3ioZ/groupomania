@@ -1,0 +1,75 @@
+@import '../variables';
+@import '../index';
+@import '../mixins';
+
+.postBlock {
+  margin: 30px;
+  width: 60%;
+  background: $secondaryColor;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid $tertiaryColor;
+  border-radius: 10px;
+  box-shadow: $lightShadow;
+  &__textarea {
+    resize: none;
+    max-width: 90%;
+    width: auto;
+    margin: 5px 15px;
+    padding: 5px;
+    font-family: 'Lato';
+    font-size: large;
+    border-radius: 10px 10px 0 0;
+  }
+  &__imageLabel {
+    & i {
+      font-size: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 40px;
+    }
+    text-align: center;
+    font-size: 25px;
+    background: $tertiaryColor;
+    color: white;
+    border: 0px solid black;
+    border-radius: 50px;
+    box-shadow: $mediumShadow;
+    transform: scale(1);
+    transition: all 150ms ease-out;
+    cursor: pointer;
+    &:hover {
+      color: $secondaryColor;
+      transform: scale(1.1);
+      background: lighten($tertiaryColor, 10%);
+    }
+  }
+  & .previewBlock {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.picturePreview {
+  width: 90%;
+  margin: -6px 0 10px 0;
+}
+
+#imagePreview {
+  display: none;
+  width: 100%;
+  border-radius: 0 0 20px 20px;
+  border: solid 1px grey;
+}
+
+#image {
+  display: none;
+  border-radius: 50%;
+}

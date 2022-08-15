@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt')
+const { json } = require('express')
 const jwt = require('jsonwebtoken')
 const connection = require('../db')
 
@@ -55,29 +56,30 @@ exports.login = (req, res, next) => {
                 .status(401)
                 .json({ code: '401', message: 'Invalid password' })
             }
+            // const token = jwt.sign(
+            //   {
+            //     userId: resp[0].id,
+            //   },
+            //   process.env.TOKEN_STRING,
+            //   { expiresIn: '24h' }
+            // )
+            // res.headers('Authorization', 'Bearer', +token)
+            res.json.then((data) => console.log(data.token))
             return res.status(200).json({
-              code: '200',
               userId: resp[0].id,
               token: jwt.sign(
-                { userid: resp[0].id },
+                { userId: resp[0].id },
                 process.env.TOKEN_STRING,
                 { expiresIn: '24h' }
               ),
             })
           })
-          .catch((error) => res.status(500).json({ code: '500', error }))
+          .catch((error) => res.status(500).json({ error }))
       } else {
-        return res.status(403).json({ code: '403', error: 'User not found' })
+        return res.status(404).json({ error: 'User not found' })
       }
     }
   )
-}
-
-exports.getProfile = (req, res, next) => {
-  connection.query("SELECT * FROM user WHERE id = '5'", function (err, resp) {
-    if (err) throw err
-    return res.status(200).json({ code: '200', response: resp })
-  })
 }
 
 exports.deleteProfile = (req, res, next) => {
@@ -91,7 +93,7 @@ exports.deleteProfile = (req, res, next) => {
           if (err) throw err
         }
       )
-      return res.status(200).json({ code: '200', message: 'User deleted' })
+      return res.status(200) / json({ code: '200', message: 'User deleted' })
     }
   )
 }

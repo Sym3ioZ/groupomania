@@ -101,6 +101,8 @@ function Login() {
       .catch((error) => console.log(error))
 
     console.log(post)
+    sessionStorage.setItem('token', post.token)
+    sessionStorage.setItem('userId', post.userId)
     const errorMsg = document.getElementById('errorMessage')
     if (post.code === '401') {
       errorMsg.textContent = 'Mot de passe invalide'

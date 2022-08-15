@@ -4,6 +4,7 @@ const router = express.Router()
 const multerProfile = require('../middlewares/multer-profilePic')
 const userCtrl = require('../controllers/user')
 
+router.get('/getProfile:id', userCtrl.getProfile)
 router.post('/login', userCtrl.login)
 router.post('/signup', userCtrl.signup)
 router.delete('/delete', userCtrl.deleteProfile)
