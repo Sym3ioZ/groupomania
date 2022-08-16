@@ -98,16 +98,22 @@ function Login() {
       .then((res) => res.json())
       .catch((error) => console.log(error))
 
-    sessionStorage.setItem('token', post.token)
-    sessionStorage.setItem('userId', post.userId)
-    const errorMsg = document.getElementById('errorMessage')
-    if (post.code === '401') {
-      errorMsg.textContent = 'Mot de passe invalide'
-      errorMsg.style.color = 'red'
+    const pwdErrorMsg = document.getElementById('pwdErrorMessage')
+    const mailErrorMsg = document.getElementById('mailErrorMessage')
+    if (post.code === '403') {
+      mailErrorMsg.textContent = 'Adresse mail invalide'
+      mailErrorMsg.style.color = 'red'
     } else {
-      errorMsg.textContent = 'Mot de passe vérifié'
-      errorMsg.style.color = 'green'
-      document.location.assign('/home')
+      mailErrorMsg.textContent = ' '
+      if (post.code === '401') {
+        pwdErrorMsg.textContent = 'Mot de passe invalide'
+        pwdErrorMsg.style.color = 'red'
+      } else {
+        pwdErrorMsg.textContent = ' '
+        sessionStorage.setItem('token', post.token)
+        sessionStorage.setItem('userId', post.userId)
+        document.location.assign('/home')
+      }
     }
   }
 
@@ -144,6 +150,9 @@ function Login() {
               <div className="textarea">
                 <label htmlFor="mail">Adresse mail</label>
                 <input type="email" id="mail-login" name="user_mail" />
+                <span id="mailErrorMessage">
+                  <br />{' '}
+                </span>
               </div>
               <div className="textarea" id="pwdInput">
                 <label htmlFor="pwd">Mot de passe</label>
@@ -154,7 +163,7 @@ function Login() {
                   minLength={8}
                   required
                 />
-                <span id="errorMessage">
+                <span id="pwdErrorMessage">
                   <br />{' '}
                 </span>
               </div>

@@ -19,7 +19,7 @@ function Home() {
       setUserProfile(jsonData.response[0])
     }
     fetchProfile()
-  }, [])
+  }, [sessionUserId])
 
   // GET every posts
   useEffect(() => {
@@ -58,7 +58,7 @@ function Home() {
     let createDate =
       today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
     const inputs = {
-      userId: 5,
+      userId: sessionStorage.getItem('userId'),
       text: text,
       createDate: createDate,
     }
