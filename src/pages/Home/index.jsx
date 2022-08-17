@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import dateFormat from 'dateformat'
 import '../../styles/style.css'
 
@@ -8,17 +7,9 @@ function Home() {
   const [sessionUserId, setSessionUserId] = useState(
     sessionStorage.getItem('userId')
   )
-  const [userProfile, setUserProfile] = useState([])
+
   useEffect(() => {
     setSessionUserId(sessionStorage.getItem('userId'))
-    const fetchProfile = async () => {
-      const fetchData = await fetch(
-        `http://localhost:3000/api/auth/getProfile:${sessionUserId}`
-      )
-      const jsonData = await fetchData.json()
-      setUserProfile(jsonData.response[0])
-    }
-    fetchProfile()
   }, [sessionUserId])
 
   // GET every posts
@@ -56,7 +47,15 @@ function Home() {
     const text = document.getElementById('text').value
     let today = new Date()
     let createDate =
-      today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+      today.getFullYear() +
+      '/' +
+      (today.getMonth() + 1) +
+      '/' +
+      today.getDate() +
+      '-' +
+      today.getHours() +
+      ':' +
+      today.getMinutes()
     const inputs = {
       userId: sessionStorage.getItem('userId'),
       text: text,
@@ -78,27 +77,27 @@ function Home() {
     document.location.assign('/home')
   }
 
+  async function deletePost(e, postId, postImageUrl) {
+    if (
+      window.confirm('Etes-vous sûr de vouloir supprimer votre publication?')
+    ) {
+      const imageUrl = { imageUrl: postImageUrl }
+      await fetch(`http://localhost:3000/api/posts/deletePost:${postId}`, {
+        method: 'DELETE',
+        body: JSON.stringify(imageUrl),
+        headers: {
+          'content-type': 'application/json',
+          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+        },
+      })
+        .then((res) => res.json())
+        .catch((err) => console.log(err))
+      document.location.assign('/home')
+    }
+  }
+
   return (
     <div className="page">
-      <div className="page__sidenav">
-        <div className="profileBlock">
-          <div className="profileBlock__picture">
-            <img src={userProfile.profilePic} alt="profile avatar" />
-          </div>
-          <p className="profileBlock__name">
-            {userProfile.firstName} {userProfile.name}
-          </p>
-
-          <div className="profileBlock__icons">
-            <Link to="/ModifyProfile">
-              <i className="fa-solid fa-pen-to-square profileBlock__icons__pen"></i>
-            </Link>
-            <Link to="/DeleteProfile">
-              <i className="fa-solid fa-trash-can profileBlock__icons__trash"></i>{' '}
-            </Link>
-          </div>
-        </div>
-      </div>
       <div className="postBlock">
         <div className="previewBlock">
           <textarea
@@ -147,7 +146,7 @@ function Home() {
                     className="postCard__user__profilePic"
                   />{' '}
                   {publish.firstName} {publish.name} , le:{' '}
-                  {dateFormat(publish.createDate, 'dd/mm/yy')}{' '}
+                  {dateFormat(publish.createDate, 'dd/mm/yy à h:mm')}{' '}
                   {publish.modified === 1 ? '(Modifié)' : ' '} <br />
                   Secteur: {publish.sector}
                 </p>
@@ -157,9 +156,11 @@ function Home() {
                 </div>
               </div>
               <div className="fullPost__icons">
-                <div className="heart-icon">
-                  <i className="fa-solid fa-heart"></i>
-                  <i className="fa-regular fa-heart"></i>
+                <div className="fullPost__icons__heartBlock">
+                  <div className="heart-icon">
+                    <i className="fa-solid fa-heart"></i>
+                    <i className="fa-regular fa-heart"></i>
+                  </div>
                   <p>{publish.likes}</p>
                 </div>
 
@@ -172,7 +173,12 @@ function Home() {
                   }
                 >
                   <i className="fa-solid fa-pen-to-square"></i>
-                  <i className="fa-solid fa-trash-can"></i>
+                  <i
+                    className="fa-solid fa-trash-can"
+                    onClick={(e) => {
+                      deletePost(e, publish.id, publish.imageUrl)
+                    }}
+                  ></i>
                 </div>
               </div>
             </div>

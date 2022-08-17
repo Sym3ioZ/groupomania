@@ -1,0 +1,110 @@
+@import '../variables';
+@import '../mixins';
+
+.profilePage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 8vh;
+  height: 95vh;
+  &__form {
+    margin: 30px 0;
+    width: 66%;
+    border: 2px solid $tertiaryColor;
+    border-radius: 15px;
+    box-shadow: $mediumShadow;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &__form-inputs {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin: 0 0 30px 0;
+      & .left-inputs,
+      .right-inputs {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: x-large;
+      }
+    }
+    &__picBlock {
+      width: 100%;
+      padding: 10px 0;
+      border-bottom: 2px dashed $secondaryColor;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      &__picture {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & img {
+          width: 175px;
+          height: 175px;
+          object-fit: cover;
+          border-radius: 50%;
+          box-shadow: $mediumShadow;
+        }
+      }
+      &__icons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+        &__imageLabel {
+          & i {
+            font-size: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            width: 250px;
+            height: 75px;
+          }
+          margin: 0;
+          text-align: center;
+          background: $tertiaryColor;
+          border: 0px solid black;
+          border-radius: 50px;
+          box-shadow: $mediumShadow;
+          transform: scale(1);
+          transition: all 150ms ease-out;
+          cursor: pointer;
+          &:hover {
+            transform: scale(1.1);
+            background: lighten($tertiaryColor, 10%);
+          }
+          &:nth-child(3):hover {
+            background: $primaryColor;
+          }
+        }
+      }
+    }
+  }
+
+  & .buttons {
+    width: 66%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    & #update,
+    #delete {
+      position: relative;
+    }
+    & #delete:hover {
+      background: $primaryColor;
+    }
+  }
+}

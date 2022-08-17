@@ -57,9 +57,9 @@ exports.login = (req, res, next) => {
             }
             return res.status(200).json({
               code: '200',
-              userId: resp[0].id,
+              userId: resp[0].userId,
               token: jwt.sign(
-                { userid: resp[0].id },
+                { userid: resp[0].userId },
                 process.env.TOKEN_STRING,
                 { expiresIn: '24h' }
               ),
@@ -76,7 +76,7 @@ exports.login = (req, res, next) => {
 exports.getProfile = (req, res, next) => {
   const params = req.params.id.replace(/:/g, '')
   connection.query(
-    "SELECT * FROM user WHERE id = '" + params + "'",
+    "SELECT * FROM user WHERE userId = '" + params + "'",
     function (err, resp) {
       if (err) throw err
       return res.status(200).json({ code: '200', response: resp })
@@ -85,12 +85,13 @@ exports.getProfile = (req, res, next) => {
 }
 
 exports.deleteProfile = (req, res, next) => {
+  const params = req.params.id.replace(/:/g, '')
   connection.query(
-    "DELETE FROM user WHERE id='" + req.bodyuserId + "'",
+    "DELETE FROM user WHERE userId='" + params + "'",
     function (err, resp) {
       if (err) throw err
       connection.query(
-        "DELETE FROM post WHERE user_id='" + req.body.userId + "'",
+        "DELETE FROM post WHERE user_id='" + params + "'",
         function (err, resp) {
           if (err) throw err
         }
@@ -119,14 +120,4 @@ exports.updateProfile = (req, res, next) => {
   //     if (err) throw err
   //   }
   // )
-  connection.query(
-    "UPDATE user SET profilePic='" +
-      `${req.protocol}://${req.get('host')}/images/profilePics/${
-        req.file.filename
-      }` +
-      "' WHERE id = 4",
-    function (err, resp) {
-      if (err) throw err
-    }
-  )
 }

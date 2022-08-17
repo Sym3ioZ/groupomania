@@ -1,4 +1,3 @@
-import logo from '../../assets/icon-left-font.png'
 import { useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import '../../styles/style.css'
@@ -7,31 +6,50 @@ function Header() {
   const [, setUpdate] = useState()
   const update = useCallback(() => setUpdate({}), [])
 
+  function scrollToHead() {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    })
+  }
+
   return (
-    <div>
-      <header className="header">
-        <img className="header__logo" src={logo} alt="logo groupomania" />
-        <div
-          className={
-            window.location.pathname === '/'
-              ? 'header__navBlock--off'
-              : 'header__navBlock'
-          }
+    <header
+      className="navMenu"
+      style={
+        window.location.pathname === '/'
+          ? { display: 'none' }
+          : { display: 'block' }
+      }
+    >
+      <div className="navMenu__icons">
+        <Link
+          to="/modifyProfile"
+          className="navMenu__icons__link"
+          title="Profil"
+          onClick={update}
         >
-          <div className="header__links">
-            <Link to="/home" className="header__links__icon" onClick={update}>
-              <i className="fa-solid fa-house"></i>
-              <p>Accueil</p>
-            </Link>
-            <Link to="/" className="header__links__icon" onClick={update}>
-              <i className="fa-solid fa-arrow-right-from-bracket"></i>
-              <p>Déconnexion</p>
-            </Link>
-          </div>
-        </div>
-        <h1>Réseau social interne</h1>
-      </header>
-    </div>
+          <i className="fa-solid fa-address-card"></i>
+        </Link>
+        <Link
+          to="/home"
+          className="navMenu__icons__link"
+          title="Accueil"
+          onClick={scrollToHead}
+        >
+          <i className="fa-solid fa-house"></i>
+        </Link>
+        <Link
+          to="/"
+          className="navMenu__icons__link"
+          title="Déconnexion"
+          onClick={update}
+        >
+          <i className="fa-solid fa-arrow-right-from-bracket"></i>
+        </Link>
+      </div>
+    </header>
   )
 }
 

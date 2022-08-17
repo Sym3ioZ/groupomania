@@ -1,17 +1,47 @@
-.footer {
+@import '../variables';
+@import '../mixins';
+
+footer {
+  background: $tertiaryColor;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
+  height: 5vh;
   border-top: 2px solid $tertiaryColor;
+  border-radius: 50% 50% 0 0;
   box-shadow: 0 -3px 5px grey;
-  margin-top: 50px;
-  &__logo {
-    width: 30%;
-    margin: 5px;
+  & .footer-logo {
+    width: 33%;
+    display: flex;
+    justify-content: center;
+    &__img {
+      width: 35px;
+      height: 35px;
+      margin-top: 5px;
+    }
+  }
+  & p {
+    color: white;
+    width: 33%;
+    font-family: 'Lato';
+    font-size: 16px;
+    text-align: center;
   }
   & i {
-    color: $tertiaryColor;
     margin-right: 10px;
+  }
+  & .mailto {
+    width: 33%;
+    text-align: center;
+    text-decoration: none;
+    & a {
+      font-size: large;
+      color: white;
+      &:hover {
+        color: $secondaryColor;
+        text-decoration-line: underline;
+      }
+    }
   }
 }

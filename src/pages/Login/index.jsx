@@ -1,3 +1,4 @@
+import logo from '../../assets/icon-left-font.png'
 import { useState } from 'react'
 import '../../styles/style.css'
 
@@ -14,15 +15,17 @@ function Login() {
     const name = document.getElementById('name').value
     const firstName = document.getElementById('firstName').value
     const sector = document.getElementById('sector').value
+    const mailError = document.getElementById('mailError')
+    const pwdError = document.getElementById('pwdError')
 
     const mailMask = /^[a-zA-Z0-9+_.-]+@groupomania.fr$/
     const pwdMask =
       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/
 
     if (mailMask.test(mail)) {
-      document.getElementById('mailError').textContent = ''
+      mailError.textContent = ''
       if (pwdMask.test(pass)) {
-        document.getElementById('pwdError').textContent = ''
+        pwdError.textContent = ''
         const inputs = {
           mail: mail,
           password: pass,
@@ -48,6 +51,7 @@ function Login() {
         const errors = document.getElementById('errors')
         if (post.code === '401') {
           errors.textContent = 'Erreur: adresse mail déjà enregistrée'
+          errors.style.color = 'red'
         } else {
           const orderBody = {
             mail: mail,
@@ -70,12 +74,12 @@ function Login() {
           document.location.assign('/home')
         }
       } else {
-        document.getElementById('pwdError').textContent =
-          'Invalide: (8 à 15 caractères (1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial'
+        pwdError.textContent =
+          'invalide: 8 à 15 caractères (majuscule, minuscule, chiffre, caractère spécial)'
+        pwdError.style.color = 'red'
       }
     } else {
-      document.getElementById('mailError').textContent =
-        'Invalide: adresse interne @groupomania.fr uniquement acceptée'
+      mailError.textContent = ' invalide: @groupomania.fr uniquement'
     }
   }
 
@@ -101,15 +105,15 @@ function Login() {
     const pwdErrorMsg = document.getElementById('pwdErrorMessage')
     const mailErrorMsg = document.getElementById('mailErrorMessage')
     if (post.code === '403') {
-      mailErrorMsg.textContent = 'Adresse mail invalide'
+      mailErrorMsg.textContent = ' invalide'
       mailErrorMsg.style.color = 'red'
     } else {
-      mailErrorMsg.textContent = ' '
+      mailErrorMsg.textContent = ''
       if (post.code === '401') {
-        pwdErrorMsg.textContent = 'Mot de passe invalide'
+        pwdErrorMsg.textContent = ' invalide'
         pwdErrorMsg.style.color = 'red'
       } else {
-        pwdErrorMsg.textContent = ' '
+        pwdErrorMsg.textContent = ''
         sessionStorage.setItem('token', post.token)
         sessionStorage.setItem('userId', post.userId)
         document.location.assign('/home')
@@ -120,7 +124,8 @@ function Login() {
   return (
     <div className="body">
       <h1 className="maintitle">
-        Bienvenue sur le réseau social interne de l'entreprise GROUPOMANIA
+        Bienvenue sur le réseau social interne de l'entreprise <br />
+        <img src={logo} alt="groupomania logo" className="loginLogo" />
       </h1>
       <div className="login">
         <div className="tabs-block">
@@ -148,14 +153,15 @@ function Login() {
           >
             <div className="form-inputs">
               <div className="textarea">
-                <label htmlFor="mail">Adresse mail</label>
+                <label htmlFor="mail">
+                  Adresse mail <span id="mailErrorMessage"></span>
+                </label>
                 <input type="email" id="mail-login" name="user_mail" />
-                <span id="mailErrorMessage">
-                  <br />{' '}
-                </span>
               </div>
               <div className="textarea" id="pwdInput">
-                <label htmlFor="pwd">Mot de passe</label>
+                <label htmlFor="pwd">
+                  Mot de passe<span id="pwdErrorMessage"></span>
+                </label>
                 <input
                   type="password"
                   id="pwd-login"
@@ -163,9 +169,6 @@ function Login() {
                   minLength={8}
                   required
                 />
-                <span id="pwdErrorMessage">
-                  <br />{' '}
-                </span>
               </div>
             </div>
             <div className="buttons">
@@ -191,17 +194,20 @@ function Login() {
                 <br />{' '}
               </span>
               <div className="textarea">
-                <label htmlFor="mail-signup">Adresse mail</label>
+                <label htmlFor="mail-signup">
+                  Adresse mail <span id="mailError"></span>
+                </label>
                 <input
                   type="email"
                   id="mail-signup"
                   name="user_mail"
                   required
                 />
-                <span id="mailError"></span>
               </div>
               <div className="textarea">
-                <label htmlFor="pwd-signup">Mot de passe</label>
+                <label htmlFor="pwd-signup">
+                  Mot de passe <span id="pwdError"></span>
+                </label>
                 <input
                   type="password"
                   id="pwd-signup"
@@ -210,7 +216,6 @@ function Login() {
                   maxLength={15}
                   required
                 />
-                <span id="pwdError"></span>
               </div>
               <div className="textarea">
                 <label htmlFor="name">Nom</label>
@@ -225,6 +230,7 @@ function Login() {
                   required
                 />
               </div>
+              <label htmlFor="sector">Secteur</label>
               <div className="sectorSelect">
                 <select
                   name="user_sector"
@@ -232,10 +238,7 @@ function Login() {
                   className="sectorSelect__list"
                   required
                 >
-                  <option value="">
-                    --Choisissez votre secteur de travail--
-                  </option>
-                  <option value="direction">Direction</option>
+                  <option defaultValue="direction">Direction</option>
                   <option value="informatique">Informatique</option>
                   <option value="comptabilité">Comptabilité</option>
                   <option value="commercial">Commercial</option>

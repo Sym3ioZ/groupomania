@@ -1,4 +1,5 @@
 const connection = require('../db')
+const fs = require('fs')
 
 // Function to handle "'" characters by escaping them
 function replaceChars(search, replacement, string) {
@@ -7,7 +8,7 @@ function replaceChars(search, replacement, string) {
 
 exports.getPosts = (req, res, next) => {
   connection.query(
-    'SELECT * FROM post JOIN user ON post.user_id = user.id ORDER BY createDate DESC',
+    'SELECT * FROM post JOIN user ON post.user_id = user.userId ORDER BY createDate DESC',
     function (err, resp) {
       if (err) throw err
       return res.status(200).json({ resp })
@@ -17,23 +18,39 @@ exports.getPosts = (req, res, next) => {
 
 exports.sharePost = (req, res, next) => {
   let postText = replaceChars("'", "\\'", req.body.text)
-  connection.query(
-    "INSERT INTO post (user_id, text, imageUrl, createDate) VALUES ('" +
-      req.body.userId +
-      "','" +
-      postText +
-      "','" +
-      `${req.protocol}://${req.get('host')}/images/postPics/${
-        req.file.filename
-      }` +
-      "','" +
-      req.body.createDate +
-      "')",
-    function (err, resp) {
-      if (err) throw err
-      return res.status(200).json({ resp })
-    }
-  )
+  if (req.file) {
+    connection.query(
+      "INSERT INTO post (user_id, text, imageUrl, createDate) VALUES ('" +
+        req.body.userId +
+        "','" +
+        postText +
+        "','" +
+        `${req.protocol}://${req.get('host')}/images/postPics/${
+          req.file.filename
+        }` +
+        "','" +
+        req.body.createDate +
+        "')",
+      function (err, resp) {
+        if (err) throw err
+        return res.status(200).json({ resp })
+      }
+    )
+  } else {
+    connection.query(
+      "INSERT INTO post (user_id, text, createDate) VALUES ('" +
+        req.body.userId +
+        "','" +
+        postText +
+        "','" +
+        req.body.createDate +
+        "')",
+      function (err, resp) {
+        if (err) throw err
+        return res.status(200).json({ resp })
+      }
+    )
+  }
 }
 
 exports.updatePost = (req, res, next) => {
@@ -51,8 +68,14 @@ exports.updatePost = (req, res, next) => {
 }
 
 exports.deletePost = (req, res, next) => {
+  const params = req.params.id.replace(/:/g, '')
+  if (req.body.imageUrl) {
+    const imageUrl = req.body.imageUrl
+    const filename = imageUrl.split('/postPics/')[1]
+    fs.unlink(`images/postPics/${filename}`, () => {})
+  }
   connection.query(
-    "DELETE FROM post WHERE id='" + req.body.id + "'",
+    "DELETE FROM post WHERE id='" + params + "'",
     function (err, resp) {
       if (err) throw err
       return res.status(200).json({ resp })

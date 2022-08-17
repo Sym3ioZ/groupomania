@@ -1,20 +1,23 @@
-import logo from '../../assets/icon-black.png'
+import logo from '../../assets/lone-logo-white.png'
 import '../../styles/style.css'
 
 function Footer() {
   return (
-    <div>
-      <footer className="footer">
+    <footer>
+      <div className="footer-logo">
         <img
-          className="footer__logo"
+          className="footer-logo__img"
           src={logo}
-          alt="logo groupomania monochrome noir"
+          alt="logo groupomania monochrome blanc"
         />
-        <a href="mailto:admin@groupomania.fr" className="mailto">
+      </div>
+      <p>© BT Développement WEB. 2022</p>
+      <div className="mailto">
+        <a href="mailto:admin@groupomania.fr">
           <i className="fa-solid fa-envelope"></i>Contacter l'administrateur
         </a>
-      </footer>
-    </div>
+      </div>
+    </footer>
   )
 }
 

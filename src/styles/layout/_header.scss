@@ -1,63 +1,32 @@
 @import '../variables';
-@import '../index';
 @import '../mixins';
 
-.header {
-  background: white;
-  z-index: 2;
+.navMenu {
   position: fixed;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  z-index: 10;
+  background: $tertiaryColor;
   width: 100%;
-  border-bottom: 2px solid $tertiaryColor;
-  box-shadow: $mediumShadow;
-  &__logo {
-    width: 30%;
-    margin-left: 10px;
-  }
-  & i {
-    font-size: x-large;
-    color: $tertiaryColor;
-  }
-  & h1 {
-    text-align: center;
-    width: 25%;
-    margin: 0;
-  }
-
-  &__navBlock {
-    width: 33%;
-    display: block;
-    &--off {
-      display: none;
-    }
-  }
-  &__links {
-    width: 100%;
+  height: 5vh;
+  border-radius: 0 0 40% 40%;
+  box-shadow: $lightShadow;
+  &__icons {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
-    margin-top: 10px;
-  }
-  &__links__icon {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transform: scale(1);
-    transition: all 150ms ease-out;
-    text-decoration: none;
-    & p {
-      color: $tertiaryColor;
-    }
-    &:hover {
-      & i,
-      p {
-        color: lighten($tertiaryColor, 10%);
+    &__link {
+      margin-top: 5px;
+      text-align: center;
+      & i {
+        font-size: 30px;
+        color: white;
+        transform: scale(1);
+        transition: all 150ms ease-out;
+        &:hover {
+          color: $secondaryColor;
+          transform: scale(1.15);
+        }
       }
-      transform: scale(1.1);
     }
   }
 }
