@@ -41,12 +41,21 @@ function ModifyProfile() {
   async function deleteProfile(e) {
     e.preventDefault()
     if (window.confirm('Etes-vous sûr de vouloir supprimer votre compte?')) {
+      const profilePic = { profilePic: userProfile.profilePic }
       await fetch(
-        `http://localhost:3000/api/auth/deleteProfile:${userProfile.id}`,
-        { method: 'DELETE' }
+        `http://localhost:3000/api/auth/deleteProfile:${userProfile.userId}`,
+        {
+          method: 'DELETE',
+          body: JSON.stringify(profilePic),
+          headers: {
+            'content-type': 'application/json',
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+          },
+        }
       )
         .then((res) => res.json())
         .catch((err) => console.log(err))
+      sessionStorage.clear()
       document.location.assign('/')
     }
   }
@@ -55,7 +64,7 @@ function ModifyProfile() {
     e.preventDefault()
     // Declaring formdata to send via fetch
     const formData = new FormData()
-    const userId = userProfile.id
+    const userId = userProfile.userId
     if (selectedFile) {
       formData.append('image', selectedFile)
     }

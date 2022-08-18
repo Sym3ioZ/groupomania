@@ -4,7 +4,10 @@ import '../../styles/style.css'
 
 function Header() {
   const [, setUpdate] = useState()
-  const update = useCallback(() => setUpdate({}), [])
+  const update = useCallback(() => {
+    sessionStorage.clear()
+    setUpdate({})
+  }, [])
 
   function scrollToHead() {
     window.scrollTo({
@@ -28,7 +31,6 @@ function Header() {
           to="/modifyProfile"
           className="navMenu__icons__link"
           title="Profil"
-          onClick={update}
         >
           <i className="fa-solid fa-address-card"></i>
         </Link>

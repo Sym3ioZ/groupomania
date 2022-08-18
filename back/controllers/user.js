@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const connection = require('../db')
+const fs = require('fs')
 
 exports.signup = (req, res, next) => {
   connection.query(
@@ -15,7 +16,7 @@ exports.signup = (req, res, next) => {
           .hash(req.body.password, 10)
           .then((hash) => {
             connection.query(
-              "INSERT INTO user (mail, password, name, firstName, sector) VALUES ('" +
+              "INSERT INTO user (mail, password, name, firstName, profilePic, sector) VALUES ('" +
                 req.body.mail +
                 "','" +
                 hash +
@@ -23,6 +24,10 @@ exports.signup = (req, res, next) => {
                 req.body.name +
                 "','" +
                 req.body.firstName +
+                "','" +
+                `${req.protocol}://${req.get('host')}/images/profilePics/${
+                  req.file.filename
+                }` +
                 "','" +
                 req.body.sector +
                 "')",
@@ -86,6 +91,9 @@ exports.getProfile = (req, res, next) => {
 
 exports.deleteProfile = (req, res, next) => {
   const params = req.params.id.replace(/:/g, '')
+  const profilePic = req.body.profilePic
+  const filename = profilePic.split('/profilePics/')[1]
+  fs.unlink(`images/profilePics/${filename}`, () => {})
   connection.query(
     "DELETE FROM user WHERE userId='" + params + "'",
     function (err, resp) {

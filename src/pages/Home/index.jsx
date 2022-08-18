@@ -26,25 +26,52 @@ function Home() {
 
   // Retrieving the selected picture
   const [selectedFile, setSelectedFile] = useState()
+  const textArea = document.getElementById('text')
+  const preview = document.getElementById('imagePreview')
+  const buttons = document.getElementById('postBlockButtons')
+  const cancelButton = document.getElementById('cancelButton')
 
   function picChange(e) {
     let src = URL.createObjectURL(e.target.files[0])
-    let preview = document.getElementById('imagePreview')
     preview.src = src
     preview.style.display = 'block'
+    cancelButton.style.display = 'block'
+    buttons.setAttribute('class', 'postBlock__buttons buttonsWithPreview')
     setSelectedFile(e.target.files[0])
   }
 
+  function postCancel() {
+    // preview.style.display = 'none'
+    // textArea.value = ''
+    // cancelButton.style.display = 'none'
+    // buttons.setAttribute('class', 'postBlock__buttons')
+    // preview.src = '#'
+    document.location.assign('/home')
+  }
+
+  function likeAnim() {
+    let heartIcon = document.querySelector('heart-icon')
+    let pos = 0
+    let id = setInterval(anim, 5)
+
+    function anim() {
+      if (pos > 359) {
+        clearInterval(id)
+      } else {
+        pos = pos + 1
+        heartIcon.style.transform = 'rotateY(' + pos + ')'
+      }
+    }
+  }
   // POST method to publish a post, then reload page
   async function Post(e) {
     e.preventDefault()
 
     // Declaring formdata to send via fetch
     const formData = new FormData()
-
+    const text = textArea.value
     formData.append('image', selectedFile)
 
-    const text = document.getElementById('text').value
     let today = new Date()
     let createDate =
       today.getFullYear() +
@@ -114,24 +141,33 @@ function Home() {
             <img src="#" id="imagePreview" alt="upload preview" />
           </div>
         </div>
-        <label htmlFor="image" className="postBlock__imageLabel">
-          <i className="fa-solid fa-image"></i>
-        </label>
-        <input
-          type="file"
-          name="image"
-          id="image"
-          className="image"
-          accept=".jpg, .jpeg, .png, .gif, .webp"
-          onChange={picChange}
-        />
-        <input
-          type="submit"
-          className="button unlocked"
-          value="PARTAGER"
-          id="post"
-          onClick={Post}
-        />
+        <div className="postBlock__buttons" id="postBlockButtons">
+          <label htmlFor="image" className="postBlock__buttons__imageLabel">
+            <i className="fa-solid fa-image"></i>
+          </label>
+          <input
+            type="file"
+            name="image"
+            id="image"
+            className="image"
+            accept=".jpg, .jpeg, .png, .gif, .webp"
+            onChange={picChange}
+          />
+          <input
+            type="submit"
+            className="button unlocked"
+            value="PARTAGER"
+            id="post"
+            onClick={Post}
+          />
+          <input
+            type="submit"
+            className="button unlocked"
+            id="cancelButton"
+            value="ANNULER"
+            onClick={postCancel}
+          />
+        </div>
       </div>
 
       <div className="maincontent">
@@ -139,17 +175,23 @@ function Home() {
           return (
             <div key={`${publish.id}`} className="fullPost">
               <div className="postCard">
-                <p className="postCard__user">
-                  <img
-                    src={publish.profilePic}
-                    alt="profile avatar"
-                    className="postCard__user__profilePic"
-                  />{' '}
-                  {publish.firstName} {publish.name} , le:{' '}
-                  {dateFormat(publish.createDate, 'dd/mm/yy à h:mm')}{' '}
-                  {publish.modified === 1 ? '(Modifié)' : ' '} <br />
-                  Secteur: {publish.sector}
-                </p>
+                <div className="postCard__user">
+                  <div className="postCard__user__profile">
+                    <img
+                      src={publish.profilePic}
+                      alt="profile avatar"
+                      className="postCard__user__profile__pic"
+                    />
+                  </div>{' '}
+                  <div className="postCard__user__desc">
+                    <div className="postCard__user__desc__name">
+                      {publish.firstName} {publish.name}
+                    </div>
+                    <div className="postCard__user__desc__sector">
+                      Secteur: {publish.sector}
+                    </div>
+                  </div>
+                </div>
                 <p className="postCard__text">{publish.text}</p>
                 <div className="postCard__image">
                   <img src={publish.imageUrl} alt="postPicture" />
@@ -157,11 +199,16 @@ function Home() {
               </div>
               <div className="fullPost__icons">
                 <div className="fullPost__icons__heartBlock">
-                  <div className="heart-icon">
+                  <div className="heart-icon" onClick={likeAnim}>
                     <i className="fa-solid fa-heart"></i>
                     <i className="fa-regular fa-heart"></i>
                   </div>
                   <p>{publish.likes}</p>
+                  <p>
+                    Publié le{' '}
+                    {dateFormat(publish.createDate, 'dd/mm/yy à h:mm')}{' '}
+                    {publish.modified === 1 ? '(Modifié)' : ''}
+                  </p>
                 </div>
 
                 <div

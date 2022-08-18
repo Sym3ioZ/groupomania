@@ -3,52 +3,71 @@
 
 .postBlock {
   margin: 30px;
-  width: 60%;
+  width: 95%;
   background: $secondaryColor;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   border: 2px solid $tertiaryColor;
   border-radius: 10px;
   box-shadow: $lightShadow;
   &__textarea {
     resize: none;
-    max-width: 90%;
-    width: auto;
+    width: 100%;
+    max-width: 1000px;
     margin: 5px 15px;
     padding: 5px;
     font-family: 'Lato';
     font-size: large;
     border-radius: 10px 10px 0 0;
   }
-  &__imageLabel {
-    & i {
-      font-size: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100px;
-      height: 40px;
+  &__buttons {
+    width: 33%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 20px 20px 20px 10px;
+    #image {
+      display: none;
+      border-radius: 50%;
     }
-    text-align: center;
-    font-size: 25px;
-    background: $tertiaryColor;
-    color: white;
-    border: 0px solid black;
-    border-radius: 50px;
-    box-shadow: $mediumShadow;
-    transform: scale(1);
-    transition: all 150ms ease-out;
-    cursor: pointer;
-    &:hover {
-      color: $secondaryColor;
-      transform: scale(1.1);
-      background: lighten($tertiaryColor, 10%);
+    &__imageLabel {
+      & i {
+        font-size: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 150px;
+        height: 75px;
+      }
+      margin: 10px 0;
+      text-align: center;
+      background: $tertiaryColor;
+      color: white;
+      border: 0px solid black;
+      border-radius: 50px;
+      box-shadow: $mediumShadow;
+      transform: scale(1);
+      transition: all 150ms ease-out;
+      cursor: pointer;
+      &:hover {
+        color: $secondaryColor;
+        transform: scale(1.1);
+        background: lighten($tertiaryColor, 10%);
+      }
+    }
+    & .button.unlocked {
+      margin: 0;
     }
   }
+
   & .previewBlock {
-    width: 100%;
+    width: 67%;
+    max-width: 1000px;
+    margin-left: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -56,19 +75,28 @@
   }
 }
 
+.buttonsWithPreview {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#cancelButton {
+  display: none;
+}
 .picturePreview {
-  width: 90%;
+  width: 100%;
   margin: -6px 0 10px 0;
 }
 
 #imagePreview {
   display: none;
   width: 100%;
+  height: 500px;
   border-radius: 0 0 20px 20px;
   border: solid 1px grey;
-}
-
-#image {
-  display: none;
-  border-radius: 50%;
+  border-top-style: dashed;
+  border-top-color: $secondaryColor;
 }
