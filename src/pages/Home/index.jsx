@@ -26,10 +26,12 @@ function Home() {
 
   // Retrieving the selected picture
   const [selectedFile, setSelectedFile] = useState()
+  const [isSelected, setIsSelected] = useState(false)
   const textArea = document.getElementById('text')
   const preview = document.getElementById('imagePreview')
   const buttons = document.getElementById('postBlockButtons')
   const cancelButton = document.getElementById('cancelButton')
+  const imageInput = document.getElementById('image')
 
   function picChange(e) {
     let src = URL.createObjectURL(e.target.files[0])
@@ -37,16 +39,18 @@ function Home() {
     preview.style.display = 'block'
     cancelButton.style.display = 'block'
     buttons.setAttribute('class', 'postBlock__buttons buttonsWithPreview')
+    setIsSelected(true)
     setSelectedFile(e.target.files[0])
   }
 
   function postCancel() {
-    // preview.style.display = 'none'
-    // textArea.value = ''
-    // cancelButton.style.display = 'none'
-    // buttons.setAttribute('class', 'postBlock__buttons')
-    // preview.src = '#'
-    document.location.assign('/home')
+    preview.style.display = 'none'
+    textArea.value = ''
+    cancelButton.style.display = 'none'
+    buttons.setAttribute('class', 'postBlock__buttons')
+    preview.src = '#'
+    imageInput.value = ''
+    setIsSelected(false)
   }
 
   function likeAnim() {
@@ -93,15 +97,36 @@ function Home() {
     formData.append('text', inputs.text)
     formData.append('createDate', inputs.createDate)
 
-    const postOrder = {
-      method: 'POST',
-      headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') },
-      body: formData,
+    if (isSelected) {
+      const postOrder = {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+        },
+        body: formData,
+      }
+      console.log(postOrder)
+
+      await fetch('http://localhost:3000/api/posts/post', postOrder)
+        .then((res) => res.json())
+        .catch((err) => console.log(err))
+      // document.location.assign('/home')
+    } else {
+      const postOrder = {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+        },
+        body: JSON.stringify(inputs),
+      }
+      console.log(postOrder)
+
+      await fetch('http://localhost:3000/api/posts/post', postOrder)
+        .then((res) => res.json())
+        .catch((err) => console.log(err))
+      // document.location.assign('/home')
     }
-    await fetch('http://localhost:3000/api/posts/post', postOrder)
-      .then((res) => res.json())
-      .catch((err) => console.log(err))
-    document.location.assign('/home')
   }
 
   async function deletePost(e, postId, postImageUrl) {
@@ -193,7 +218,13 @@ function Home() {
                   </div>
                 </div>
                 <p className="postCard__text">{publish.text}</p>
-                <div className="postCard__image">
+                <div
+                  className={
+                    publish.imageUrl
+                      ? 'postCard__image'
+                      : 'postCard__image__off'
+                  }
+                >
                   <img src={publish.imageUrl} alt="postPicture" />
                 </div>
               </div>
