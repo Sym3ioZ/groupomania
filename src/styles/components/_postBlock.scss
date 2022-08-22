@@ -62,6 +62,9 @@
     & .button.unlocked {
       margin: 0;
     }
+    & input:last-child:hover {
+      background: $primaryColor;
+    }
   }
 
   & .previewBlock {

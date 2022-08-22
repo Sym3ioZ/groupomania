@@ -233,21 +233,28 @@ function Login() {
                   />
                 </div>
                 <p>Ajouter une photo de profil</p>
-                <label htmlFor="image" className="firstProfilePic__label">
-                  <i className="fa-solid fa-image"></i>
-                </label>
-                <input
-                  type="file"
-                  name="image"
-                  id="image"
-                  className="firstProfilePic__button"
-                  accept=".jpg, .jpeg, .png, .gif, .webp"
-                  required
-                  onChange={picChange}
-                />
-                <span id="picError">
-                  <br />{' '}
-                </span>
+                <div className="firstProfilePic__button">
+                  <label
+                    htmlFor="image"
+                    className="firstProfilePic__button__label"
+                  >
+                    <i className="fa-solid fa-image"></i>
+                  </label>
+                  <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    className="image"
+                    accept=".jpg, .jpeg, .png, .gif, .webp"
+                    required
+                    onChange={picChange}
+                  />
+                </div>
+                <div>
+                  <span id="picError">
+                    <br />{' '}
+                  </span>
+                </div>
               </div>
               <div className="form-inputs">
                 <span id="errors">

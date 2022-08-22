@@ -42,10 +42,14 @@
       border-bottom: 2px dashed $secondaryColor;
       display: flex;
       flex-direction: row;
-      justify-content: center;
+      justify-content: space-evenly;
       align-items: center;
+      &__names {
+        font-size: 40px;
+        width: 33%;
+      }
       &__picture {
-        width: 100%;
+        width: 33%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -61,20 +65,24 @@
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        width: 100%;
+        width: 33%;
+        #image {
+          display: none;
+          border-radius: 50%;
+        }
         &__imageLabel {
           & i {
-            font-size: 50px;
+            font-size: 45px;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
-            width: 250px;
+            width: 150px;
             height: 75px;
           }
-          margin: 0;
+          margin: 10px 0;
           text-align: center;
           background: $tertiaryColor;
+          color: white;
           border: 0px solid black;
           border-radius: 50px;
           box-shadow: $mediumShadow;
@@ -84,9 +92,6 @@
           &:hover {
             transform: scale(1.1);
             background: lighten($tertiaryColor, 10%);
-          }
-          &:nth-child(3):hover {
-            background: $primaryColor;
           }
         }
       }

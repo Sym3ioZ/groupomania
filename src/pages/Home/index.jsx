@@ -20,6 +20,9 @@ function Home() {
       })
       const jsonData = await fetchData.json()
       setAllPosts(jsonData.resp)
+      if (jsonData.code === '401') {
+        document.location.assign('/unauthorized')
+      }
     }
     fetchPosts()
   }, [])
@@ -125,7 +128,7 @@ function Home() {
       await fetch('http://localhost:3000/api/posts/post', postOrder)
         .then((res) => res.json())
         .catch((err) => console.log(err))
-      // document.location.assign('/home')
+      document.location.assign('/home')
     }
   }
 
@@ -237,7 +240,7 @@ function Home() {
                   <p>{publish.likes}</p>
                   <p>
                     Publié le{' '}
-                    {dateFormat(publish.createDate, 'dd/mm/yy à h:mm')}{' '}
+                    {dateFormat(publish.createDate, 'dd/mm/yy à h:MM')}{' '}
                     {publish.modified === 1 ? '(Modifié)' : ''}
                   </p>
                 </div>

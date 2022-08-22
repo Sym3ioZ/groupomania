@@ -282,7 +282,7 @@ footer .mailto a:hover {
 .postCard__image {
   border-top: 2px dashed #ffd7d7;
   width: 100%;
-  height: 500px;
+  padding-top: 66%;
   overflow: hidden;
   position: relative;
   background-color: #fff1f1;
@@ -292,11 +292,8 @@ footer .mailto a:hover {
 }
 .postCard__image img {
   width: 100%;
-  max-height: 500px;
   -o-object-fit: cover;
      object-fit: cover;
-  -o-object-position: bottom;
-     object-position: bottom;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -370,6 +367,9 @@ footer .mailto a:hover {
 }
 .postBlock__buttons .button.unlocked {
   margin: 0;
+}
+.postBlock__buttons input:last-child:hover {
+  background: #fd2d01;
 }
 .postBlock .previewBlock {
   width: 67%;
@@ -501,11 +501,15 @@ footer .mailto a:hover {
   border-bottom: 2px dashed #ffd7d7;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 }
+.profilePage__form__picBlock__names {
+  font-size: 40px;
+  width: 33%;
+}
 .profilePage__form__picBlock__picture {
-  width: 100%;
+  width: 33%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -522,12 +526,17 @@ footer .mailto a:hover {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  width: 100%;
+  width: 33%;
+}
+.profilePage__form__picBlock__icons #image {
+  display: none;
+  border-radius: 50%;
 }
 .profilePage__form__picBlock__icons__imageLabel {
-  margin: 0;
+  margin: 10px 0;
   text-align: center;
   background: #4e5166;
+  color: white;
   border: 0px solid black;
   border-radius: 50px;
   box-shadow: 0px 5px 20px -5px grey, 0px 5px 20px -5px grey;
@@ -536,20 +545,16 @@ footer .mailto a:hover {
   cursor: pointer;
 }
 .profilePage__form__picBlock__icons__imageLabel i {
-  font-size: 50px;
+  font-size: 45px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
-  width: 250px;
+  width: 150px;
   height: 75px;
 }
 .profilePage__form__picBlock__icons__imageLabel:hover {
   transform: scale(1.1);
   background: #646883;
-}
-.profilePage__form__picBlock__icons__imageLabel:nth-child(3):hover {
-  background: #fd2d01;
 }
 .profilePage .buttons {
   width: 66%;
@@ -722,7 +727,16 @@ label {
   font-size: x-large;
   margin: 0;
 }
-.firstProfilePic__label {
+.firstProfilePic__button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+.firstProfilePic__button #image {
+  display: none;
+}
+.firstProfilePic__button__label {
   margin: 0;
   width: 33%;
   text-align: center;
@@ -734,7 +748,7 @@ label {
   transition: all 150ms ease-out;
   cursor: pointer;
 }
-.firstProfilePic__label i {
+.firstProfilePic__button__label i {
   font-size: 20px;
   display: flex;
   justify-content: center;
@@ -743,12 +757,12 @@ label {
   width: 100%;
   height: 40px;
 }
-.firstProfilePic__label:hover {
+.firstProfilePic__button__label:hover {
   transform: scale(1.1);
   background: #646883;
 }
-.firstProfilePic__label:nth-child(3):hover {
-  background: lighten #4e5166, 10%;
+.firstProfilePic__button__label:nth-child(3):hover {
+  background: #646883;
 }
 
 .sectorSelect {
@@ -844,4 +858,25 @@ label {
   align-items: center;
   position: relative;
   padding-top: 7vh;
+}
+
+.errorPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 95vh;
+  padding-top: 7vh;
+}
+.errorPage img {
+  width: 50%;
+}
+.errorPage__link {
+  text-decoration: none;
+  color: #4e5166;
+}
+.errorPage__link:hover {
+  color: #646883;
+  text-decoration: underline;
 }/*# sourceMappingURL=style.css.map */

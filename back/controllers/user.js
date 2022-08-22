@@ -110,6 +110,120 @@ exports.deleteProfile = (req, res, next) => {
 }
 
 exports.updateProfile = (req, res, next) => {
+  if (req.body.userPwd) {
+    connection.query(
+      "SELECT * FROM user WHERE userId='" + req.body.userId + "'",
+      function (err, resp) {
+        if (err) throw err
+        bcrypt
+          .compare(req.body.oldPwd, resp[0].password)
+          .then((valid) => {
+            if (!valid) {
+              return res
+                .status(401)
+                .json({ code: '401', message: 'Invalid password' })
+            } else {
+              bcrypt
+                .hash(req.body.userPwd, 10)
+                .then((hash) => {
+                  if (req.file) {
+                    connection.query(
+                      "UPDATE user SET name='" +
+                        req.body.userName.toUpperCase() +
+                        "', firstName='" +
+                        req.body.userFirstName.charAt(0).toUpperCase() +
+                        req.body.userFirstName.slice(1) +
+                        "', password='" +
+                        hash +
+                        "', profilePic='" +
+                        `${req.protocol}://${req.get(
+                          'host'
+                        )}/images/profilePics/${req.file.filename}` +
+                        "', sector='" +
+                        req.body.userSector +
+                        "' WHERE userId ='" +
+                        req.body.userId +
+                        "'",
+                      function (err, resp) {
+                        if (err) throw err
+                        return res.satus(200).json({ message: 'User modified' })
+                      }
+                    )
+                  } else {
+                    connection.query(
+                      "UPDATE user SET name='" +
+                        req.body.userName.toUpperCase() +
+                        "', firstName='" +
+                        req.body.userFirstName.charAt(0).toUpperCase() +
+                        req.body.userFirstName.slice(1) +
+                        "', password='" +
+                        hash +
+                        "', sector='" +
+                        req.body.userSector +
+                        "' WHERE userId ='" +
+                        req.body.userId +
+                        "'",
+                      function (err, resp) {
+                        if (err) throw err
+                        return res
+                          .status(200)
+                          .json({ message: 'User modified' })
+                      }
+                    )
+                  }
+                })
+                .catch((error) =>
+                  res.status(500).json({ error: 'bcrypt error' })
+                )
+            }
+          })
+          .catch((error) =>
+            res.status(500).json({ error: 'bcrypt compare error' })
+          )
+      }
+    )
+  } else {
+    if (req.file) {
+      connection.query(
+        "UPDATE user SET name='" +
+          req.body.userName.toUpperCase() +
+          "', firstName='" +
+          req.body.userFirstName.charAt(0).toUpperCase() +
+          req.body.userFirstName.slice(1) +
+          "', profilePic='" +
+          `${req.protocol}://${req.get('host')}/images/profilePics/${
+            req.file.filename
+          }` +
+          "', sector='" +
+          req.body.userSector +
+          "' WHERE userId ='" +
+          req.body.userId +
+          "'",
+        function (err, resp) {
+          if (err) throw err
+          return res.status(200).json({ message: 'User modified' })
+        }
+      )
+    } else {
+      connection.query(
+        "UPDATE user SET name='" +
+          req.body.userName.toUpperCase() +
+          "', firstName='" +
+          req.body.userFirstName.charAt(0).toUpperCase() +
+          req.body.userFirstName.slice(1) +
+          "', sector='" +
+          req.body.userSector +
+          "' WHERE userId ='" +
+          req.body.userId +
+          "'",
+        function (err, resp) {
+          if (err) throw err
+          return res.status(200).json({ message: 'User modified' })
+        }
+      )
+    }
+  }
+
   // connection.query(
   //   "UPDATE user SET mail='" +
   //     req.body.mail +

@@ -19,11 +19,10 @@ function ModifyProfile() {
     fetchProfile()
   }, [sessionUserId])
 
-  const [userMail, setUserMail] = useState(userProfile.mail)
-  const [userPwd, setUserPwd] = useState(userProfile.password)
-  const [userName, setUserName] = useState(userProfile.name)
-  const [userFirstName, setUserFirstName] = useState(userProfile.firstName)
-  const [userSector, setUserSector] = useState(userProfile.sector)
+  const [oldPwd, setOldPwd] = useState()
+  const [userPwd, setUserPwd] = useState()
+
+  const userId = userProfile.userId
 
   // Retrieving the selected picture
   const [selectedFile, setSelectedFile] = useState()
@@ -59,28 +58,52 @@ function ModifyProfile() {
       document.location.assign('/')
     }
   }
+
   // function to update user infos (name,mail,profilepic,...)
   async function updateProfile(e) {
     e.preventDefault()
+    const userName = document.getElementById('name').value
+    const userFirstName = document.getElementById('firstName').value
+    const userSector = document.getElementById('sector').value
     // Declaring formdata to send via fetch
     const formData = new FormData()
-    const userId = userProfile.userId
-    if (selectedFile) {
-      formData.append('image', selectedFile)
-    }
-
+    formData.append('image', selectedFile)
     formData.append('userId', userId)
-    formData.append('userMail', userMail)
-    formData.append('userPwd', userPwd)
+    // formData.append('userPwd', userPwd)
+    // formData.append('oldPwd', oldPwd)
     formData.append('userName', userName)
     formData.append('userFirstName', userFirstName)
     formData.append('userSector', userSector)
 
-    const postOrder = {
-      method: 'PUT',
-      body: formData,
+    let postOrder = {}
+    const inputs = {
+      userId: userId,
+      // userPwd: userPwd.target.value,
+      // oldPwd: oldPwd.target.value,
+      userName: userName,
+      userFirstName: userFirstName,
+      userSector: userSector,
     }
-    await fetch('http://localhost:3000/api/auth/update', postOrder)
+    if (selectedFile) {
+      postOrder = {
+        method: 'PUT',
+        headers: {
+          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+        },
+        body: formData,
+      }
+    } else {
+      postOrder = {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+        },
+        body: JSON.stringify(inputs),
+      }
+    }
+
+    await fetch('http://localhost:3000/api/auth/updateProfile', postOrder)
       .then((res) => res.json())
       .catch((err) => console.log(err))
     // document.location.assign('/home')
@@ -89,6 +112,11 @@ function ModifyProfile() {
     <div className="profilePage">
       <form className="profilePage__form">
         <div className="profilePage__form__picBlock">
+          <div className="profilePage__form__picBlock__names">
+            {userProfile.firstName}
+            <br />
+            {userProfile.name}
+          </div>
           <div className="profilePage__form__picBlock__picture">
             <img
               src={userProfile.profilePic}
@@ -127,7 +155,7 @@ function ModifyProfile() {
                 type="email"
                 name="user_mail"
                 defaultValue={userProfile.mail}
-                onChange={setUserMail}
+                disabled="disabled"
               />
               <span id="mailError"></span>
             </div>
@@ -139,6 +167,7 @@ function ModifyProfile() {
                 minLength={8}
                 maxLength={15}
                 defaultValue=""
+                onChange={setOldPwd}
               />
               <span id="pwdError"></span>
             </div>
@@ -163,7 +192,7 @@ function ModifyProfile() {
                 id="name"
                 name="user_name"
                 defaultValue={userProfile.name}
-                onChange={setUserName}
+                // onChange={setUserName}
               />
             </div>
             <div className="textarea">
@@ -173,7 +202,7 @@ function ModifyProfile() {
                 id="firstName"
                 name="user_firstName"
                 defaultValue={userProfile.firstName}
-                onChange={setUserFirstName}
+                // onChange={setUserFirstName}
               />
             </div>
             <label htmlFor="sector">Secteur</label>
@@ -182,7 +211,7 @@ function ModifyProfile() {
                 name="user_sector"
                 id="sector"
                 className="sectorSelect__list"
-                onChange={setUserSector}
+                // onChange={setUserSector}
               >
                 <option defaultValue={userProfile.sector}>
                   {userProfile.sector}

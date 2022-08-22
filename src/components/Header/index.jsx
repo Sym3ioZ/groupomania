@@ -21,7 +21,7 @@ function Header() {
     <header
       className="navMenu"
       style={
-        window.location.pathname === '/'
+        window.location.pathname === ('/' || '/error' || '/unauthorized')
           ? { display: 'none' }
           : { display: 'block' }
       }

@@ -8,6 +8,7 @@ import Profile from './pages/profile'
 import ModifyPost from './pages/ModifyPost'
 import ModifyProfile from './pages/ModifyProfile'
 import Error from './pages/Error'
+import Unauthorized from './pages/Unauthorized'
 import Header from './components/Header'
 import Footer from './components/Footer'
 
@@ -21,6 +22,7 @@ root.render(
       <Route path="/profile" element={<Profile />} />
       <Route path="/modifyPost" element={<ModifyPost />} />
       <Route path="/modifyProfile" element={<ModifyProfile />} />
+      <Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="*" element={<Error />} />
     </Routes>
     <Footer />
