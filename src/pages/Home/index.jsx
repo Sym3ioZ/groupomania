@@ -63,19 +63,15 @@ function Home() {
     setIsSelected(false)
   }
 
-  function likeAnim() {
-    let heartIcon = document.querySelector('heart-icon')
-    let pos = 0
-    let id = setInterval(anim, 5)
-
-    function anim() {
-      if (pos > 359) {
-        clearInterval(id)
-      } else {
-        pos = pos + 1
-        heartIcon.style.transform = 'rotateY(' + pos + ')'
-      }
-    }
+  const heartClick = (publishId) => {
+    const solidHeartIcon = document.getElementById(`${publishId}solidHeartIcon`)
+    const regularHeartIcon = document.getElementById(
+      `${publishId}regularHeartIcon`
+    )
+    solidHeartIcon.classList.toggle('fa-bounce')
+    solidHeartIcon.style = '--fa-animation-iteration-count: 1'
+    regularHeartIcon.classList.toggle('regularOFF')
+    solidHeartIcon.classList.toggle('solidON')
   }
   // POST method to publish a post, then reload page
   async function Post(e) {
@@ -260,9 +256,26 @@ function Home() {
               </div>
               <div className="fullPost__icons">
                 <div className="fullPost__icons__heartBlock">
-                  <div className="heart-icon" onClick={likeAnim}>
-                    <i className="fa-solid fa-heart"></i>
-                    <i className="fa-regular fa-heart"></i>
+                  <div className="fullPost__icons__heartBlock__icon">
+                    <div className="heart-icon">
+                      <i
+                        className={
+                          publish.likes !== 0
+                            ? 'fa-regular fa-heart regularOFF'
+                            : 'fa-regular fa-heart'
+                        }
+                        id={`${publish.id}regularHeartIcon`}
+                      ></i>
+                      <i
+                        className={
+                          publish.likes !== 0
+                            ? 'fa-solid fa-heart solidON'
+                            : 'fa-solid fa-heart'
+                        }
+                        id={`${publish.id}solidHeartIcon`}
+                        onClick={() => heartClick(publish.id)}
+                      ></i>
+                    </div>
                   </div>
                   <p>{publish.likes}</p>
                   <p>

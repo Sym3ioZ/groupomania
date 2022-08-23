@@ -41,37 +41,40 @@
     &__heartBlock {
       display: flex;
       flex-direction: row;
-      & .heart-icon {
-        color: $primaryColor;
+      &__icon {
+        margin: 10px 20px 0 10px;
         width: 40px;
         height: 40px;
-        margin: 0 10px 0 10px;
-        position: relative;
-        // transform: rotateY(0);
-        & .fa-regular {
-          position: absolute;
-          top: 0;
-          z-index: 1;
-          background: white;
-        }
-        & .fa-solid {
-          position: absolute;
-          top: 1px;
-          opacity: 1;
-          background: $primaryColor;
-          z-index: 5;
-          -webkit-background-clip: text; /* to fit the background on the icon only */
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          transform-origin: bottom;
-          transform: scale(1, 0) rotateY(90deg);
-        }
-        &:hover {
-          cursor: pointer;
+      }
+      &__icon:hover {
+        cursor: pointer;
+        & .heart-icon {
+          animation: heart-rotation 250ms;
+          & .fa-regular {
+            display: none;
+          }
           & .fa-solid {
-            animation: heart-fill 300ms 0ms ease-in-out both;
+            display: block;
           }
         }
+      }
+      & .heart-icon {
+        color: $primaryColor;
+        & .fa-regular {
+          color: $primaryColor;
+          display: block;
+        }
+        & .fa-solid {
+          display: none;
+        }
+        & .regularOFF {
+          display: none;
+        }
+        & .solidON {
+          display: block;
+        }
+        transform: rotateY(0deg);
+        transition: all 250ms ease-out;
       }
       & p {
         color: $tertiaryColor;

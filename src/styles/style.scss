@@ -140,57 +140,36 @@ label {
   align-items: center;
   width: 33%;
   height: 66%;
-  &__preview {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    border: 2px solid $tertiaryColor;
-    box-shadow: $lightShadow;
-    & img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-  }
   & p {
     font-size: x-large;
     margin: 0;
+    text-align: center;
   }
   &__button {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     & #image {
       display: none;
     }
     &__label {
-      & i {
-        font-size: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        width: 100%;
-        height: 40px;
+      & img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        box-shadow: $mediumShadow;
       }
       margin: 0;
-      width: 33%;
+      width: 100%;
       text-align: center;
-      background: $tertiaryColor;
       border: 0px solid black;
-      border-radius: 50px;
-      box-shadow: $mediumShadow;
       transform: scale(1);
       transition: all 150ms ease-out;
       cursor: pointer;
       &:hover {
         transform: scale(1.1);
-        background: lighten($tertiaryColor, 10%);
-      }
-      &:nth-child(3):hover {
-        background: lighten($tertiaryColor, 10%);
       }
     }
   }

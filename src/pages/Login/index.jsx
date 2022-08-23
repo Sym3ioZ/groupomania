@@ -1,4 +1,5 @@
 import logo from '../../assets/icon-left-font.png'
+import profileDefaultPic from '../../assets/default.png'
 import { useState } from 'react'
 import '../../styles/style.css'
 
@@ -222,23 +223,17 @@ function Login() {
           >
             <div className="signup-inputs">
               <div className="firstProfilePic">
-                <div className="firstProfilePic__preview">
-                  <img
-                    src="#"
-                    id="profilePreview"
-                    alt="profile preview"
-                    style={
-                      selectedFile ? { display: 'block' } : { display: 'none' }
-                    }
-                  />
-                </div>
                 <p>Ajouter une photo de profil</p>
                 <div className="firstProfilePic__button">
                   <label
                     htmlFor="image"
                     className="firstProfilePic__button__label"
                   >
-                    <i className="fa-solid fa-image"></i>
+                    <img
+                      src={profileDefaultPic}
+                      id="profilePreview"
+                      alt="profile preview"
+                    />
                   </label>
                   <input
                     type="file"
