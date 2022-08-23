@@ -112,27 +112,28 @@ function ModifyProfile() {
     <div className="profilePage">
       <form className="profilePage__form">
         <div className="profilePage__form__picBlock">
+          <div className="profilePage__form__picBlock__sector">
+            Secteur:
+            <br />
+            {userProfile.sector}
+          </div>
           <div className="profilePage__form__picBlock__names">
             {userProfile.firstName}
             <br />
             {userProfile.name}
-          </div>
-          <div className="profilePage__form__picBlock__picture">
-            <img
-              src={userProfile.profilePic}
-              alt="profile avatar"
-              id="profileImgPreview"
-            />
           </div>
           <div className="profilePage__form__picBlock__icons">
             <label
               htmlFor="image"
               className="profilePage__form__picBlock__icons__imageLabel"
             >
-              <i
-                className="fa-solid fa-image"
-                title="Modifier photo de profil"
-              ></i>
+              <img
+                src={userProfile.profilePic}
+                alt="profile avatar"
+                className="profilePage__form__picBlock__icons__imageLabel__image"
+                id="profileImgPreview"
+                title="Modifier la photo de profil"
+              />
             </label>
             <input
               type="file"
@@ -144,9 +145,7 @@ function ModifyProfile() {
             />
           </div>
         </div>
-        <span id="errors">
-          <br />{' '}
-        </span>
+
         <div className="profilePage__form__form-inputs">
           <div className="left-inputs">
             <div className="textarea">
@@ -240,7 +239,7 @@ function ModifyProfile() {
         <input
           type="submit"
           className="button"
-          value="SUPPRIMER"
+          value="SUPPRIMER LE COMPTE"
           id="delete"
           title="Supprimer le compte"
           onClick={deleteProfile}

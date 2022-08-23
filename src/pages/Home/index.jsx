@@ -240,7 +240,7 @@ function Home() {
                   <p>{publish.likes}</p>
                   <p>
                     Publié le{' '}
-                    {dateFormat(publish.createDate, 'dd/mm/yy à h:MM')}{' '}
+                    {dateFormat(publish.createDate, 'dd/mm/yy à HH:MM')}{' '}
                     {publish.modified === 1 ? '(Modifié)' : ''}
                   </p>
                 </div>

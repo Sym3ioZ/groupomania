@@ -473,6 +473,7 @@ footer .mailto a:hover {
   border: 2px solid #4e5166;
   border-radius: 15px;
   box-shadow: 0px 5px 20px -5px grey, 0px 5px 20px -5px grey;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -484,6 +485,7 @@ footer .mailto a:hover {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  border-top: 2px dashed #ffd7d7;
   margin: 0 0 30px 0;
 }
 .profilePage__form__form-inputs .left-inputs,
@@ -497,30 +499,22 @@ footer .mailto a:hover {
 }
 .profilePage__form__picBlock {
   width: 100%;
-  padding: 10px 0;
-  border-bottom: 2px dashed #ffd7d7;
+  border-radius: 0 0 50% 0;
+  background: #4e5166;
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  flex-direction: row-reverse;
+  justify-content: space-between;
   align-items: center;
+}
+.profilePage__form__picBlock__sector {
+  font-size: 30px;
+  color: white;
+  width: 33%;
 }
 .profilePage__form__picBlock__names {
   font-size: 40px;
   width: 33%;
-}
-.profilePage__form__picBlock__picture {
-  width: 33%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.profilePage__form__picBlock__picture img {
-  width: 175px;
-  height: 175px;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-radius: 50%;
-  box-shadow: 0px 5px 20px -5px grey, 0px 5px 20px -5px grey;
+  color: white;
 }
 .profilePage__form__picBlock__icons {
   display: flex;
@@ -534,13 +528,6 @@ footer .mailto a:hover {
 }
 .profilePage__form__picBlock__icons__imageLabel {
   margin: 10px 0;
-  text-align: center;
-  background: #4e5166;
-  color: white;
-  border: 0px solid black;
-  border-radius: 50px;
-  box-shadow: 0px 5px 20px -5px grey, 0px 5px 20px -5px grey;
-  transform: scale(1);
   transition: all 150ms ease-out;
   cursor: pointer;
 }
@@ -552,19 +539,29 @@ footer .mailto a:hover {
   width: 150px;
   height: 75px;
 }
+.profilePage__form__picBlock__icons__imageLabel__image {
+  width: 175px;
+  height: 175px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0px 5px 20px -5px grey, 0px 5px 20px -5px grey;
+}
 .profilePage__form__picBlock__icons__imageLabel:hover {
-  transform: scale(1.1);
-  background: #646883;
+  transform: scale(1.05);
 }
 .profilePage .buttons {
   width: 66%;
   display: flex;
+  overflow: hidden;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
 }
 .profilePage .buttons #update,
 .profilePage .buttons #delete {
+  margin: 25px 0 25px 0;
+  font-size: 20px;
   position: relative;
 }
 .profilePage .buttons #delete:hover {

@@ -17,7 +17,6 @@ exports.getPosts = (req, res, next) => {
 }
 
 exports.sharePost = (req, res, next) => {
-  console.log(req.body)
   let postText = replaceChars("'", "\\'", req.body.text)
   if (req.file) {
     connection.query(

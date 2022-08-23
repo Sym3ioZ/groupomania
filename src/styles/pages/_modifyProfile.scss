@@ -15,6 +15,7 @@
     border: 2px solid $tertiaryColor;
     border-radius: 15px;
     box-shadow: $mediumShadow;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,6 +26,7 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
+      border-top: 2px dashed $secondaryColor;
       margin: 0 0 30px 0;
       & .left-inputs,
       .right-inputs {
@@ -38,28 +40,21 @@
     }
     &__picBlock {
       width: 100%;
-      padding: 10px 0;
-      border-bottom: 2px dashed $secondaryColor;
+      border-radius: 0 0 50% 0;
+      background: $tertiaryColor;
       display: flex;
-      flex-direction: row;
-      justify-content: space-evenly;
+      flex-direction: row-reverse;
+      justify-content: space-between;
       align-items: center;
+      &__sector {
+        font-size: 30px;
+        color: white;
+        width: 33%;
+      }
       &__names {
         font-size: 40px;
         width: 33%;
-      }
-      &__picture {
-        width: 33%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        & img {
-          width: 175px;
-          height: 175px;
-          object-fit: cover;
-          border-radius: 50%;
-          box-shadow: $mediumShadow;
-        }
+        color: white;
       }
       &__icons {
         display: flex;
@@ -79,19 +74,18 @@
             width: 150px;
             height: 75px;
           }
+          &__image {
+            width: 175px;
+            height: 175px;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: $mediumShadow;
+          }
           margin: 10px 0;
-          text-align: center;
-          background: $tertiaryColor;
-          color: white;
-          border: 0px solid black;
-          border-radius: 50px;
-          box-shadow: $mediumShadow;
-          transform: scale(1);
           transition: all 150ms ease-out;
           cursor: pointer;
           &:hover {
-            transform: scale(1.1);
-            background: lighten($tertiaryColor, 10%);
+            transform: scale(1.05);
           }
         }
       }
@@ -101,11 +95,14 @@
   & .buttons {
     width: 66%;
     display: flex;
+    overflow: hidden;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     & #update,
     #delete {
+      margin: 25px 0 25px 0;
+      font-size: 20px;
       position: relative;
     }
     & #delete:hover {
