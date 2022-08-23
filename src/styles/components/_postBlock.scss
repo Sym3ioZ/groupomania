@@ -1,47 +1,45 @@
 @import '../variables';
 @import '../mixins';
 
+#fullPost-postBlock {
+  background: lighten($tertiaryColor, 60%);
+}
 .postBlock {
-  margin: 30px;
-  width: 95%;
-  background: $secondaryColor;
+  width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 2px solid $tertiaryColor;
-  border-radius: 10px;
-  box-shadow: $lightShadow;
   &__textarea {
     resize: none;
     width: 100%;
-    max-width: 1000px;
-    margin: 5px 15px;
-    padding: 5px;
+    border: 0px solid grey;
+    outline: none;
+    background: lighten($secondaryColor, 6%);
+    margin: 10px 0 0 0;
+    padding: 0 5px;
     font-family: 'Lato';
     font-size: large;
-    border-radius: 10px 10px 0 0;
   }
   &__buttons {
-    width: 33%;
+    width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    flex-wrap: wrap;
-    margin: 20px 20px 20px 10px;
+    border-top: $dashedBorder;
     #image {
       display: none;
       border-radius: 50%;
     }
     &__imageLabel {
       & i {
-        font-size: 45px;
+        font-size: 30px;
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 150px;
-        height: 75px;
+        width: 100px;
+        height: 50px;
       }
       margin: 10px 0;
       text-align: center;
@@ -61,6 +59,9 @@
     }
     & .button.unlocked {
       margin: 0;
+      padding: 0 15px;
+      width: fit-content;
+      height: 50px;
     }
     & input:last-child:hover {
       background: $primaryColor;
@@ -68,22 +69,15 @@
   }
 
   & .previewBlock {
-    width: 67%;
+    width: 100%;
     max-width: 1000px;
-    margin-left: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 0;
+    padding: 0;
   }
-}
-
-.buttonsWithPreview {
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
 }
 
 #cancelButton {
@@ -91,15 +85,19 @@
 }
 .picturePreview {
   width: 100%;
-  margin: -6px 0 10px 0;
+  padding-top: 50%;
+  overflow: hidden;
+  position: relative;
+  background-color: lighten($secondaryColor, 5%);
+  border-top: $dashedBorder;
+  display: none;
 }
 
 #imagePreview {
-  display: none;
   width: 100%;
-  height: 500px;
-  border-radius: 0 0 20px 20px;
-  border: solid 1px grey;
-  border-top-style: dashed;
-  border-top-color: $secondaryColor;
+  object-fit: cover;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -282,7 +282,7 @@ footer .mailto a:hover {
 .postCard__image {
   border-top: 2px dashed #ffd7d7;
   width: 100%;
-  padding-top: 66%;
+  padding-top: 50%;
   overflow: hidden;
   position: relative;
   background-color: #fff1f1;
@@ -305,36 +305,35 @@ footer .mailto a:hover {
   font-size: large;
 }
 
+#fullPost-postBlock {
+  background: #f1f2f5;
+}
+
 .postBlock {
-  margin: 30px;
-  width: 95%;
-  background: #ffd7d7;
+  width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 2px solid #4e5166;
-  border-radius: 10px;
-  box-shadow: 0px 2px 10px -2px grey, 0px 2px 10px -2px grey;
 }
 .postBlock__textarea {
   resize: none;
   width: 100%;
-  max-width: 1000px;
-  margin: 5px 15px;
-  padding: 5px;
+  border: 0px solid grey;
+  outline: none;
+  background: #fff6f6;
+  margin: 10px 0 0 0;
+  padding: 0 5px;
   font-family: "Lato";
   font-size: large;
-  border-radius: 10px 10px 0 0;
 }
 .postBlock__buttons {
-  width: 33%;
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  flex-wrap: wrap;
-  margin: 20px 20px 20px 10px;
+  border-top: 2px dashed #ffd7d7;
 }
 .postBlock__buttons #image {
   display: none;
@@ -353,12 +352,12 @@ footer .mailto a:hover {
   cursor: pointer;
 }
 .postBlock__buttons__imageLabel i {
-  font-size: 45px;
+  font-size: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
-  height: 75px;
+  width: 100px;
+  height: 50px;
 }
 .postBlock__buttons__imageLabel:hover {
   color: #ffd7d7;
@@ -367,26 +366,24 @@ footer .mailto a:hover {
 }
 .postBlock__buttons .button.unlocked {
   margin: 0;
+  padding: 0 15px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 50px;
 }
 .postBlock__buttons input:last-child:hover {
   background: #fd2d01;
 }
 .postBlock .previewBlock {
-  width: 67%;
+  width: 100%;
   max-width: 1000px;
-  margin-left: 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.buttonsWithPreview {
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 #cancelButton {
@@ -395,17 +392,22 @@ footer .mailto a:hover {
 
 .picturePreview {
   width: 100%;
-  margin: -6px 0 10px 0;
+  padding-top: 50%;
+  overflow: hidden;
+  position: relative;
+  background-color: #fff1f1;
+  border-top: 2px dashed #ffd7d7;
+  display: none;
 }
 
 #imagePreview {
-  display: none;
   width: 100%;
-  height: 500px;
-  border-radius: 0 0 20px 20px;
-  border: solid 1px grey;
-  border-top-style: dashed;
-  border-top-color: #ffd7d7;
+  -o-object-fit: cover;
+     object-fit: cover;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .profileBlock {

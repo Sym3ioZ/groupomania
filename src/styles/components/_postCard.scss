@@ -15,7 +15,7 @@
     flex-direction: row;
     justify-content: space-between;
     padding-top: 10px;
-    border-top: 2px dashed $secondaryColor;
+    border-top: $dashedBorder;
     font-size: 40px;
     color: $primaryColor;
     &__creatorOnly i {
@@ -123,9 +123,9 @@
     }
   }
   &__image {
-    border-top: 2px dashed $secondaryColor;
+    border-top: $dashedBorder;
     width: 100%;
-    padding-top: 66%;
+    padding-top: 50%;
     overflow: hidden;
     position: relative;
     background-color: lighten($secondaryColor, 5%);

@@ -8,8 +8,17 @@ function Home() {
     sessionStorage.getItem('userId')
   )
 
+  const [userProfile, setUserProfile] = useState([])
   useEffect(() => {
     setSessionUserId(sessionStorage.getItem('userId'))
+    const fetchProfile = async () => {
+      const fetchData = await fetch(
+        `http://localhost:3000/api/auth/getProfile:${sessionUserId}`
+      )
+      const jsonData = await fetchData.json()
+      setUserProfile(jsonData.response[0])
+    }
+    fetchProfile()
   }, [sessionUserId])
 
   // GET every posts
@@ -31,17 +40,16 @@ function Home() {
   const [selectedFile, setSelectedFile] = useState()
   const [isSelected, setIsSelected] = useState(false)
   const textArea = document.getElementById('text')
-  const preview = document.getElementById('imagePreview')
-  const buttons = document.getElementById('postBlockButtons')
+  const preview = document.getElementById('picturePreview')
+  const imagePreview = document.getElementById('imagePreview')
   const cancelButton = document.getElementById('cancelButton')
   const imageInput = document.getElementById('image')
 
   function picChange(e) {
     let src = URL.createObjectURL(e.target.files[0])
-    preview.src = src
+    imagePreview.src = src
     preview.style.display = 'block'
     cancelButton.style.display = 'block'
-    buttons.setAttribute('class', 'postBlock__buttons buttonsWithPreview')
     setIsSelected(true)
     setSelectedFile(e.target.files[0])
   }
@@ -50,7 +58,6 @@ function Home() {
     preview.style.display = 'none'
     textArea.value = ''
     cancelButton.style.display = 'none'
-    buttons.setAttribute('class', 'postBlock__buttons')
     preview.src = '#'
     imageInput.value = ''
     setIsSelected(false)
@@ -153,48 +160,68 @@ function Home() {
 
   return (
     <div className="page">
-      <div className="postBlock">
-        <div className="previewBlock">
-          <textarea
-            className="postBlock__textarea"
-            id="text"
-            name="text"
-            rows="3"
-            cols="300"
-            maxLength="500"
-            placeholder="Exprimez-vous!"
-            required
-          ></textarea>
-          <div className="picturePreview">
-            <img src="#" id="imagePreview" alt="upload preview" />
+      <div className="fullPost" id="fullPost-postBlock">
+        <div className="postCard">
+          <div className="postCard__user">
+            <div className="postCard__user__profile">
+              <img
+                src={userProfile.profilePic}
+                alt="profile avatar"
+                className="postCard__user__profile__pic"
+              />
+            </div>{' '}
+            <div className="postCard__user__desc">
+              <div className="postCard__user__desc__name">
+                {userProfile.firstName} {userProfile.name}
+              </div>
+              <div className="postCard__user__desc__sector">
+                Secteur: {userProfile.sector}
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="postBlock__buttons" id="postBlockButtons">
-          <label htmlFor="image" className="postBlock__buttons__imageLabel">
-            <i className="fa-solid fa-image"></i>
-          </label>
-          <input
-            type="file"
-            name="image"
-            id="image"
-            className="image"
-            accept=".jpg, .jpeg, .png, .gif, .webp"
-            onChange={picChange}
-          />
-          <input
-            type="submit"
-            className="button unlocked"
-            value="PARTAGER"
-            id="post"
-            onClick={Post}
-          />
-          <input
-            type="submit"
-            className="button unlocked"
-            id="cancelButton"
-            value="ANNULER"
-            onClick={postCancel}
-          />
+          <div className="postBlock">
+            <div className="previewBlock">
+              <textarea
+                className="postBlock__textarea"
+                id="text"
+                name="text"
+                rows="3"
+                maxLength="500"
+                placeholder="Exprimez-vous!"
+                required
+              ></textarea>
+              <div className="picturePreview" id="picturePreview">
+                <img src="#" id="imagePreview" alt="upload preview" />
+              </div>
+            </div>
+            <div className="postBlock__buttons" id="postBlockButtons">
+              <label htmlFor="image" className="postBlock__buttons__imageLabel">
+                <i className="fa-solid fa-image"></i>
+              </label>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                className="image"
+                accept=".jpg, .jpeg, .png, .gif, .webp"
+                onChange={picChange}
+              />
+              <input
+                type="submit"
+                className="button unlocked"
+                value="PARTAGER"
+                id="post"
+                onClick={Post}
+              />
+              <input
+                type="submit"
+                className="button unlocked"
+                id="cancelButton"
+                value="ANNULER"
+                onClick={postCancel}
+              />
+            </div>
+          </div>
         </div>
       </div>
 
