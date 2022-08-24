@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import dateFormat from 'dateformat'
 import '../../styles/style.css'
 
@@ -111,12 +112,11 @@ function Home() {
         },
         body: formData,
       }
-      console.log(postOrder)
 
       await fetch('http://localhost:3000/api/posts/post', postOrder)
         .then((res) => res.json())
         .catch((err) => console.log(err))
-      // document.location.assign('/home')
+      document.location.assign('/home')
     } else {
       const postOrder = {
         method: 'POST',
@@ -135,12 +135,12 @@ function Home() {
     }
   }
 
-  async function deletePost(e, postId, postImageUrl) {
+  async function deletePost(e, publishId, postImageUrl) {
     if (
       window.confirm('Etes-vous sûr de vouloir supprimer votre publication?')
     ) {
       const imageUrl = { imageUrl: postImageUrl }
-      await fetch(`http://localhost:3000/api/posts/deletePost:${postId}`, {
+      await fetch(`http://localhost:3000/api/posts/deletePost:${publishId}`, {
         method: 'DELETE',
         body: JSON.stringify(imageUrl),
         headers: {
@@ -153,6 +153,8 @@ function Home() {
       document.location.assign('/home')
     }
   }
+
+  async function updatePost(e, publishId) {}
 
   return (
     <div className="page">
@@ -293,7 +295,15 @@ function Home() {
                       : { display: 'none' }
                   }
                 >
-                  <i className="fa-solid fa-pen-to-square"></i>
+                  <Link to={`/updatePost:${publish.id}`}>
+                    <i
+                      className="fa-solid fa-pen-to-square"
+                      onClick={(e) => {
+                        updatePost(e, publish.id)
+                      }}
+                    ></i>
+                  </Link>
+
                   <i
                     className="fa-solid fa-trash-can"
                     onClick={(e) => {

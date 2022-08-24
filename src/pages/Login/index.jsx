@@ -300,13 +300,15 @@ function Login() {
                     className="sectorSelect__list"
                     required
                   >
-                    <option defaultValue="direction">Direction</option>
-                    <option value="informatique">Informatique</option>
-                    <option value="comptabilité">Comptabilité</option>
-                    <option value="commercial">Commercial</option>
-                    <option value="marketing">Marketing</option>
-                    <option value="logistique">Logistique</option>
-                    <option value="rh">Ressources humaines</option>
+                    <option defaultValue="Direction">Direction</option>
+                    <option value="Informatique">Informatique</option>
+                    <option value="Comptabilité">Comptabilité</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Logistique">Logistique</option>
+                    <option value="Ressources Humaines">
+                      Ressources humaines
+                    </option>
                   </select>
                 </div>
               </div>

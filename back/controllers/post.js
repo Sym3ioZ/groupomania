@@ -16,6 +16,17 @@ exports.getPosts = (req, res, next) => {
   )
 }
 
+exports.getPost = (req, res, next) => {
+  const params = req.params.id.replace(/:/g, '')
+  connection.query(
+    "SELECT * FROM post WHERE id = '" + params + "'",
+    function (err, resp) {
+      if (err) throw err
+      return res.status(200).json({ resp })
+    }
+  )
+}
+
 exports.sharePost = (req, res, next) => {
   let postText = replaceChars("'", "\\'", req.body.text)
   if (req.file) {
@@ -54,17 +65,41 @@ exports.sharePost = (req, res, next) => {
 }
 
 exports.updatePost = (req, res, next) => {
-  connection.query(
-    "UPDATE post SET text='" +
-      req.body.text +
-      "' WHERE id ='" +
-      req.body.id +
-      "'",
-    function (err, resp) {
-      if (err) throw err
-      return res.status(200).json({ resp })
-    }
-  )
+  const publishId = req.params.id.replace(/:/g, '')
+  if (req.file) {
+    const imageUrl = req.body.imageUrl
+    const filename = imageUrl.split('/postPics/')[1]
+    fs.unlink(`images/postPics/${filename}`, () => {})
+    connection.query(
+      "UPDATE post SET text='" +
+        req.body.text +
+        "', imageUrl='" +
+        `${req.protocol}://${req.get('host')}/images/postPics/${
+          req.file.filename
+        }` +
+        "', modified='1'" +
+        " WHERE id ='" +
+        publishId +
+        "'",
+      function (err, resp) {
+        if (err) throw err
+        return res.status(200).json({ message: 'Post modified' })
+      }
+    )
+  } else {
+    connection.query(
+      "UPDATE post SET text='" +
+        req.body.text +
+        "', modified='1'" +
+        " WHERE id ='" +
+        publishId +
+        "'",
+      function (err, resp) {
+        if (err) throw err
+        return res.status(200).json({ message: 'Post modified' })
+      }
+    )
+  }
 }
 
 exports.deletePost = (req, res, next) => {
@@ -78,7 +113,7 @@ exports.deletePost = (req, res, next) => {
     "DELETE FROM post WHERE id='" + params + "'",
     function (err, resp) {
       if (err) throw err
-      return res.status(200).json({ resp })
+      return res.status(200).json({ message: 'Post deleted' })
     }
   )
 }
