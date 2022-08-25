@@ -110,7 +110,7 @@ exports.deleteProfile = (req, res, next) => {
 }
 
 exports.updateProfile = (req, res, next) => {
-  if (req.body.userPwd) {
+  if (req.body.newPwd) {
     connection.query(
       "SELECT * FROM user WHERE userId='" + req.body.userId + "'",
       function (err, resp) {
@@ -124,7 +124,7 @@ exports.updateProfile = (req, res, next) => {
                 .json({ code: '401', message: 'Invalid password' })
             } else {
               bcrypt
-                .hash(req.body.userPwd, 10)
+                .hash(req.body.newPwd, 10)
                 .then((hash) => {
                   if (req.file) {
                     connection.query(
@@ -146,7 +146,9 @@ exports.updateProfile = (req, res, next) => {
                         "'",
                       function (err, resp) {
                         if (err) throw err
-                        return res.satus(200).json({ message: 'User modified' })
+                        return res
+                          .status(200)
+                          .json({ message: 'User modified' })
                       }
                     )
                   } else {
@@ -223,23 +225,4 @@ exports.updateProfile = (req, res, next) => {
       )
     }
   }
-
-  // connection.query(
-  //   "UPDATE user SET mail='" +
-  //     req.body.mail +
-  //     "', name='" +
-  //     req.body.name +
-  //     "', firstName='" +
-  //     req.body.firstName +
-  //     "', sector='" +
-  //     req.body.sector +
-  //     "', bio='" +
-  //     req.body.bio +
-  //     "' WHERE id='" +
-  //     req.body.userId +
-  //     "'",
-  //   function (err, resp) {
-  //     if (err) throw err
-  //   }
-  // )
 }

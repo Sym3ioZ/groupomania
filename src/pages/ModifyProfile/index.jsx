@@ -19,10 +19,9 @@ function ModifyProfile() {
     fetchProfile()
   }, [sessionUserId])
 
-  const [oldPwd, setOldPwd] = useState()
-  const [userPwd, setUserPwd] = useState()
-
   const userId = userProfile.userId
+
+  const [confirmMessage, setConfirmMessage] = useState('')
 
   // Retrieving the selected picture
   const [selectedFile, setSelectedFile] = useState()
@@ -62,54 +61,133 @@ function ModifyProfile() {
   // function to update user infos (name,mail,profilepic,...)
   async function updateProfile(e) {
     e.preventDefault()
+    const oldPwd = document.getElementById('oldPwd').value
+    const newPwd = document.getElementById('newPwd').value
     const userName = document.getElementById('name').value
     const userFirstName = document.getElementById('firstName').value
     const userSector = document.getElementById('sector').value
-    // Declaring formdata to send via fetch
-    const formData = new FormData()
-    formData.append('image', selectedFile)
-    formData.append('userId', userId)
-    // formData.append('userPwd', userPwd)
-    // formData.append('oldPwd', oldPwd)
-    formData.append('userName', userName)
-    formData.append('userFirstName', userFirstName)
-    formData.append('userSector', userSector)
+    const pwdError = document.getElementById('pwdError')
 
-    let postOrder = {}
-    const inputs = {
-      userId: userId,
-      // userPwd: userPwd.target.value,
-      // oldPwd: oldPwd.target.value,
-      userName: userName,
-      userFirstName: userFirstName,
-      userSector: userSector,
-    }
-    if (selectedFile) {
-      postOrder = {
-        method: 'PUT',
-        headers: {
-          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
-        },
-        body: formData,
+    const pwdMask =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/
+
+    if (newPwd) {
+      if (pwdMask.test(newPwd)) {
+        pwdError.textContent = ''
+        // Declaring formdata to send via fetch
+        const formData = new FormData()
+        formData.append('image', selectedFile)
+        formData.append('userId', userId)
+        formData.append('newPwd', newPwd)
+        formData.append('oldPwd', oldPwd)
+        formData.append('userName', userName)
+        formData.append('userFirstName', userFirstName)
+        formData.append('userSector', userSector)
+
+        let postOrder = {}
+        const inputs = {
+          userId: userId,
+          newPwd: newPwd,
+          oldPwd: oldPwd,
+          userName: userName,
+          userFirstName: userFirstName,
+          userSector: userSector,
+        }
+        if (selectedFile) {
+          postOrder = {
+            method: 'PUT',
+            headers: {
+              Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+            },
+            body: formData,
+          }
+        } else {
+          postOrder = {
+            method: 'PUT',
+            headers: {
+              'content-type': 'application/json',
+              Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+            },
+            body: JSON.stringify(inputs),
+          }
+        }
+
+        const postRes = await fetch(
+          'http://localhost:3000/api/auth/updateProfile',
+          postOrder
+        )
+          .then((res) => res.json())
+          .catch((err) => console.log(err))
+
+        // Checking the return message to validate/unvalidate password change, and then profile update
+        if (postRes.message === 'Invalid password') {
+          pwdError.textContent = 'Ancien mot de passe invalide'
+        } else {
+          if (postRes.message === 'User modified') {
+            setConfirmMessage('Mise à jour effectuée avec succès!')
+            window.setTimeout(() => {
+              window.location.reload()
+            }, '1000')
+          } else {
+            alert('Erreur serveur interne: veuillez réessayer ou patienter.')
+            window.location.reload()
+          }
+        }
+      } else {
+        pwdError.textContent =
+          'Erreur: 8-15 caractères (Majuscule, minuscule, chiffre, caractère spécial)'
       }
     } else {
-      postOrder = {
-        method: 'PUT',
-        headers: {
-          'content-type': 'application/json',
-          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
-        },
-        body: JSON.stringify(inputs),
-      }
-    }
+      // Declaring formdata to send via fetch without passwords
+      const formData = new FormData()
+      formData.append('image', selectedFile)
+      formData.append('userId', userId)
+      formData.append('userName', userName)
+      formData.append('userFirstName', userFirstName)
+      formData.append('userSector', userSector)
 
-    await fetch('http://localhost:3000/api/auth/updateProfile', postOrder)
-      .then((res) => res.json())
-      .catch((err) => console.log(err))
-    // document.location.assign('/home')
+      let postOrder = {}
+      const inputs = {
+        userId: userId,
+        userName: userName,
+        userFirstName: userFirstName,
+        userSector: userSector,
+      }
+      if (selectedFile) {
+        postOrder = {
+          method: 'PUT',
+          headers: {
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+          },
+          body: formData,
+        }
+      } else {
+        postOrder = {
+          method: 'PUT',
+          headers: {
+            'content-type': 'application/json',
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+          },
+          body: JSON.stringify(inputs),
+        }
+      }
+
+      await fetch('http://localhost:3000/api/auth/updateProfile', postOrder)
+        .then((res) => res.json())
+        .catch((err) => console.log(err))
+
+      setConfirmMessage('Mise à jour effectuée avec succès!')
+      window.setTimeout(() => {
+        window.location.reload()
+      }, '1000')
+    }
   }
+
   return (
     <div className="profilePage">
+      <div className="confirmMessage" id="confirmMessage">
+        {confirmMessage}
+      </div>
       <form className="profilePage__form">
         <div className="profilePage__form__picBlock">
           <div className="profilePage__form__picBlock__sector">
@@ -162,23 +240,22 @@ function ModifyProfile() {
               <label htmlFor="oldpwd">Ancien mot de passe</label>
               <input
                 type="password"
+                id="oldPwd"
                 name="user_oldpwd"
                 minLength={8}
                 maxLength={15}
                 defaultValue=""
-                onChange={setOldPwd}
               />
-              <span id="pwdError"></span>
             </div>
             <div className="textarea">
               <label htmlFor="newpwd">Nouveau mot de passe</label>
               <input
                 type="password"
+                id="newPwd"
                 name="user_newpwd"
                 minLength={8}
                 maxLength={15}
                 defaultValue=""
-                onChange={setUserPwd}
               />
               <span id="pwdError"></span>
             </div>
@@ -191,7 +268,6 @@ function ModifyProfile() {
                 id="name"
                 name="user_name"
                 defaultValue={userProfile.name}
-                // onChange={setUserName}
               />
             </div>
             <div className="textarea">
@@ -201,7 +277,6 @@ function ModifyProfile() {
                 id="firstName"
                 name="user_firstName"
                 defaultValue={userProfile.firstName}
-                // onChange={setUserFirstName}
               />
             </div>
             <label htmlFor="sector">Secteur</label>
@@ -210,7 +285,6 @@ function ModifyProfile() {
                 name="user_sector"
                 id="sector"
                 className="sectorSelect__list"
-                // onChange={setUserSector}
               >
                 <option defaultValue={userProfile.sector}>
                   {userProfile.sector}
@@ -224,6 +298,7 @@ function ModifyProfile() {
                 <option value="rh">Ressources humaines</option>
               </select>
             </div>
+            <span className="randomBlock"></span>
           </div>
         </div>
       </form>
