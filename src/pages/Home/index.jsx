@@ -290,7 +290,8 @@ function Home() {
                 <div
                   className="fullPost__icons__creatorOnly"
                   style={
-                    +sessionUserId === +publish.user_id
+                    +sessionUserId === +publish.user_id ||
+                    userProfile.role === 'admin'
                       ? { display: 'block' }
                       : { display: 'none' }
                   }

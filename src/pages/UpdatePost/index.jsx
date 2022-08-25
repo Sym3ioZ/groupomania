@@ -22,7 +22,7 @@ function UpdatePost() {
     fetchProfile()
   }, [sessionUserId])
 
-  // GET every posts
+  // GET post to update
   useEffect(() => {
     const fetchPost = async () => {
       const fetchData = await fetch(
@@ -160,7 +160,9 @@ function UpdatePost() {
               <div
                 className="picturePreview"
                 id="picturePreview"
-                style={{ display: 'block' }}
+                style={
+                  Post.imageUrl ? { display: 'block' } : { display: 'none' }
+                }
               >
                 <img
                   src={Post.imageUrl}
