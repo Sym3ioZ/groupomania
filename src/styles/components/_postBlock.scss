@@ -20,6 +20,9 @@
     padding: 0 5px;
     font-family: 'Lato';
     font-size: large;
+    @include mobile {
+      font-size: medium;
+    }
   }
   &__buttons {
     width: 100%;

@@ -10,3 +10,19 @@
   padding-top: 5vh;
   height: 95vh;
 }
+
+#imageLabel > i {
+  @include mobile {
+    width: 75px;
+    height: 37px;
+    font-size: 20px;
+  }
+}
+
+#post,
+#cancelButton {
+  @include mobile {
+    font-size: small;
+    height: 37px;
+  }
+}

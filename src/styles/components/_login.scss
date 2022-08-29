@@ -12,6 +12,14 @@
   width: 70%;
   height: 750px;
   position: relative;
+  @include tablet {
+    width: 90%;
+  }
+  @include mobile {
+    width: 100%;
+    border-radius: 0 0 0 0;
+    box-shadow: 0 0 0 0;
+  }
 }
 
 .tabs-block {
@@ -36,6 +44,9 @@
   font-size: large;
   cursor: pointer;
   transition: all 200ms ease-out;
+  @include mobile {
+    font-size: medium;
+  }
 }
 
 .active-tabs {
@@ -43,6 +54,9 @@
   color: white;
   width: 60%;
   font-size: xx-large;
+  @include mobile {
+    font-size: larger;
+  }
 }
 .forms-block {
   width: 100%;
@@ -70,8 +84,17 @@
   & .form-inputs {
     width: 66%;
   }
+  @include mobile {
+    margin-top: 0;
+    height: 90%;
+  }
 }
 
+#signup {
+  @include mobile {
+    margin: 0 0 5px 0;
+  }
+}
 .form-inputs {
   height: 80%;
   font-size: x-large;
@@ -79,6 +102,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @include tablet {
+    font-size: large;
+  }
+  @include mobile {
+    font-size: medium;
+  }
 }
 
 .textarea {
@@ -99,23 +128,43 @@ input {
   font-size: large;
   text-align: center;
   background: none;
+  @include mobile {
+    font-size: medium;
+  }
 }
 
 label {
   margin-top: 30px;
+  @include mobile {
+    margin-top: 20px;
+  }
 }
 
 .firstProfilePic {
   display: flex;
   flex-direction: column;
+  margin-left: 15px;
   justify-content: space-evenly;
   align-items: center;
   width: 33%;
   height: 66%;
+  @include mobile {
+    width: 30%;
+    height: 40%;
+    & span {
+      font-size: 12px;
+    }
+  }
   & p {
     font-size: x-large;
     margin: 0;
     text-align: center;
+    @include tablet {
+      font-size: large;
+    }
+    @include mobile {
+      font-size: medium;
+    }
   }
   &__button {
     width: 100%;
@@ -132,6 +181,14 @@ label {
         height: 200px;
         border-radius: 50%;
         box-shadow: $mediumShadow;
+        @include tablet {
+          width: 150px;
+          height: 150px;
+        }
+        @include mobile {
+          width: 100px;
+          height: 100px;
+        }
       }
       margin: 0;
       width: 200px;
@@ -141,6 +198,14 @@ label {
       border-radius: 50%;
       transform: scale(1);
       transition: all 150ms ease-out;
+      @include tablet {
+        width: 150px;
+        height: 150px;
+      }
+      @include mobile {
+        width: 100px;
+        height: 100px;
+      }
       cursor: pointer;
       &:hover {
         transform: scale(1.1);
@@ -176,6 +241,9 @@ label {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  @include mobile {
+    font-size: medium;
+  }
 }
 .sectorSelect:after {
   top: 50%;

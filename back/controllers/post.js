@@ -118,3 +118,33 @@ exports.deletePost = (req, res, next) => {
     }
   )
 }
+
+exports.likePost = (req, res, next) => {
+  const params = req.params.id.replace(/:/g, '')
+  connection.query(
+    "UPDATE post SET likes = likes + 1, usersLiked = '" +
+      req.body.newUsersLiked +
+      "' WHERE id ='" +
+      params +
+      "'",
+    function (err, resp) {
+      if (err) throw err
+      return res.status(200).json({ resp: resp, message: 'post liked !' })
+    }
+  )
+}
+
+exports.unlikePost = (req, res, next) => {
+  const params = req.params.id.replace(/:/g, '')
+  connection.query(
+    "UPDATE post SET likes = likes - 1, usersLiked = '" +
+      req.body.newUsersLiked +
+      "' WHERE id ='" +
+      params +
+      "'",
+    function (err, resp) {
+      if (err) throw err
+      return res.status(200).json({ resp: resp, message: 'post unliked !' })
+    }
+  )
+}

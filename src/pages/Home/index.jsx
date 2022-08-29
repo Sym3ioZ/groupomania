@@ -64,16 +64,8 @@ function Home() {
     setIsSelected(false)
   }
 
-  const heartClick = (publishId) => {
-    const solidHeartIcon = document.getElementById(`${publishId}solidHeartIcon`)
-    const regularHeartIcon = document.getElementById(
-      `${publishId}regularHeartIcon`
-    )
-    solidHeartIcon.classList.toggle('fa-bounce')
-    solidHeartIcon.style = '--fa-animation-iteration-count: 1'
-    regularHeartIcon.classList.toggle('regularOFF')
-    solidHeartIcon.classList.toggle('solidON')
-  }
+  async function heartClick(publishId) {}
+
   // POST method to publish a post, then reload page
   async function Post(e) {
     e.preventDefault()
@@ -277,7 +269,7 @@ function Home() {
                       ></i>
                     </div>
                   </div>
-                  <p>{publish.likes}</p>
+                  <p id="likesCount">{publish.likes}</p>
                   <p>
                     Publié le{' '}
                     {dateFormat(publish.createDate, 'dd/mm/yy à HH:MM')}{' '}

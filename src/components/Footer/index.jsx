@@ -14,7 +14,7 @@ function Footer() {
       <p>© BT Développement WEB. 2022</p>
       <div className="mailto">
         <a href="mailto:admin@groupomania.fr">
-          <i className="fa-solid fa-envelope"></i>Contacter l'administrateur
+          <i className="fa-solid fa-envelope"></i>Contact
         </a>
       </div>
     </footer>

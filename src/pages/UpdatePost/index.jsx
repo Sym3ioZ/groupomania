@@ -153,7 +153,7 @@ function UpdatePost() {
                 className="postBlock__textarea"
                 id="text"
                 name="text"
-                rows="3"
+                rows="5"
                 maxLength="500"
                 defaultValue={Post.text}
                 required
@@ -173,7 +173,11 @@ function UpdatePost() {
               </div>
             </div>
             <div className="postBlock__buttons" id="postBlockButtons">
-              <label htmlFor="image" className="postBlock__buttons__imageLabel">
+              <label
+                htmlFor="image"
+                className="postBlock__buttons__imageLabel"
+                id="imageLabel"
+              >
                 <i className="fa-solid fa-image"></i>
               </label>
               <input

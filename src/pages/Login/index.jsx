@@ -110,7 +110,7 @@ function Login() {
         mailError.textContent = ' invalide: @groupomania.fr uniquement'
       }
     } else {
-      picError.textContent = 'Photo obligatoire !'
+      picError.textContent = 'Photo obligatoire'
       picError.style.color = 'red'
     }
   }

@@ -6,7 +6,6 @@
 @import './components/login';
 @import './components/postCard';
 @import './components/postBlock';
-@import './components/profileBlock';
 @import './pages/modifyProfile';
 @import './pages/updatePost';
 
@@ -21,13 +20,17 @@
 .maintitle {
   text-align: center;
   margin: 0 0 10px 0;
+  @include mobile {
+    font-size: larger;
+  }
 }
 
 .body {
   height: 95vh;
+  padding: 20px 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -53,6 +56,16 @@
   bottom: 0;
   transform: scale(1);
   transition: all 150ms ease-out;
+  @include tablet {
+    width: 200px;
+    height: 60px;
+    font-size: 20px;
+  }
+  @include mobile {
+    width: 175px;
+    height: 53px;
+    font-size: 16px;
+  }
   cursor: pointer;
   &:hover {
     transform: scale(1.1);
@@ -66,6 +79,12 @@
 
 .loginLogo {
   width: 33%;
+  @include tablet {
+    width: 50%;
+  }
+  @include mobile {
+    width: 50%;
+  }
 }
 
 .page {

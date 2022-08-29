@@ -17,11 +17,20 @@
     &__link {
       margin-top: 5px;
       text-align: center;
+      @include tablet {
+        margin-top: 10px;
+      }
+      @include mobile {
+        margin-top: 7px;
+      }
       & i {
         font-size: 30px;
         color: white;
         transform: scale(1);
         transition: all 150ms ease-out;
+        @include mobile {
+          font-size: 20px;
+        }
         &:hover {
           color: $secondaryColor;
           transform: scale(1.15);
