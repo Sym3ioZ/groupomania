@@ -154,8 +154,6 @@ function Home() {
     }
   }
 
-  async function updatePost(e, publishId) {}
-
   return (
     <div className="page">
       <div className="fullPost" id="fullPost-postBlock">
@@ -300,7 +298,7 @@ function Home() {
                     <i
                       className="fa-solid fa-pen-to-square"
                       onClick={(e) => {
-                        updatePost(e, publish.id)
+                        sessionStorage.setItem('postUserId', publish.user_id)
                       }}
                     ></i>
                   </Link>

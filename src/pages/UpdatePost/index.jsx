@@ -5,22 +5,22 @@ import '../../styles/style.css'
 function UpdatePost() {
   const { publishId } = useParams()
   const [Post, setPost] = useState([])
-  const [sessionUserId, setSessionUserId] = useState(
-    sessionStorage.getItem('userId')
+  const [postUserId, setPostUserId] = useState(
+    sessionStorage.getItem('postUserId')
   )
 
   const [userProfile, setUserProfile] = useState([])
   useEffect(() => {
-    setSessionUserId(sessionStorage.getItem('userId'))
+    setPostUserId(sessionStorage.getItem('postUserId'))
     const fetchProfile = async () => {
       const fetchData = await fetch(
-        `http://localhost:3000/api/auth/getProfile:${sessionUserId}`
+        `http://localhost:3000/api/auth/getProfile:${postUserId}`
       )
       const jsonData = await fetchData.json()
       setUserProfile(jsonData.response[0])
     }
     fetchProfile()
-  }, [sessionUserId])
+  }, [postUserId])
 
   // GET post to update
   useEffect(() => {
@@ -42,7 +42,7 @@ function UpdatePost() {
     fetchPost()
   }, [publishId])
 
-  // Retrieving the selected picture
+  // Retrieving the selected picture and post infos
   const [selectedFile, setSelectedFile] = useState()
   const [isSelected, setIsSelected] = useState(false)
   const textArea = document.getElementById('text')
@@ -121,6 +121,7 @@ function UpdatePost() {
       )
         .then((res) => res.json())
         .catch((err) => console.log(err))
+      sessionStorage.removeItem('postUserId')
       document.location.assign('/home')
     }
   }

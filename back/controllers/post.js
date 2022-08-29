@@ -28,7 +28,7 @@ exports.getPost = (req, res, next) => {
 }
 
 exports.sharePost = (req, res, next) => {
-  let postText = replaceChars("'", "\\'", req.body.text)
+  const postText = replaceChars("'", "\\'", req.body.text)
   if (req.file) {
     connection.query(
       "INSERT INTO post (user_id, text, imageUrl, createDate) VALUES ('" +
@@ -66,13 +66,14 @@ exports.sharePost = (req, res, next) => {
 
 exports.updatePost = (req, res, next) => {
   const publishId = req.params.id.replace(/:/g, '')
+  const postText = replaceChars("'", "\\'", req.body.text)
   if (req.file) {
     const imageUrl = req.body.imageUrl
     const filename = imageUrl.split('/postPics/')[1]
     fs.unlink(`images/postPics/${filename}`, () => {})
     connection.query(
       "UPDATE post SET text='" +
-        req.body.text +
+        postText +
         "', imageUrl='" +
         `${req.protocol}://${req.get('host')}/images/postPics/${
           req.file.filename
@@ -89,7 +90,7 @@ exports.updatePost = (req, res, next) => {
   } else {
     connection.query(
       "UPDATE post SET text='" +
-        req.body.text +
+        postText +
         "', modified='1'" +
         " WHERE id ='" +
         publishId +
