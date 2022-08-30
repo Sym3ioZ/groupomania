@@ -10,6 +10,11 @@
   box-shadow: $mediumShadow;
   margin: 20px 0 30px 0;
   overflow: hidden;
+  @include xsmobile {
+    width: 100%;
+    border-radius: 0;
+    border: 0px solid black;
+  }
   @include mobile {
     width: 100%;
     border-radius: 0;
@@ -23,10 +28,23 @@
     border-top: $dashedBorder;
     font-size: 40px;
     color: $primaryColor;
+    @include xsmobile {
+      font-size: 25px;
+      padding-top: 5px;
+    }
     @include mobile {
       font-size: 30px;
     }
     &__creatorOnly {
+      @include xsmobile {
+        width: fit-content;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        text-align: right;
+        padding-bottom: 5px;
+      }
       @include mobile {
         width: fit-content;
         display: flex;
@@ -41,6 +59,9 @@
       background-color: transparent;
       margin-right: 15px;
       margin-left: 15px;
+      @include xsmobile {
+        margin: 0 5px 0 5px;
+      }
       @include mobile {
         margin: 0 5px 0 5px;
       }
@@ -63,6 +84,10 @@
     &__heartBlock {
       display: flex;
       flex-direction: row;
+      @include xsmobile {
+        align-items: center;
+        width: 66%;
+      }
       @include mobile {
         align-items: center;
       }
@@ -70,6 +95,11 @@
         margin: 10px 20px 0 10px;
         width: 40px;
         height: 40px;
+        @include xsmobile {
+          width: 25px;
+          height: 25px;
+          margin: 0 10px 0 10px;
+        }
         @include mobile {
           width: 30px;
           height: 30px;
@@ -108,6 +138,9 @@
       }
       & p {
         color: $tertiaryColor;
+        @include xsmobile {
+          margin: 5px 0 0 0;
+        }
         @include mobile {
           margin: 5px 0 0 0;
         }
@@ -115,6 +148,11 @@
           font-style: italic;
           font-weight: 300;
           margin-left: 50px;
+          @include xsmobile {
+            width: fit-content;
+            font-size: 10px;
+            margin: 10px 0 0 10px;
+          }
           @include mobile {
             margin: 10px 0 0 10px;
             font-size: 12px;
@@ -143,6 +181,10 @@
         margin: 10px 0 10px 20px;
         width: 80px;
         height: 80px;
+        @include xsmobile {
+          width: 50px;
+          height: 50px;
+        }
         @include mobile {
           width: 60px;
           height: 60px;
@@ -159,6 +201,9 @@
       &__name {
         margin: 10px 0 0 10px;
         font-size: x-large;
+        @include xsmobile {
+          font-size: large;
+        }
         @include mobile {
           font-size: larger;
         }
@@ -166,6 +211,9 @@
       &__sector {
         margin: 5px 0 0 10px;
         font-size: large;
+        @include xsmobile {
+          font-size: small;
+        }
         @include mobile {
           font-size: medium;
         }
@@ -195,6 +243,9 @@
     text-align: justify;
     margin: 15px;
     font-size: large;
+    @include xsmobile {
+      font-size: small;
+    }
     @include mobile {
       font-size: medium;
     }

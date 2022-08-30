@@ -19,6 +19,10 @@ footer {
       width: 35px;
       height: 35px;
       margin-top: 5px;
+      @include xsmobile {
+        width: 15px;
+        height: 15px;
+      }
       @include tablet {
         width: 30px;
         height: 30px;
@@ -35,6 +39,10 @@ footer {
     font-family: 'Lato';
     font-size: 16px;
     text-align: center;
+    @include xsmobile {
+      font-size: 10px;
+      width: 40%;
+    }
     @include tablet {
       font-size: 14px;
     }
@@ -44,15 +52,24 @@ footer {
   }
   & i {
     margin-right: 10px;
+    @include xsmobile {
+      margin-right: 3px;
+    }
   }
   & .mailto {
     width: 33%;
     margin-right: 15px;
     text-align: center;
     text-decoration: none;
+    @include xsmobile {
+      margin-right: 3px;
+    }
     & a {
       font-size: large;
       color: white;
+      @include xsmobile {
+        font-size: 10px;
+      }
       @include tablet {
         font-size: medium;
       }

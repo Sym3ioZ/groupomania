@@ -192,7 +192,7 @@ function UpdatePost() {
                 type="submit"
                 className="button unlocked"
                 value="METTRE A JOUR"
-                id="post"
+                id="postButton"
                 onClick={updatePost}
               />
               <input

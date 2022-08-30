@@ -28,6 +28,9 @@
         color: white;
         transform: scale(1);
         transition: all 150ms ease-out;
+        @include xsmobile {
+          font-size: 18px;
+        }
         @include mobile {
           font-size: 20px;
         }

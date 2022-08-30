@@ -20,6 +20,9 @@
 .maintitle {
   text-align: center;
   margin: 0 0 10px 0;
+  @include xsmobile {
+    font-size: medium;
+  }
   @include mobile {
     font-size: larger;
   }
@@ -60,6 +63,11 @@
     width: 200px;
     height: 60px;
     font-size: 20px;
+  }
+  @include xsmobile {
+    width: 150px;
+    height: 45px;
+    font-size: 16px;
   }
   @include mobile {
     width: 175px;

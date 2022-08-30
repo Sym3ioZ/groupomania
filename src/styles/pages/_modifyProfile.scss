@@ -17,7 +17,7 @@
   }
   &__form {
     margin: 30px 0;
-    width: 66%;
+    width: 80%;
     border: 2px solid $tertiaryColor;
     border-radius: 15px;
     box-shadow: $mediumShadow;
@@ -26,6 +26,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    @include tablet {
+      width: 90%;
+    }
+    @include xsmobile {
+      width: 100%;
+      border: 0 solid black;
+      border-radius: 0;
+      margin: 0;
+    }
     @include mobile {
       width: 100%;
       border: 0 solid black;
@@ -40,6 +49,18 @@
       align-items: center;
       border-top: $dashedBorder;
       margin: 0 0 30px 0;
+      @include xsmobile {
+        margin: 0;
+        height: 300px;
+      }
+      @include mobile {
+        margin: 0;
+      }
+      & .right-inputs {
+        @include xsmobile {
+          margin-bottom: 10px;
+        }
+      }
       & .left-inputs,
       .right-inputs {
         width: 50%;
@@ -48,8 +69,26 @@
         justify-content: center;
         align-items: center;
         font-size: x-large;
+        @include xsmobile {
+          font-size: 12px;
+          height: 100%;
+          & .textarea > input,
+          select {
+            font-size: small;
+          }
+          & select {
+            margin: 0;
+          }
+        }
         @include mobile {
-          font-size: medium;
+          font-size: small;
+          & .textarea > input,
+          select {
+            font-size: small;
+          }
+        }
+        & .textarea > label {
+          width: 100%;
         }
       }
     }
@@ -65,6 +104,12 @@
         font-size: 30px;
         color: white;
         width: 33%;
+        @include xsmobile {
+          font-size: 12px;
+        }
+        @include tablet {
+          font-size: 22px;
+        }
         @include mobile {
           font-size: 14px;
         }
@@ -73,6 +118,12 @@
         font-size: 40px;
         width: 33%;
         color: white;
+        @include xsmobile {
+          font-size: 16px;
+        }
+        @include tablet {
+          font-size: 30px;
+        }
         @include mobile {
           font-size: 20px;
         }
@@ -94,6 +145,14 @@
             border-radius: 50%;
             border: 1px solid grey;
             box-shadow: $lightShadow;
+            @include xsmobile {
+              width: 75px;
+              height: 75px;
+            }
+            @include tablet {
+              width: 150px;
+              height: 150px;
+            }
             @include mobile {
               width: 100px;
               height: 100px;
@@ -110,6 +169,21 @@
     }
   }
 
+  #name {
+    @include xsmobile {
+      margin-bottom: 15px;
+    }
+  }
+  #firstName {
+    @include xsmobile {
+      margin-bottom: 12px;
+    }
+  }
+  .sectorSelect {
+    @include xsmobile {
+      margin-bottom: 8px;
+    }
+  }
   & .buttons {
     width: 66%;
     display: flex;
@@ -117,11 +191,28 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    @include xsmobile {
+      width: 100%;
+    }
+    @include mobile {
+      width: 100%;
+    }
     & #update,
     #delete {
       margin: 25px 0 25px 0;
       font-size: 20px;
       position: relative;
+      @include xsmobile {
+        font-size: 10px;
+        height: 50px;
+        width: 130px;
+      }
+      @include tablet {
+        font-size: 16px;
+      }
+      @include mobile {
+        font-size: 14px;
+      }
     }
     & #delete:hover {
       background: $primaryColor;
@@ -139,5 +230,8 @@
   & .randomBlock {
     width: fit-content;
     height: 20px;
+    @include xsmobile {
+      height: 0px;
+    }
   }
 }
