@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useReducer } from 'react'
 import { Link } from 'react-router-dom'
 import dateFormat from 'dateformat'
 import '../../styles/style.css'
@@ -76,6 +76,39 @@ function Home() {
     return likesCount
   }
 
+  function checkUserLiked(publishId) {
+    if (likes.length > 0) {
+      for (let i = 0; i < likes.length; i++) {
+        if (likes[i].post_id === publishId) {
+          if (likes[i].user_id === userProfile.userId) {
+            return true
+          }
+        }
+      }
+      return false
+    } else return false
+  }
+
+  function heartClick(publishId) {
+    const putOrder = {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+      },
+      body: JSON.stringify({ userId: userProfile.userId, postId: publishId }),
+    }
+    if (checkUserLiked(publishId)) {
+      fetch('http://localhost:3000/api/posts/unlikePost', putOrder)
+        .then((res) => res.json())
+        .catch((err) => console.log(err))
+    } else {
+      fetch('http://localhost:3000/api/posts/likePost', putOrder)
+        .then((res) => res.json())
+        .catch((err) => console.log(err))
+    }
+  }
+
   function picChange(e) {
     let src = URL.createObjectURL(e.target.files[0])
     imagePreview.src = src
@@ -93,8 +126,6 @@ function Home() {
     imageInput.value = ''
     setIsSelected(false)
   }
-
-  async function heartClick(publishId) {}
 
   // POST method to publish a post, then reload page
   async function Post(e) {
@@ -282,7 +313,7 @@ function Home() {
                     <div className="heart-icon">
                       <i
                         className={
-                          publish.likes !== 0
+                          checkUserLiked(publish.id)
                             ? 'fa-regular fa-heart regularOFF'
                             : 'fa-regular fa-heart'
                         }
@@ -290,7 +321,7 @@ function Home() {
                       ></i>
                       <i
                         className={
-                          publish.likes !== 0
+                          checkUserLiked(publish.id)
                             ? 'fa-solid fa-heart solidON'
                             : 'fa-solid fa-heart'
                         }

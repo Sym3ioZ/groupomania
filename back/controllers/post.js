@@ -127,13 +127,12 @@ exports.deletePost = (req, res, next) => {
 }
 
 exports.likePost = (req, res, next) => {
-  const params = req.params.id.replace(/:/g, '')
   connection.query(
-    "UPDATE post SET likes = likes + 1, usersLiked = '" +
-      req.body.newUsersLiked +
-      "' WHERE id ='" +
-      params +
-      "'",
+    "INSERT INTO likes (post_id, user_id) VALUES ('" +
+      req.body.postId +
+      "', '" +
+      req.body.userId +
+      "')",
     function (err, resp) {
       if (err) throw err
       return res.status(200).json({ resp: resp, message: 'post liked !' })
@@ -142,12 +141,11 @@ exports.likePost = (req, res, next) => {
 }
 
 exports.unlikePost = (req, res, next) => {
-  const params = req.params.id.replace(/:/g, '')
   connection.query(
-    "UPDATE post SET likes = likes - 1, usersLiked = '" +
-      req.body.newUsersLiked +
-      "' WHERE id ='" +
-      params +
+    "DELETE FROM likes WHERE user_id = '" +
+      req.body.userId +
+      "' AND post_id = '" +
+      req.body.postId +
       "'",
     function (err, resp) {
       if (err) throw err

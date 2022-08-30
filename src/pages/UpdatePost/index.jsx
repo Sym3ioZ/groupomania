@@ -153,7 +153,7 @@ function UpdatePost() {
                 className="postBlock__textarea"
                 id="text"
                 name="text"
-                rows="5"
+                rows="3"
                 maxLength="500"
                 defaultValue={Post.text}
                 required
