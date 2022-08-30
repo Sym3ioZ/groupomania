@@ -16,6 +16,13 @@ exports.getPosts = (req, res, next) => {
   )
 }
 
+exports.getLikes = (req, res, next) => {
+  connection.query('SELECT * FROM likes', function (err, resp) {
+    if (err) throw err
+    return res.status(200).json({ resp })
+  })
+}
+
 exports.getPost = (req, res, next) => {
   const params = req.params.id.replace(/:/g, '')
   connection.query(

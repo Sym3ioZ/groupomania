@@ -5,6 +5,7 @@ import '../../styles/style.css'
 
 function Home() {
   const [allPosts, setAllPosts] = useState([])
+  const [likes, setLikes] = useState([])
   const [sessionUserId, setSessionUserId] = useState(
     sessionStorage.getItem('userId')
   )
@@ -22,7 +23,7 @@ function Home() {
     fetchProfile()
   }, [sessionUserId])
 
-  // GET every posts
+  // GET every posts and likes table
   useEffect(() => {
     const fetchPosts = async () => {
       const fetchData = await fetch('http://localhost:3000/api/posts', {
@@ -34,7 +35,24 @@ function Home() {
         document.location.assign('/unauthorized')
       }
     }
+
+    const fetchLikes = async () => {
+      const fetchData = await fetch(
+        'http://localhost:3000/api/posts/getLikes',
+        {
+          headers: {
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+          },
+        }
+      )
+      const jsonData = await fetchData.json()
+      setLikes(jsonData.resp)
+      if (jsonData.code === '401') {
+        document.location.assign('/unauthorized')
+      }
+    }
     fetchPosts()
+    fetchLikes()
   }, [])
 
   // Retrieving the selected picture
@@ -45,6 +63,18 @@ function Home() {
   const imagePreview = document.getElementById('imagePreview')
   const cancelButton = document.getElementById('cancelButton')
   const imageInput = document.getElementById('image')
+
+  function checkLikes(publishId) {
+    let likesCount = 0
+    if (likes.length > 0) {
+      for (let i = 0; i < likes.length; i++) {
+        if (likes[i].post_id === publishId) {
+          likesCount = i + 1
+        }
+      }
+    }
+    return likesCount
+  }
 
   function picChange(e) {
     let src = URL.createObjectURL(e.target.files[0])
@@ -269,7 +299,7 @@ function Home() {
                       ></i>
                     </div>
                   </div>
-                  <p id="likesCount">{publish.likes}</p>
+                  <p id="likesCount">{checkLikes(publish.id)}</p>
                   <p>
                     Publié le{' '}
                     {dateFormat(publish.createDate, 'dd/mm/yy à HH:MM')}{' '}
