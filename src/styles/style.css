@@ -341,22 +341,6 @@ p {
   }
 }
 
-@media screen and (min-width: 769px) and (max-width: 900px) {
-  #signup {
-    margin: 0 0 5px 0;
-  }
-}
-@media screen and (max-width: 374px) {
-  #signup {
-    margin: 0 0 5px 0;
-  }
-}
-@media screen and (min-width: 375px) and (max-width: 768px) {
-  #signup {
-    margin: 0 0 5px 0;
-  }
-}
-
 .form-inputs {
   height: 80%;
   font-size: x-large;
@@ -584,7 +568,7 @@ label {
 }
 
 .sectorSelect:after {
-  top: 50%;
+  top: 45%;
   left: 95%;
   border: solid transparent;
   content: " ";
@@ -597,9 +581,17 @@ label {
   border-width: 5px;
   z-index: 100;
 }
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .sectorSelect:after {
+    top: 40%;
+    left: 90%;
+  }
+}
 @media screen and (max-width: 374px) {
   .sectorSelect:after {
+    top: 48%;
     left: 90%;
+    border-width: 4px;
   }
 }
 
@@ -651,15 +643,20 @@ label {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding-top: 10px;
+  padding: 2px 0 4px 0;
   border-top: 2px dashed #ffd7d7;
   font-size: 40px;
   color: #fd2d01;
 }
+@media screen and (min-width: 769px) and (max-width: 900px) {
+  .fullPost__icons {
+    padding: 0;
+  }
+}
 @media screen and (max-width: 374px) {
   .fullPost__icons {
     font-size: 25px;
-    padding-top: 5px;
+    padding: 0;
   }
 }
 @media screen and (min-width: 375px) and (max-width: 768px) {
@@ -667,6 +664,16 @@ label {
     font-size: 30px;
   }
 }
+.fullPost__icons__creatorOnly {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  text-align: right;
+}
 @media screen and (max-width: 374px) {
   .fullPost__icons__creatorOnly {
     width: -webkit-fit-content;
@@ -677,7 +684,6 @@ label {
     justify-content: space-around;
     align-items: center;
     text-align: right;
-    padding-bottom: 5px;
   }
 }
 @media screen and (min-width: 375px) and (max-width: 768px) {
@@ -690,42 +696,62 @@ label {
     justify-content: space-around;
     align-items: center;
     text-align: right;
-    padding-bottom: 5px;
   }
 }
-.fullPost__icons__creatorOnly i {
+.fullPost__icons__creatorOnly #modifyIcon {
   background-color: transparent;
   margin-right: 15px;
   margin-left: 15px;
+  color: #4e5166;
 }
 @media screen and (max-width: 374px) {
-  .fullPost__icons__creatorOnly i {
+  .fullPost__icons__creatorOnly #modifyIcon {
     margin: 0 5px 0 5px;
   }
 }
 @media screen and (min-width: 375px) and (max-width: 768px) {
-  .fullPost__icons__creatorOnly i {
+  .fullPost__icons__creatorOnly #modifyIcon {
     margin: 0 5px 0 5px;
   }
 }
-.fullPost__icons__creatorOnly i:hover {
+.fullPost__icons__creatorOnly #modifyIcon:hover {
+  color: #646883;
+  transform: scale(1);
+  transition: all 150ms ease-out;
+}
+.fullPost__icons__creatorOnly #modifyIcon:hover:hover {
+  cursor: pointer;
+  transform: scale(1.15);
+}
+.fullPost__icons__creatorOnly #deleteIcon {
+  background-color: transparent;
+  margin-right: 15px;
+  margin-left: 15px;
+  color: #fd2d01;
+}
+@media screen and (max-width: 374px) {
+  .fullPost__icons__creatorOnly #deleteIcon {
+    margin: 0 5px 0 5px;
+  }
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .fullPost__icons__creatorOnly #deleteIcon {
+    margin: 0 5px 0 5px;
+  }
+}
+.fullPost__icons__creatorOnly #deleteIcon:hover {
   color: #fe5633;
   transform: scale(1);
   transition: all 150ms ease-out;
 }
-.fullPost__icons__creatorOnly i:hover:hover {
+.fullPost__icons__creatorOnly #deleteIcon:hover:hover {
   cursor: pointer;
   transform: scale(1.15);
-}
-.fullPost__icons__creatorOnly i:first-child {
-  color: #4e5166;
-}
-.fullPost__icons__creatorOnly i:first-child:hover {
-  color: #646883;
 }
 .fullPost__icons__heartBlock {
   display: flex;
   flex-direction: row;
+  padding-top: 6px;
 }
 @media screen and (max-width: 374px) {
   .fullPost__icons__heartBlock {
@@ -999,8 +1025,9 @@ label {
 @media screen and (max-width: 374px) {
   .postBlock__buttons__imageLabel i {
     font-size: 20px;
-    width: 75px;
-    height: 37px;
+    width: 55px;
+    height: 25px;
+    padding-top: 1px;
   }
 }
 @media screen and (min-width: 375px) and (max-width: 768px) {
@@ -1028,7 +1055,7 @@ label {
 }
 @media screen and (max-width: 374px) {
   .postBlock__buttons #post {
-    height: 37px;
+    height: 25px;
   }
 }
 @media screen and (min-width: 375px) and (max-width: 768px) {

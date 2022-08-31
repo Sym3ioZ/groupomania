@@ -24,18 +24,27 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-top: 10px;
+    padding: 2px 0 4px 0;
     border-top: $dashedBorder;
     font-size: 40px;
     color: $primaryColor;
+    @include tablet {
+      padding: 0;
+    }
     @include xsmobile {
       font-size: 25px;
-      padding-top: 5px;
+      padding: 0;
     }
     @include mobile {
       font-size: 30px;
     }
     &__creatorOnly {
+      width: fit-content;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      text-align: right;
       @include xsmobile {
         width: fit-content;
         display: flex;
@@ -43,7 +52,6 @@
         justify-content: space-around;
         align-items: center;
         text-align: right;
-        padding-bottom: 5px;
       }
       @include mobile {
         width: fit-content;
@@ -52,13 +60,34 @@
         justify-content: space-around;
         align-items: center;
         text-align: right;
-        padding-bottom: 5px;
       }
     }
-    &__creatorOnly i {
+    &__creatorOnly #modifyIcon {
       background-color: transparent;
       margin-right: 15px;
       margin-left: 15px;
+      color: $tertiaryColor;
+      @include xsmobile {
+        margin: 0 5px 0 5px;
+      }
+      @include mobile {
+        margin: 0 5px 0 5px;
+      }
+      &:hover {
+        color: lighten($tertiaryColor, 10%);
+        transform: scale(1);
+        transition: all 150ms ease-out;
+        &:hover {
+          cursor: pointer;
+          transform: scale(1.15);
+        }
+      }
+    }
+    &__creatorOnly #deleteIcon {
+      background-color: transparent;
+      margin-right: 15px;
+      margin-left: 15px;
+      color: $primaryColor;
       @include xsmobile {
         margin: 0 5px 0 5px;
       }
@@ -74,16 +103,11 @@
           transform: scale(1.15);
         }
       }
-      &:first-child {
-        color: $tertiaryColor;
-        &:hover {
-          color: lighten($tertiaryColor, 10%);
-        }
-      }
     }
     &__heartBlock {
       display: flex;
       flex-direction: row;
+      padding-top: 6px;
       @include xsmobile {
         align-items: center;
         width: 66%;

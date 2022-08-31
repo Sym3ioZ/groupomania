@@ -1,4 +1,4 @@
-import { useEffect, useState, useReducer } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import dateFormat from 'dateformat'
 import '../../styles/style.css'
@@ -343,25 +343,29 @@ function Home() {
                   style={
                     +sessionUserId === +publish.user_id ||
                     userProfile.role === 'admin'
-                      ? { display: 'block' }
+                      ? { display: 'flex' }
                       : { display: 'none' }
                   }
                 >
                   <Link to={`/updatePost:${publish.id}`}>
                     <i
                       className="fa-solid fa-pen-to-square"
+                      id="modifyIcon"
                       onClick={(e) => {
                         sessionStorage.setItem('postUserId', publish.user_id)
                       }}
                     ></i>
                   </Link>
 
-                  <i
-                    className="fa-solid fa-trash-can"
-                    onClick={(e) => {
-                      deletePost(e, publish.id, publish.imageUrl)
-                    }}
-                  ></i>
+                  <div>
+                    <i
+                      className="fa-solid fa-trash-can"
+                      id="deleteIcon"
+                      onClick={(e) => {
+                        deletePost(e, publish.id, publish.imageUrl)
+                      }}
+                    ></i>
+                  </div>
                 </div>
               </div>
             </div>
