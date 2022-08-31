@@ -102,6 +102,12 @@ exports.deleteProfile = (req, res, next) => {
         "DELETE FROM post WHERE user_id='" + params + "'",
         function (err, resp) {
           if (err) throw err
+          connection.query(
+            "DELETE FROM likes WHERE user_id='" + params + "'",
+            function (err, resp) {
+              if (err) throw err
+            }
+          )
         }
       )
       return res.status(200).json({ code: '200', message: 'User deleted' })
