@@ -133,29 +133,43 @@ exports.deletePost = (req, res, next) => {
 }
 
 exports.likePost = (req, res, next) => {
+  let checkUser = false
   connection.query(
-    "INSERT INTO likes (post_id, user_id) VALUES ('" +
-      req.body.postId +
-      "', '" +
-      req.body.userId +
-      "')",
+    "SELECT * FROM likes WHERE post_id = '" + req.body.postId + "'",
     function (err, resp) {
-      if (err) throw err
-      return res.status(200).json({ resp: resp, message: 'post liked !' })
-    }
-  )
-}
+      if (resp.length > 0) {
+        for (let i = 0; i < resp.length; i++) {
+          if (resp[i].user_id === req.body.userId) {
+            checkUser = true
+          }
+        }
+      }
 
-exports.unlikePost = (req, res, next) => {
-  connection.query(
-    "DELETE FROM likes WHERE user_id = '" +
-      req.body.userId +
-      "' AND post_id = '" +
-      req.body.postId +
-      "'",
-    function (err, resp) {
-      if (err) throw err
-      return res.status(200).json({ resp: resp, message: 'post unliked !' })
+      if (checkUser === true) {
+        connection.query(
+          "DELETE FROM likes WHERE user_id = '" +
+            req.body.userId +
+            "' AND post_id = '" +
+            req.body.postId +
+            "'",
+          function (err, resp) {
+            if (err) throw err
+            return res.status(200).json({ message: 'post unliked !' })
+          }
+        )
+      } else {
+        connection.query(
+          "INSERT INTO likes (post_id, user_id) VALUES ('" +
+            req.body.postId +
+            "', '" +
+            req.body.userId +
+            "')",
+          function (err, resp) {
+            if (err) throw err
+            return res.status(200).json({ message: 'post liked !' })
+          }
+        )
+      }
     }
   )
 }

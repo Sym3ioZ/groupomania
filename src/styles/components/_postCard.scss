@@ -133,7 +133,6 @@
       &__icon:hover {
         cursor: pointer;
         & .heart-icon {
-          animation: heart-rotation 250ms;
           & .fa-regular {
             display: none;
           }
@@ -157,8 +156,8 @@
         & .solidON {
           display: block;
         }
-        transform: rotateY(0deg);
-        transition: all 250ms ease-out;
+        transform: scale(1);
+        transform: translateY(0);
       }
       & p {
         color: $tertiaryColor;

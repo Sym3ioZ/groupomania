@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useReducer } from 'react'
 import { Link } from 'react-router-dom'
 import dateFormat from 'dateformat'
 import '../../styles/style.css'
@@ -6,6 +6,7 @@ import '../../styles/style.css'
 function Home() {
   const [allPosts, setAllPosts] = useState([])
   const [likes, setLikes] = useState([])
+  const [update, forceUpdate] = useReducer((x) => x + 1, 0)
   const [sessionUserId, setSessionUserId] = useState(
     sessionStorage.getItem('userId')
   )
@@ -53,7 +54,7 @@ function Home() {
     }
     fetchPosts()
     fetchLikes()
-  }, [])
+  }, [update])
 
   // Retrieving the selected picture
   const [selectedFile, setSelectedFile] = useState()
@@ -65,28 +66,29 @@ function Home() {
   const imageInput = document.getElementById('image')
 
   function checkLikes(publishId) {
-    let likesCount = 0
+    let likesCounter = 0
     if (likes.length > 0) {
       for (let i = 0; i < likes.length; i++) {
         if (likes[i].post_id === publishId) {
-          likesCount = i + 1
+          likesCounter++
         }
       }
     }
-    return likesCount
+    return likesCounter
   }
 
   function checkUserLiked(publishId) {
+    let checkStatus = false
     if (likes.length > 0) {
       for (let i = 0; i < likes.length; i++) {
         if (likes[i].post_id === publishId) {
           if (likes[i].user_id === userProfile.userId) {
-            return true
+            checkStatus = true
           }
         }
       }
-      return false
-    } else return false
+    }
+    return checkStatus
   }
 
   function heartClick(publishId) {
@@ -98,15 +100,17 @@ function Home() {
       },
       body: JSON.stringify({ userId: userProfile.userId, postId: publishId }),
     }
-    if (checkUserLiked(publishId)) {
-      fetch('http://localhost:3000/api/posts/unlikePost', putOrder)
-        .then((res) => res.json())
-        .catch((err) => console.log(err))
-    } else {
-      fetch('http://localhost:3000/api/posts/likePost', putOrder)
-        .then((res) => res.json())
-        .catch((err) => console.log(err))
-    }
+
+    fetch('http://localhost:3000/api/posts/likePost', putOrder)
+      .then((res) => res.json())
+      .catch((err) => console.log(err))
+
+    document.getElementById(`${publishId}heartIcon`).style.animation =
+      'heart-click 500ms ease-in-out both 1'
+    forceUpdate()
+    window.setTimeout(() => {
+      document.getElementById(`${publishId}heartIcon`).style.animation = ''
+    }, '500')
   }
 
   function picChange(e) {
@@ -310,7 +314,7 @@ function Home() {
               <div className="fullPost__icons">
                 <div className="fullPost__icons__heartBlock">
                   <div className="fullPost__icons__heartBlock__icon">
-                    <div className="heart-icon">
+                    <div className="heart-icon" id={`${publish.id}heartIcon`}>
                       <i
                         className={
                           checkUserLiked(publish.id)
