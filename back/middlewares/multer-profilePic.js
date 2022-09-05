@@ -8,6 +8,9 @@ const MIME_TYPES = {
 }
 
 const storage = multer.diskStorage({
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
   destination: (req, file, callback) => {
     callback(null, 'images/profilePics')
   },

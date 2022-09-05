@@ -2,11 +2,8 @@
   0% {
     transform: scaleX(1) scaleY(1) translateY(0);
   }
-  // 20% {
-  //   transform: scaleX(1.05) scaleY(0.66) translateY(-10px);
-  // }
   33% {
-    transform: scaleX(1.33) scaleY(0.4) translateY(-20px);
+    transform: scaleX(1.33) scaleY(0.4) translateY(-30px);
   }
   45% {
     transform: scaleX(1) scaleY(1) translateY(0);
@@ -22,5 +19,14 @@
   }
   100% {
     transform: translateY(0);
+  }
+}
+
+@keyframes zoom {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
   }
 }

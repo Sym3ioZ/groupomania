@@ -251,6 +251,11 @@
     overflow: hidden;
     position: relative;
     background-color: lighten($secondaryColor, 5%);
+    cursor: pointer;
+    transition: all 200ms;
+    &:hover {
+      opacity: 0.85;
+    }
     &__off {
       display: none;
     }
@@ -263,8 +268,60 @@
       transform: translate(-50%, -50%);
     }
   }
+  & .zoom {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    padding-top: 5px;
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+    &__content {
+      margin: auto;
+      display: block;
+      width: 100%;
+      max-width: 1300px;
+      animation: zoom 400ms;
+    }
+    &__close {
+      position: absolute;
+      top: 15px;
+      left: 5px;
+      color: white;
+      font-size: 28px;
+      transition: all 200ms;
+      @include tablet {
+        top: 95vh;
+        font-size: 25px;
+      }
+      @include mobile {
+        top: 95vh;
+        font-size: 20px;
+      }
+      @include xsmobile {
+        top: 95vh;
+        font-size: 18px;
+      }
+      & i {
+        color: $tertiaryColor;
+        margin-right: 10px;
+        transition: all 200ms;
+      }
+      &:hover,
+      &:focus {
+        & i {
+          color: lighten($color: $tertiaryColor, $amount: 15);
+        }
+        color: lightgray;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    }
+  }
   &__text {
-    text-align: justify;
     margin: 15px;
     font-size: large;
     @include xsmobile {

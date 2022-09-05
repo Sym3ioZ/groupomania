@@ -604,7 +604,7 @@ label {
     transform: scaleX(1) scaleY(1) translateY(0);
   }
   33% {
-    transform: scaleX(1.33) scaleY(0.4) translateY(-20px);
+    transform: scaleX(1.33) scaleY(0.4) translateY(-30px);
   }
   45% {
     transform: scaleX(1) scaleY(1) translateY(0);
@@ -628,7 +628,7 @@ label {
     transform: scaleX(1) scaleY(1) translateY(0);
   }
   33% {
-    transform: scaleX(1.33) scaleY(0.4) translateY(-20px);
+    transform: scaleX(1.33) scaleY(0.4) translateY(-30px);
   }
   45% {
     transform: scaleX(1) scaleY(1) translateY(0);
@@ -644,6 +644,22 @@ label {
   }
   100% {
     transform: translateY(0);
+  }
+}
+@-webkit-keyframes zoom {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes zoom {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
   }
 }
 .fullPost {
@@ -956,6 +972,11 @@ label {
   overflow: hidden;
   position: relative;
   background-color: #fff1f1;
+  cursor: pointer;
+  transition: all 200ms;
+}
+.postCard__image:hover {
+  opacity: 0.85;
 }
 .postCard__image__off {
   display: none;
@@ -969,8 +990,66 @@ label {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.postCard .zoom {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  padding-top: 5px;
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+.postCard .zoom__content {
+  margin: auto;
+  display: block;
+  width: 100%;
+  max-width: 1300px;
+  -webkit-animation: zoom 400ms;
+          animation: zoom 400ms;
+}
+.postCard .zoom__close {
+  position: absolute;
+  top: 15px;
+  left: 5px;
+  color: white;
+  font-size: 28px;
+  transition: all 200ms;
+}
+@media screen and (min-width: 769px) and (max-width: 900px) {
+  .postCard .zoom__close {
+    top: 95vh;
+    font-size: 25px;
+  }
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .postCard .zoom__close {
+    top: 95vh;
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 374px) {
+  .postCard .zoom__close {
+    top: 95vh;
+    font-size: 18px;
+  }
+}
+.postCard .zoom__close i {
+  color: #4e5166;
+  margin-right: 10px;
+  transition: all 200ms;
+}
+.postCard .zoom__close:hover, .postCard .zoom__close:focus {
+  color: lightgray;
+  text-decoration: none;
+  cursor: pointer;
+}
+.postCard .zoom__close:hover i, .postCard .zoom__close:focus i {
+  color: #6f7491;
+}
 .postCard__text {
-  text-align: justify;
   margin: 15px;
   font-size: large;
 }

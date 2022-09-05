@@ -113,6 +113,19 @@ function Home() {
     }, '650')
   }
 
+  function enlargePicture(publishImageUrl) {
+    let zoom = document.getElementById('zoom')
+    let zoomImage = document.getElementById('zoomImage')
+
+    zoom.style.display = 'block'
+    zoomImage.src = publishImageUrl
+    let zoomClose = document.getElementById('zoomClose')
+
+    zoomClose.onclick = function () {
+      zoom.style.display = 'none'
+    }
+  }
+
   function picChange(e) {
     let src = URL.createObjectURL(e.target.files[0])
     imagePreview.src = src
@@ -307,8 +320,20 @@ function Home() {
                       ? 'postCard__image'
                       : 'postCard__image__off'
                   }
+                  onClick={() => enlargePicture(publish.imageUrl)}
                 >
                   <img src={publish.imageUrl} alt="postPicture" />
+                </div>
+                <div id="zoom" className="zoom">
+                  <span className="zoom__close" id="zoomClose">
+                    <i className="fa-solid fa-circle-xmark"></i>
+                    Fermer
+                  </span>
+                  <img
+                    className="zoom__content"
+                    id="zoomImage"
+                    alt="postPicture zoomed"
+                  />
                 </div>
               </div>
               <div className="fullPost__icons">
