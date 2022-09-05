@@ -106,11 +106,11 @@ function Home() {
       .catch((err) => console.log(err))
 
     document.getElementById(`${publishId}heartIcon`).style.animation =
-      'heart-click 500ms ease-in-out both 1'
+      'heart-click 650ms ease-in-out both 1'
     forceUpdate()
     window.setTimeout(() => {
       document.getElementById(`${publishId}heartIcon`).style.animation = ''
-    }, '500')
+    }, '650')
   }
 
   function picChange(e) {

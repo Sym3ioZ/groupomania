@@ -156,7 +156,8 @@
         & .solidON {
           display: block;
         }
-        transform: scale(1);
+        transform: scaleX(1);
+        transform: scaleY(1);
         transform: translateY(0);
       }
       & p {

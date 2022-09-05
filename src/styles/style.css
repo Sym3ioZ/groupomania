@@ -601,24 +601,21 @@ label {
 
 @-webkit-keyframes heart-click {
   0% {
-    transform: scale(1) translateY(0);
+    transform: scaleX(1) scaleY(1) translateY(0);
   }
   33% {
-    transform: scale(1.15) translateY(-10px);
+    transform: scaleX(1.33) scaleY(0.4) translateY(-20px);
   }
   45% {
-    transform: scale(1.15) translateY(-10px);
+    transform: scaleX(1) scaleY(1) translateY(0);
   }
-  50% {
-    transform: scale(1) translateY(0);
-  }
-  66% {
+  60% {
     transform: translateY(-4px);
   }
-  78% {
+  72% {
     transform: translateY(0);
   }
-  90% {
+  87% {
     transform: translateY(-2px);
   }
   100% {
@@ -628,24 +625,21 @@ label {
 
 @keyframes heart-click {
   0% {
-    transform: scale(1) translateY(0);
+    transform: scaleX(1) scaleY(1) translateY(0);
   }
   33% {
-    transform: scale(1.15) translateY(-10px);
+    transform: scaleX(1.33) scaleY(0.4) translateY(-20px);
   }
   45% {
-    transform: scale(1.15) translateY(-10px);
+    transform: scaleX(1) scaleY(1) translateY(0);
   }
-  50% {
-    transform: scale(1) translateY(0);
-  }
-  66% {
+  60% {
     transform: translateY(-4px);
   }
-  78% {
+  72% {
     transform: translateY(0);
   }
-  90% {
+  87% {
     transform: translateY(-2px);
   }
   100% {
@@ -830,7 +824,8 @@ label {
 }
 .fullPost__icons__heartBlock .heart-icon {
   color: #fd2d01;
-  transform: scale(1);
+  transform: scaleX(1);
+  transform: scaleY(1);
   transform: translateY(0);
 }
 .fullPost__icons__heartBlock .heart-icon .fa-regular {
