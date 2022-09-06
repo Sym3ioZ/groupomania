@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useReducer } from 'react'
 import '../../styles/style.css'
 
 function ModifyProfile() {
@@ -7,6 +7,8 @@ function ModifyProfile() {
     sessionStorage.getItem('userId')
   )
   const [userProfile, setUserProfile] = useState([])
+  const [update, forceUpdate] = useReducer((x) => x + 1, 0)
+
   useEffect(() => {
     setSessionUserId(sessionStorage.getItem('userId'))
     const fetchProfile = async () => {
@@ -17,7 +19,7 @@ function ModifyProfile() {
       setUserProfile(jsonData.response[0])
     }
     fetchProfile()
-  }, [sessionUserId])
+  }, [update, sessionUserId])
 
   const userId = userProfile.userId
 
@@ -27,6 +29,7 @@ function ModifyProfile() {
   const [selectedFile, setSelectedFile] = useState()
   const picturePreview = document.getElementById('profileImgPreview')
 
+  // Function to handle the profile picture change
   const picChange = (e) => {
     if (e.target.files.length > 0) {
       let src = URL.createObjectURL(e.target.files[0])
@@ -35,7 +38,7 @@ function ModifyProfile() {
     }
   }
 
-  //Function to delete the profile and the associate posts from the DB
+  //Function to delete the profile and the associate posts and likes from the DB
   async function deleteProfile(e) {
     e.preventDefault()
     if (window.confirm('Etes-vous sûr de vouloir supprimer votre compte?')) {
@@ -61,6 +64,7 @@ function ModifyProfile() {
   // function to update user infos (name,mail,profilepic,...)
   async function updateProfile(e) {
     e.preventDefault()
+
     const oldPwd = document.getElementById('oldPwd').value
     const newPwd = document.getElementById('newPwd').value
     const userName = document.getElementById('name').value
@@ -72,8 +76,11 @@ function ModifyProfile() {
       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/
 
     if (newPwd) {
+      // If a new password has been typed
       if (pwdMask.test(newPwd)) {
+        // Checking password format
         pwdError.textContent = ''
+
         // Declaring formdata to send via fetch
         const formData = new FormData()
         formData.append('image', selectedFile)
@@ -94,6 +101,7 @@ function ModifyProfile() {
           userSector: userSector,
         }
         if (selectedFile) {
+          // If an image has been selected, then set formdata on the post order
           postOrder = {
             method: 'PUT',
             headers: {
@@ -103,6 +111,7 @@ function ModifyProfile() {
           }
         } else {
           postOrder = {
+            // If no image selected, then jsut send inputs string
             method: 'PUT',
             headers: {
               'content-type': 'application/json',
@@ -126,11 +135,11 @@ function ModifyProfile() {
           if (postRes.message === 'User modified') {
             setConfirmMessage('Mise à jour effectuée avec succès!')
             window.setTimeout(() => {
-              window.location.reload()
+              forceUpdate()
             }, '1000')
           } else {
             alert('Erreur serveur interne: veuillez réessayer ou patienter.')
-            window.location.reload()
+            forceUpdate()
           }
         }
       } else {
@@ -138,6 +147,7 @@ function ModifyProfile() {
           'Erreur: 8-15 caractères (Majuscule, minuscule, chiffre, caractère spécial)'
       }
     } else {
+      // If no password change detected
       // Declaring formdata to send via fetch without passwords
       const formData = new FormData()
       formData.append('image', selectedFile)
@@ -177,9 +187,10 @@ function ModifyProfile() {
         .catch((err) => console.log(err))
 
       setConfirmMessage('Mise à jour effectuée avec succès!')
+      forceUpdate()
       window.setTimeout(() => {
-        window.location.reload()
-      }, '1000')
+        setConfirmMessage('')
+      }, '2000')
     }
   }
 

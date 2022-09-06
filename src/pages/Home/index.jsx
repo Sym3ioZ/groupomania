@@ -1,5 +1,4 @@
 import { useEffect, useState, useReducer } from 'react'
-import { Link } from 'react-router-dom'
 import dateFormat from 'dateformat'
 import '../../styles/style.css'
 
@@ -12,6 +11,8 @@ function Home() {
   )
 
   const [userProfile, setUserProfile] = useState([])
+
+  // Retrieving user profile on component load
   useEffect(() => {
     setSessionUserId(sessionStorage.getItem('userId'))
     const fetchProfile = async () => {
@@ -24,7 +25,7 @@ function Home() {
     fetchProfile()
   }, [sessionUserId])
 
-  // GET every posts and likes table
+  // GET every posts and likes
   useEffect(() => {
     const fetchPosts = async () => {
       const fetchData = await fetch('http://localhost:3000/api/posts', {
@@ -56,15 +57,18 @@ function Home() {
     fetchLikes()
   }, [update])
 
-  // Retrieving the selected picture
+  // Retrieving the selected picture and the post block elements
   const [selectedFile, setSelectedFile] = useState()
+  const [selectedUpdateFile, setSelectedUpdateFile] = useState()
   const [isSelected, setIsSelected] = useState(false)
+  const [isUpdateSelected, setIsUpdateSelected] = useState(false)
   const textArea = document.getElementById('text')
   const preview = document.getElementById('picturePreview')
   const imagePreview = document.getElementById('imagePreview')
   const cancelButton = document.getElementById('cancelButton')
   const imageInput = document.getElementById('image')
 
+  // Function to count the number of likes on each post displayed in the page
   function checkLikes(publishId) {
     let likesCounter = 0
     if (likes.length > 0) {
@@ -77,6 +81,7 @@ function Home() {
     return likesCounter
   }
 
+  // Function to check if the connected user has already liked the post
   function checkUserLiked(publishId) {
     let checkStatus = false
     if (likes.length > 0) {
@@ -91,6 +96,7 @@ function Home() {
     return checkStatus
   }
 
+  // Function to handle the click on the like icon
   function heartClick(publishId) {
     const putOrder = {
       method: 'PUT',
@@ -113,6 +119,7 @@ function Home() {
     }, '650')
   }
 
+  // Function to zoom in the post images
   function enlargePicture(publishImageUrl) {
     let zoom = document.getElementById('zoom')
     let zoomImage = document.getElementById('zoomImage')
@@ -126,6 +133,7 @@ function Home() {
     }
   }
 
+  // Function to handle the selection of an image, and display it in a preview block
   function picChange(e) {
     let src = URL.createObjectURL(e.target.files[0])
     imagePreview.src = src
@@ -135,6 +143,22 @@ function Home() {
     setSelectedFile(e.target.files[0])
   }
 
+  // Function to handle the selection of an image while updating a post, and display it in a preview block
+  function updatePicChange(e, publishId) {
+    const updatePreview = document.getElementById(
+      `${publishId}updatePicturePreview`
+    )
+    const updateImagePreview = document.getElementById(
+      `${publishId}updateImagePreview`
+    )
+    let src = URL.createObjectURL(e.target.files[0])
+    updateImagePreview.src = src
+    updatePreview.style.display = 'block'
+    setIsUpdateSelected(true)
+    setSelectedUpdateFile(e.target.files[0])
+  }
+
+  // Function to cancel the post the user was preparing to publish
   function postCancel() {
     preview.style.display = 'none'
     textArea.value = ''
@@ -144,15 +168,33 @@ function Home() {
     setIsSelected(false)
   }
 
-  // POST method to publish a post, then reload page
+  // Function to cancel the update of a post
+  function updatePostCancel(e, publishId, publishImageUrl, publishText) {
+    e.preventDefault()
+    const updatePreview = document.getElementById(
+      `${publishId}updatePicturePreview`
+    )
+    const updateImagePreview = document.getElementById(
+      `${publishId}updateImagePreview`
+    )
+    const updateText = document.getElementById(`${publishId}updateText`)
+    updateImagePreview.src = publishImageUrl
+    updatePreview.style.display = 'none'
+    updateText.value = publishText
+    setIsUpdateSelected(false)
+    document.getElementById(`${publishId}updateBlock`).style.display = 'none'
+  }
+
+  // Function to publish a post
   async function Post(e) {
     e.preventDefault()
 
-    // Declaring formdata to send via fetch
+    // Declaring FormData to send via fetch (especially for the image)
     const formData = new FormData()
     const text = textArea.value
     formData.append('image', selectedFile)
 
+    // Formatting the creation date to store in the DB
     let today = new Date()
     let createDate =
       today.getFullYear() +
@@ -164,6 +206,7 @@ function Home() {
       today.getHours() +
       ':' +
       today.getMinutes()
+
     const inputs = {
       userId: sessionStorage.getItem('userId'),
       text: text,
@@ -175,6 +218,7 @@ function Home() {
     formData.append('createDate', inputs.createDate)
 
     if (isSelected) {
+      // If an image file is added to the post, then sending the whole formdata
       const postOrder = {
         method: 'POST',
         headers: {
@@ -188,6 +232,7 @@ function Home() {
         .catch((err) => console.log(err))
       document.location.assign('/home')
     } else {
+      // If there is no image added, just sending the inputs (userId, text, creteDate)
       const postOrder = {
         method: 'POST',
         headers: {
@@ -201,10 +246,11 @@ function Home() {
       await fetch('http://localhost:3000/api/posts/post', postOrder)
         .then((res) => res.json())
         .catch((err) => console.log(err))
-      document.location.assign('/home')
+      forceUpdate()
     }
   }
 
+  // Function to delete a post
   async function deletePost(e, publishId, postImageUrl) {
     if (
       window.confirm('Etes-vous sûr de vouloir supprimer votre publication?')
@@ -224,75 +270,152 @@ function Home() {
     }
   }
 
+  // Displaying the update block
+  function displayUpdateBlock(publishId, publishImageUrl) {
+    document.getElementById(`${publishId}updateBlock`).style.display = 'flex'
+    if (publishImageUrl) {
+      document.getElementById(
+        `${publishId}updatePicturePreview`
+      ).style.display = 'block'
+    }
+  }
+
+  // UPDATE method to update the post, then reload home
+  async function updatePost(e, publishId, publishImageUrl) {
+    e.preventDefault()
+
+    // Declaring formdata to send via fetch
+    const formData = new FormData()
+    const text = document.getElementById(`${publishId}updateText`).value
+    formData.append('image', selectedUpdateFile)
+
+    const inputs = {
+      userId: sessionStorage.getItem('userId'),
+      imageUrl: publishImageUrl,
+      text: text,
+    }
+
+    formData.append('userId', inputs.userId)
+    formData.append('text', inputs.text)
+    formData.append('imageUrl', inputs.imageUrl)
+
+    if (isUpdateSelected) {
+      const postOrder = {
+        method: 'PUT',
+        headers: {
+          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+        },
+        body: formData,
+      }
+
+      await fetch(
+        `http://localhost:3000/api/posts/updatePost${publishId}`,
+        postOrder
+      )
+        .then((res) => res.json())
+        .catch((err) => console.log(err))
+      setIsUpdateSelected(false)
+      document.getElementById(`${publishId}updateBlock`).style.display = 'none'
+      forceUpdate()
+    } else {
+      const postOrder = {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+        },
+        body: JSON.stringify(inputs),
+      }
+
+      await fetch(
+        `http://localhost:3000/api/posts/updatePost${publishId}`,
+        postOrder
+      )
+        .then((res) => res.json())
+        .catch((err) => console.log(err))
+      setIsUpdateSelected(false)
+      document.getElementById(`${publishId}updateBlock`).style.display = 'none'
+      forceUpdate()
+    }
+  }
+
   return (
     <div className="page">
       <div className="fullPost" id="fullPost-postBlock">
-        <div className="postCard">
-          <div className="postCard__user">
-            <div className="postCard__user__profile">
-              <img
-                src={userProfile.profilePic}
-                alt="profile avatar"
-                className="postCard__user__profile__pic"
-              />
-            </div>{' '}
-            <div className="postCard__user__desc">
-              <div className="postCard__user__desc__name">
-                {userProfile.firstName} {userProfile.name}
+        {' '}
+        {
+          // Displaying the post block with preview
+          <div className="postCard">
+            <div className="postCard__user">
+              <div className="postCard__user__profile">
+                <img
+                  src={userProfile.profilePic}
+                  alt="profile avatar"
+                  className="postCard__user__profile__pic"
+                />
+              </div>{' '}
+              <div className="postCard__user__desc">
+                <div className="postCard__user__desc__name">
+                  {userProfile.firstName} {userProfile.name}
+                </div>
+                <div className="postCard__user__desc__sector">
+                  Secteur: {userProfile.sector}
+                </div>
               </div>
-              <div className="postCard__user__desc__sector">
-                Secteur: {userProfile.sector}
+            </div>
+            <div className="postBlock">
+              <div className="previewBlock">
+                <textarea
+                  className="postBlock__textarea"
+                  id="text"
+                  name="text"
+                  rows="3"
+                  maxLength="500"
+                  placeholder="Exprimez-vous!"
+                  required
+                ></textarea>
+                <div className="picturePreview" id="picturePreview">
+                  <img src="#" id="imagePreview" alt="upload preview" />
+                </div>
+              </div>
+              <div className="postBlock__buttons" id="postBlockButtons">
+                <label
+                  htmlFor="image"
+                  className="postBlock__buttons__imageLabel"
+                >
+                  <i className="fa-solid fa-image"></i>
+                </label>
+                <input
+                  type="file"
+                  name="image"
+                  id="image"
+                  className="image"
+                  accept=".jpg, .jpeg, .png, .gif, .webp"
+                  onChange={picChange}
+                />
+                <input
+                  type="submit"
+                  className="button unlocked"
+                  value="PARTAGER"
+                  id="post"
+                  onClick={Post}
+                />
+                <input
+                  type="submit"
+                  className="button unlocked"
+                  id="cancelButton"
+                  value="ANNULER"
+                  onClick={postCancel}
+                />
               </div>
             </div>
           </div>
-          <div className="postBlock">
-            <div className="previewBlock">
-              <textarea
-                className="postBlock__textarea"
-                id="text"
-                name="text"
-                rows="3"
-                maxLength="500"
-                placeholder="Exprimez-vous!"
-                required
-              ></textarea>
-              <div className="picturePreview" id="picturePreview">
-                <img src="#" id="imagePreview" alt="upload preview" />
-              </div>
-            </div>
-            <div className="postBlock__buttons" id="postBlockButtons">
-              <label htmlFor="image" className="postBlock__buttons__imageLabel">
-                <i className="fa-solid fa-image"></i>
-              </label>
-              <input
-                type="file"
-                name="image"
-                id="image"
-                className="image"
-                accept=".jpg, .jpeg, .png, .gif, .webp"
-                onChange={picChange}
-              />
-              <input
-                type="submit"
-                className="button unlocked"
-                value="PARTAGER"
-                id="post"
-                onClick={Post}
-              />
-              <input
-                type="submit"
-                className="button unlocked"
-                id="cancelButton"
-                value="ANNULER"
-                onClick={postCancel}
-              />
-            </div>
-          </div>
-        </div>
+        }
       </div>
 
       <div className="maincontent">
         {allPosts?.map((publish) => {
+          // Mapping all posts to display them with the same structure
           return (
             <div key={`${publish.id}`} className="fullPost">
               <div className="postCard">
@@ -376,15 +499,115 @@ function Home() {
                       : { display: 'none' }
                   }
                 >
-                  <Link to={`/updatePost:${publish.id}`}>
-                    <i
-                      className="fa-solid fa-pen-to-square"
-                      id="modifyIcon"
-                      onClick={(e) => {
-                        sessionStorage.setItem('postUserId', publish.user_id)
-                      }}
-                    ></i>
-                  </Link>
+                  <i
+                    className="fa-solid fa-pen-to-square"
+                    id="modifyIcon"
+                    onClick={() =>
+                      displayUpdateBlock(publish.id, publish.imageUrl)
+                    }
+                  ></i>
+                  {/* Update block */}
+                  <div className="updateBlock" id={`${publish.id}updateBlock`}>
+                    <div
+                      className="fullPost"
+                      id={`${publish.id}fullPost-postBlock`}
+                    >
+                      <div className="postCard">
+                        <div className="postCard__user">
+                          <div className="postCard__user__profile">
+                            <img
+                              src={userProfile.profilePic}
+                              alt="profile avatar"
+                              className="postCard__user__profile__pic"
+                            />
+                          </div>{' '}
+                          <div className="postCard__user__desc">
+                            <div className="postCard__user__desc__name">
+                              {userProfile.firstName} {userProfile.name}
+                            </div>
+                            <div className="postCard__user__desc__sector">
+                              Secteur: {userProfile.sector}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="postBlock">
+                          <div className="previewBlock">
+                            <textarea
+                              className="postBlock__textarea"
+                              id={`${publish.id}updateText`}
+                              name="text"
+                              rows="3"
+                              maxLength="500"
+                              defaultValue={publish.text}
+                              required
+                            ></textarea>
+                            <div
+                              className="picturePreview"
+                              id={`${publish.id}updatePicturePreview`}
+                              style={
+                                publish.imageUrl
+                                  ? { display: 'block' }
+                                  : { display: 'none' }
+                              }
+                            >
+                              <img
+                                className="imagePreview"
+                                src={publish.imageUrl}
+                                id={`${publish.id}updateImagePreview`}
+                                alt="upload preview"
+                              />
+                            </div>
+                          </div>
+                          <div
+                            className="postBlock__buttons"
+                            id={`${publish.id}postBlockButtons`}
+                          >
+                            <label
+                              htmlFor={`${publish.id}image`}
+                              className="postBlock__buttons__imageLabel"
+                              id={`${publish.id}imageLabel`}
+                            >
+                              <i className="fa-solid fa-image"></i>
+                            </label>
+                            <input
+                              type="file"
+                              name={`${publish.id}image`}
+                              id={`${publish.id}image`}
+                              className="image"
+                              accept=".jpg, .jpeg, .png, .gif, .webp"
+                              onChange={(e) => {
+                                updatePicChange(e, publish.id)
+                              }}
+                            />
+                            <input
+                              type="submit"
+                              className="button unlocked"
+                              value="METTRE A JOUR"
+                              id={`${publish.id}postButton`}
+                              onClick={(e) => {
+                                updatePost(e, publish.id, publish.imageUrl)
+                              }}
+                            />
+                            <input
+                              type="submit"
+                              className="button unlocked"
+                              id={`${publish.id}cancelButton`}
+                              style={{ display: 'block' }}
+                              value="ANNULER"
+                              onClick={(e) =>
+                                updatePostCancel(
+                                  e,
+                                  publish.id,
+                                  publish.imageUrl,
+                                  publish.text
+                                )
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
                   <div>
                     <i

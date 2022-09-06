@@ -4,8 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './styles/style.css'
 import Login from './pages/Login'
 import Home from './pages/Home'
-import Profile from './pages/profile'
-import UpdatePost from './pages/UpdatePost'
 import ModifyProfile from './pages/ModifyProfile'
 import Error from './pages/Error'
 import Unauthorized from './pages/Unauthorized'
@@ -19,8 +17,6 @@ root.render(
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/updatePost:publishId" element={<UpdatePost />} />
       <Route path="/modifyProfile" element={<ModifyProfile />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="*" element={<Error />} />

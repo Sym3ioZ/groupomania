@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const connection = require('../db')
 const fs = require('fs')
 
+// Inserting new user into user table
 exports.signup = (req, res, next) => {
   connection.query(
     "SELECT * FROM user WHERE mail='" + req.body.mail + "'",
@@ -46,6 +47,7 @@ exports.signup = (req, res, next) => {
   )
 }
 
+// Checking user info to log him in
 exports.login = (req, res, next) => {
   connection.query(
     "SELECT * FROM user WHERE mail='" + req.body.mail + "'",
@@ -61,6 +63,7 @@ exports.login = (req, res, next) => {
                 .json({ code: '401', message: 'Invalid password' })
             }
             return res.status(200).json({
+              // Returning code, userId, and token
               code: '200',
               userId: resp[0].userId,
               token: jwt.sign(
@@ -78,6 +81,7 @@ exports.login = (req, res, next) => {
   )
 }
 
+// Retrieving user profile
 exports.getProfile = (req, res, next) => {
   const params = req.params.id.replace(/:/g, '')
   connection.query(
@@ -89,6 +93,7 @@ exports.getProfile = (req, res, next) => {
   )
 }
 
+// Deletes user profile from user table, and all his posts and likes from post and likes tables
 exports.deleteProfile = (req, res, next) => {
   const params = req.params.id.replace(/:/g, '')
   const profilePic = req.body.profilePic
@@ -115,8 +120,10 @@ exports.deleteProfile = (req, res, next) => {
   )
 }
 
+// Updating user profile
 exports.updateProfile = (req, res, next) => {
   if (req.body.newPwd) {
+    // If a new password was entered, checking the old password for security
     connection.query(
       "SELECT * FROM user WHERE userId='" + req.body.userId + "'",
       function (err, resp) {
@@ -129,6 +136,7 @@ exports.updateProfile = (req, res, next) => {
                 .status(401)
                 .json({ code: '401', message: 'Invalid password' })
             } else {
+              // If old password is correct, updating all data
               bcrypt
                 .hash(req.body.newPwd, 10)
                 .then((hash) => {
@@ -191,6 +199,7 @@ exports.updateProfile = (req, res, next) => {
       }
     )
   } else {
+    // If no new passsword, no need to check
     if (req.file) {
       connection.query(
         "UPDATE user SET name='" +

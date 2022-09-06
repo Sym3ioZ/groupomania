@@ -13,6 +13,7 @@ function Login() {
   const [selectedFile, setSelectedFile] = useState()
   const profilePreview = document.getElementById('profilePreview')
 
+  // Function to handle the profile picture change
   const picChange = (e) => {
     if (e.target.files.length > 0) {
       let src = URL.createObjectURL(e.target.files[0])
@@ -20,6 +21,8 @@ function Login() {
       setSelectedFile(e.target.files[0])
     }
   }
+
+  // Function to signup to the app
   async function Signup(e) {
     e.preventDefault()
 
@@ -44,6 +47,7 @@ function Login() {
       const formData = new FormData()
       formData.append('image', selectedFile)
 
+      // Checking the mail and password
       if (mailMask.test(mail)) {
         mailError.textContent = ''
         if (pwdMask.test(pass)) {
@@ -73,11 +77,13 @@ function Login() {
             .then((res) => res.json())
             .catch((error) => console.log(error))
 
+          // Displaying error message for already used mail
           const errors = document.getElementById('errors')
           if (post.code === '401') {
             errors.textContent = 'Erreur: adresse mail déjà enregistrée'
             errors.style.color = 'red'
           }
+
           //Logging in newly created user
           else {
             const orderBody = {
@@ -102,21 +108,26 @@ function Login() {
             document.location.assign('/home')
           }
         } else {
+          // Displaying error message for wrong password format
           pwdError.textContent =
             'invalide: 8 à 15 caractères (majuscule, minuscule, chiffre, caractère spécial)'
           pwdError.style.color = 'red'
         }
       } else {
+        // Displaying error message for wrong mail format
         mailError.textContent = ' invalide: @groupomania.fr uniquement'
       }
     } else {
+      // Displaying error message for missing picture
       picError.textContent = 'Photo obligatoire'
       picError.style.color = 'red'
     }
   }
 
+  // Function to log the user to the app
   async function Logging(e) {
     e.preventDefault()
+
     const mail = document.getElementById('mail-login').value
     const pass = document.getElementById('pwd-login').value
     const inputs = {
@@ -137,14 +148,17 @@ function Login() {
     const pwdErrorMsg = document.getElementById('pwdErrorMessage')
     const mailErrorMsg = document.getElementById('mailErrorMessage')
     if (post.code === '403') {
+      // Error message if invalid mail
       mailErrorMsg.textContent = ' invalide'
       mailErrorMsg.style.color = 'red'
     } else {
       mailErrorMsg.textContent = ''
       if (post.code === '401') {
+        // Error message if invalid password
         pwdErrorMsg.textContent = ' invalide'
         pwdErrorMsg.style.color = 'red'
       } else {
+        // If all is OK, setting the token and userId in the session storage, then go to home
         pwdErrorMsg.textContent = ''
         sessionStorage.setItem('token', post.token)
         sessionStorage.setItem('userId', post.userId)

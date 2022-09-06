@@ -21,6 +21,17 @@ h1 {
   font-size: 30px;
   color: #4e5166;
   font-weight: 900;
+  text-align: center;
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  h1 {
+    font-size: 25px;
+  }
+}
+@media screen and (max-width: 374px) {
+  h1 {
+    font-size: 22px;
+  }
 }
 
 p {
@@ -206,6 +217,17 @@ h1 {
   font-size: 30px;
   color: #4e5166;
   font-weight: 900;
+  text-align: center;
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  h1 {
+    font-size: 25px;
+  }
+}
+@media screen and (max-width: 374px) {
+  h1 {
+    font-size: 22px;
+  }
 }
 
 p {
@@ -895,6 +917,7 @@ label {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background-color: white;
 }
 .postCard__user {
   width: 100%;
@@ -1207,6 +1230,77 @@ label {
   transform: translate(-50%, -50%);
 }
 
+.updateBlock {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  padding-top: 5px;
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+.updateBlock .fullPost {
+  -webkit-animation: zoom 400ms;
+          animation: zoom 400ms;
+}
+.updateBlock .postCard__user__desc {
+  color: black;
+}
+.updateBlock .picturePreview {
+  width: 100%;
+  padding-top: 50%;
+  overflow: hidden;
+  position: relative;
+  background-color: #fff1f1;
+  border-top: 2px dashed #ffd7d7;
+}
+.updateBlock .imagePreview {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.updateBlock .image {
+  display: none;
+  border-radius: 50%;
+}
+@media screen and (max-width: 374px) {
+  .updateBlock .postBlock__buttons__imageLabel > i {
+    width: 45px;
+    height: 25px;
+    font-size: 20px;
+  }
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .updateBlock .postBlock__buttons__imageLabel > i {
+    width: 75px;
+    height: 37px;
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 374px) {
+  .updateBlock .button.unlocked {
+    font-size: 14px;
+    height: 25px;
+    padding: 0 8px;
+  }
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .updateBlock .button.unlocked {
+    font-size: small;
+    height: 37px;
+  }
+}
+
 .profilePage {
   display: flex;
   flex-direction: column;
@@ -1496,46 +1590,6 @@ label {
 @media screen and (max-width: 374px) {
   .profilePage .randomBlock {
     height: 0px;
-  }
-}
-
-.updatePostPage {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding-top: 5vh;
-  height: 95vh;
-}
-
-@media screen and (max-width: 374px) {
-  #imageLabel > i {
-    width: 50px;
-    height: 25px;
-    font-size: 20px;
-  }
-}
-@media screen and (min-width: 375px) and (max-width: 768px) {
-  #imageLabel > i {
-    width: 75px;
-    height: 37px;
-    font-size: 20px;
-  }
-}
-
-@media screen and (max-width: 374px) {
-  #postButton,
-#cancelButton {
-    font-size: smaller;
-    height: 25px;
-  }
-}
-@media screen and (min-width: 375px) and (max-width: 768px) {
-  #postButton,
-#cancelButton {
-    font-size: small;
-    height: 37px;
   }
 }
 

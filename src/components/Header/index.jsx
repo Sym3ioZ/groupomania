@@ -9,6 +9,7 @@ function Header() {
     setUpdate({})
   }, [])
 
+  // Function to scroll to top of page when clicking the home button
   function scrollToHead() {
     window.scrollTo({
       top: 0,
@@ -21,7 +22,8 @@ function Header() {
     <header
       className="navMenu"
       style={
-        window.location.pathname === ('/' || '/error' || '/unauthorized')
+        // Displays the header only if the page is not /
+        window.location.pathname === '/'
           ? { display: 'none' }
           : { display: 'block' }
       }
