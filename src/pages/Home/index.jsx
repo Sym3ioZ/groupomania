@@ -6,15 +6,12 @@ function Home() {
   const [allPosts, setAllPosts] = useState([])
   const [likes, setLikes] = useState([])
   const [update, forceUpdate] = useReducer((x) => x + 1, 0)
-  const [sessionUserId, setSessionUserId] = useState(
-    sessionStorage.getItem('userId')
-  )
+  const sessionUserId = sessionStorage.getItem('userId')
 
   const [userProfile, setUserProfile] = useState([])
 
   // Retrieving user profile on component load
   useEffect(() => {
-    setSessionUserId(sessionStorage.getItem('userId'))
     const fetchProfile = async () => {
       const fetchData = await fetch(
         `http://localhost:3000/api/auth/getProfile:${sessionUserId}`
@@ -104,7 +101,7 @@ function Home() {
         'content-type': 'application/json',
         Authorization: 'Bearer ' + sessionStorage.getItem('token'),
       },
-      body: JSON.stringify({ userId: userProfile.userId, postId: publishId }),
+      body: JSON.stringify({ userId: sessionUserId, postId: publishId }),
     }
 
     fetch('http://localhost:3000/api/posts/likePost', putOrder)
@@ -208,7 +205,7 @@ function Home() {
       today.getMinutes()
 
     const inputs = {
-      userId: sessionStorage.getItem('userId'),
+      userId: sessionUserId,
       text: text,
       createDate: createDate,
     }
@@ -251,14 +248,14 @@ function Home() {
   }
 
   // Function to delete a post
-  async function deletePost(e, publishId, postImageUrl) {
+  async function deletePost(e, publishId, publishImageUrl) {
     if (
       window.confirm('Etes-vous sûr de vouloir supprimer votre publication?')
     ) {
-      const imageUrl = { imageUrl: postImageUrl }
+      const reqBody = { userId: sessionUserId, imageUrl: publishImageUrl }
       await fetch(`http://localhost:3000/api/posts/deletePost:${publishId}`, {
         method: 'DELETE',
-        body: JSON.stringify(imageUrl),
+        body: JSON.stringify(reqBody),
         headers: {
           'content-type': 'application/json',
           Authorization: 'Bearer ' + sessionStorage.getItem('token'),
@@ -290,7 +287,7 @@ function Home() {
     formData.append('image', selectedUpdateFile)
 
     const inputs = {
-      userId: sessionStorage.getItem('userId'),
+      userId: sessionUserId,
       imageUrl: publishImageUrl,
       text: text,
     }

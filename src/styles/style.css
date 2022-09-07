@@ -43,9 +43,19 @@ p {
   z-index: 10;
   background: #4e5166;
   width: 100%;
-  height: 5vh;
+  height: 6vh;
   border-radius: 0 0 40% 40%;
   box-shadow: 0px 2px 10px -2px grey, 0px 2px 10px -2px grey;
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .navMenu {
+    height: 5vh;
+  }
+}
+@media screen and (max-width: 374px) {
+  .navMenu {
+    height: 5vh;
+  }
 }
 .navMenu__icons {
   display: flex;
@@ -94,10 +104,20 @@ footer {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 5vh;
+  height: 6vh;
   border-top: 2px solid #4e5166;
   border-radius: 50% 50% 0 0;
   box-shadow: 0 -3px 5px grey;
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  footer {
+    height: 5vh;
+  }
+}
+@media screen and (max-width: 374px) {
+  footer {
+    height: 5vh;
+  }
 }
 footer .footer-logo {
   width: 33%;
@@ -336,29 +356,28 @@ p {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
-  margin-top: 50px;
+  align-items: flex-start;
   width: 100%;
-  height: 80%;
+  height: 100%;
 }
 .signup-inputs .form-inputs {
   width: 66%;
 }
 @media screen and (min-width: 769px) and (max-width: 900px) {
   .signup-inputs {
-    margin-top: 0;
+    margin-top: 10px;
     height: 90%;
   }
 }
 @media screen and (max-width: 374px) {
   .signup-inputs {
-    margin-top: 0;
+    margin-top: 30px;
     height: 90%;
   }
 }
 @media screen and (min-width: 375px) and (max-width: 768px) {
   .signup-inputs {
-    margin-top: 0;
+    margin-top: 20px;
     height: 90%;
   }
 }
@@ -435,6 +454,7 @@ label {
   display: flex;
   flex-direction: column;
   margin-left: 15px;
+  margin-top: 100px;
   justify-content: space-evenly;
   align-items: center;
   width: 33%;

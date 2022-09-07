@@ -6,9 +6,15 @@
   z-index: 10;
   background: $tertiaryColor;
   width: 100%;
-  height: 5vh;
+  height: 6vh;
   border-radius: 0 0 40% 40%;
   box-shadow: $lightShadow;
+  @include mobile {
+    height: 5vh;
+  }
+  @include xsmobile {
+    height: 5vh;
+  }
   &__icons {
     display: flex;
     flex-direction: row;

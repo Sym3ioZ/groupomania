@@ -145,18 +145,21 @@ exports.deletePost = (req, res, next) => {
 // Adding or removing a like from likes table
 exports.likePost = (req, res, next) => {
   let checkUser = false
+  console.log(req.body)
   connection.query(
     // Checjing if user has already liked the post
     "SELECT * FROM likes WHERE post_id = '" + req.body.postId + "'",
     function (err, resp) {
+      console.log(resp)
       if (resp.length > 0) {
         for (let i = 0; i < resp.length; i++) {
-          if (resp[i].user_id === req.body.userId) {
+          if (+resp[i].user_id === +req.body.userId) {
             checkUser = true
           }
         }
       }
 
+      console.log(checkUser)
       if (checkUser === true) {
         // If user already liked the post, deleting the entry (as unlike)
         connection.query(

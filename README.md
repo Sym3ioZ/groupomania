@@ -1,13 +1,11 @@
-### PROJET 7: Créer un réseau social d'entreprise
+### PROJECT 7: Creation of an internal social network for Groupomania society
 
 ### GROUPOMANIA
 
-### TORTEVOIS Benoit --- projet initié le 5/07/2022
+### TORTEVOIS Benoit --- project initiated on 2022/07/02
 
-Création d'un réseau social interne d'entreprise pour la société Groupomania
-
-Technologies utilisées: ReactJS (application complète), HTML, CSS (préprocesseur SCSS), JavaScript
+Technologies used: ReactJS (complete app), HTML, CSS (SCSS), JavaScript
 
 Node.js + Express
 
-Base de données SQL via système MySQL.
+SQL database with MySQL
