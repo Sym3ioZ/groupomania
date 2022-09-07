@@ -64,7 +64,7 @@ p {
   align-items: center;
 }
 .navMenu__icons__link {
-  margin-top: 5px;
+  margin-top: 8px;
   text-align: center;
 }
 @media screen and (min-width: 769px) and (max-width: 900px) {
@@ -1328,7 +1328,17 @@ label {
   align-items: center;
   width: 100%;
   padding-top: 8vh;
-  height: 95vh;
+  height: 94vh;
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .profilePage {
+    height: 95vh;
+  }
+}
+@media screen and (max-width: 374px) {
+  .profilePage {
+    height: 95vh;
+  }
 }
 .profilePage .confirmMessage {
   width: -webkit-fit-content;
@@ -1637,12 +1647,22 @@ label {
 }
 
 .body {
-  height: 95vh;
+  height: 94vh;
   padding: 20px 0;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .body {
+    height: 95vh;
+  }
+}
+@media screen and (max-width: 374px) {
+  .body {
+    height: 95vh;
+  }
 }
 
 .buttons {

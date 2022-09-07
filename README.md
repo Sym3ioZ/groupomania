@@ -9,3 +9,5 @@ Technologies used: ReactJS (complete app), HTML, CSS (SCSS), JavaScript
 Node.js + Express
 
 SQL database with MySQL
+
+Fully responsive (desktop, tablet, mobile, small mobile)

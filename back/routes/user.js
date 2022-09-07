@@ -8,7 +8,7 @@ const userCtrl = require('../controllers/user')
 router.get('/getProfile:id', userCtrl.getProfile)
 router.post('/login', userCtrl.login)
 router.post('/signup', multerProfile, userCtrl.signup)
-router.delete('/deleteProfile:id', auth, userCtrl.deleteProfile)
+router.delete('/deleteProfile', auth, userCtrl.deleteProfile)
 router.put('/updateProfile', auth, multerProfile, userCtrl.updateProfile)
 
 module.exports = router

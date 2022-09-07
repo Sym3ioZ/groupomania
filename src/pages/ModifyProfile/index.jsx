@@ -3,14 +3,11 @@ import '../../styles/style.css'
 
 function ModifyProfile() {
   //Retrieving userId and then user infos
-  const [sessionUserId, setSessionUserId] = useState(
-    sessionStorage.getItem('userId')
-  )
+  const sessionUserId = sessionStorage.getItem('userId')
   const [userProfile, setUserProfile] = useState([])
   const [update, forceUpdate] = useReducer((x) => x + 1, 0)
 
   useEffect(() => {
-    setSessionUserId(sessionStorage.getItem('userId'))
     const fetchProfile = async () => {
       const fetchData = await fetch(
         `http://localhost:3000/api/auth/getProfile:${sessionUserId}`
@@ -20,8 +17,6 @@ function ModifyProfile() {
     }
     fetchProfile()
   }, [update, sessionUserId])
-
-  const userId = userProfile.userId
 
   const [confirmMessage, setConfirmMessage] = useState('')
 
@@ -42,18 +37,18 @@ function ModifyProfile() {
   async function deleteProfile(e) {
     e.preventDefault()
     if (window.confirm('Etes-vous sûr de vouloir supprimer votre compte?')) {
-      const profilePic = { profilePic: userProfile.profilePic }
-      await fetch(
-        `http://localhost:3000/api/auth/deleteProfile:${userProfile.userId}`,
-        {
-          method: 'DELETE',
-          body: JSON.stringify(profilePic),
-          headers: {
-            'content-type': 'application/json',
-            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
-          },
-        }
-      )
+      const orderBody = {
+        userId: sessionUserId,
+        profilePic: userProfile.profilePic,
+      }
+      await fetch(`http://localhost:3000/api/auth/deleteProfile`, {
+        method: 'DELETE',
+        body: JSON.stringify(orderBody),
+        headers: {
+          'content-type': 'application/json',
+          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+        },
+      })
         .then((res) => res.json())
         .catch((err) => console.log(err))
       sessionStorage.clear()
@@ -84,7 +79,7 @@ function ModifyProfile() {
         // Declaring formdata to send via fetch
         const formData = new FormData()
         formData.append('image', selectedFile)
-        formData.append('userId', userId)
+        formData.append('userId', sessionUserId)
         formData.append('newPwd', newPwd)
         formData.append('oldPwd', oldPwd)
         formData.append('userName', userName)
@@ -93,7 +88,7 @@ function ModifyProfile() {
 
         let postOrder = {}
         const inputs = {
-          userId: userId,
+          userId: sessionUserId,
           newPwd: newPwd,
           oldPwd: oldPwd,
           userName: userName,
@@ -111,7 +106,7 @@ function ModifyProfile() {
           }
         } else {
           postOrder = {
-            // If no image selected, then jsut send inputs string
+            // If no image selected, then just send inputs string
             method: 'PUT',
             headers: {
               'content-type': 'application/json',
@@ -151,14 +146,17 @@ function ModifyProfile() {
       // Declaring formdata to send via fetch without passwords
       const formData = new FormData()
       formData.append('image', selectedFile)
-      formData.append('userId', userId)
+      formData.append('userId', sessionUserId)
       formData.append('userName', userName)
       formData.append('userFirstName', userFirstName)
       formData.append('userSector', userSector)
+      for (let value of formData.values()) {
+        console.log(value)
+      }
 
       let postOrder = {}
       const inputs = {
-        userId: userId,
+        userId: sessionUserId,
         userName: userName,
         userFirstName: userFirstName,
         userSector: userSector,

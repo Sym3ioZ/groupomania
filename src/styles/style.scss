@@ -29,12 +29,18 @@
 }
 
 .body {
-  height: 95vh;
+  height: 94vh;
   padding: 20px 0;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  @include mobile {
+    height: 95vh;
+  }
+  @include xsmobile {
+    height: 95vh;
+  }
 }
 
 .buttons {

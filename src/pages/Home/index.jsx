@@ -227,7 +227,8 @@ function Home() {
       await fetch('http://localhost:3000/api/posts/post', postOrder)
         .then((res) => res.json())
         .catch((err) => console.log(err))
-      document.location.assign('/home')
+      postCancel()
+      forceUpdate()
     } else {
       // If there is no image added, just sending the inputs (userId, text, creteDate)
       const postOrder = {
@@ -238,11 +239,11 @@ function Home() {
         },
         body: JSON.stringify(inputs),
       }
-      console.log(postOrder)
 
       await fetch('http://localhost:3000/api/posts/post', postOrder)
         .then((res) => res.json())
         .catch((err) => console.log(err))
+      postCancel()
       forceUpdate()
     }
   }

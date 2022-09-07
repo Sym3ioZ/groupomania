@@ -34,12 +34,15 @@ function Login() {
     const sector = document.getElementById('sector').value
     const mailError = document.getElementById('mailError')
     const pwdError = document.getElementById('pwdError')
+    const nameError = document.getElementById('nameError')
+    const firstNameError = document.getElementById('firstNameError')
     const picError = document.getElementById('picError')
 
     //Setting up regex masks to check mail and pwd
     const mailMask = /^[a-zA-Z0-9+_.-]+@groupomania.fr$/
     const pwdMask =
       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/
+    const nameMask = /[0-9a-zA-Z]{3,}/
 
     //Checking the presence of a profile picture uploaded by user
     if (selectedFile) {
@@ -52,60 +55,69 @@ function Login() {
         mailError.textContent = ''
         if (pwdMask.test(pass)) {
           pwdError.textContent = ''
-          const inputs = {
-            mail: mail,
-            password: pass,
-            name: name.toUpperCase(),
-            firstName: firstName.charAt(0).toUpperCase() + firstName.slice(1),
-            sector: sector,
-          }
-
-          formData.append('mail', inputs.mail)
-          formData.append('password', inputs.password)
-          formData.append('name', inputs.name)
-          formData.append('firstName', inputs.firstName)
-          formData.append('sector', inputs.sector)
-
-          const postOrder = {
-            method: 'POST',
-            body: formData,
-          }
-          const post = await fetch(
-            'http://localhost:3000/api/auth/signup',
-            postOrder
-          )
-            .then((res) => res.json())
-            .catch((error) => console.log(error))
-
-          // Displaying error message for already used mail
-          const errors = document.getElementById('errors')
-          if (post.code === '401') {
-            errors.textContent = 'Erreur: adresse mail déjà enregistrée'
-            errors.style.color = 'red'
-          }
-
-          //Logging in newly created user
-          else {
-            const orderBody = {
+          if (nameMask.test(name) && nameMask.test(firstName)) {
+            nameError.textContent = ''
+            firstNameError.textContent = ''
+            const inputs = {
               mail: mail,
               password: pass,
+              name: name.toUpperCase(),
+              firstName: firstName.charAt(0).toUpperCase() + firstName.slice(1),
+              sector: sector,
             }
-            const loginOrder = {
+
+            formData.append('mail', inputs.mail)
+            formData.append('password', inputs.password)
+            formData.append('name', inputs.name)
+            formData.append('firstName', inputs.firstName)
+            formData.append('sector', inputs.sector)
+
+            const postOrder = {
               method: 'POST',
-              headers: {
-                'Content-type': 'application/json',
-              },
-              body: JSON.stringify(orderBody),
+              body: formData,
             }
-            const login = await fetch(
-              'http://localhost:3000/api/auth/login',
-              loginOrder
+            const post = await fetch(
+              'http://localhost:3000/api/auth/signup',
+              postOrder
             )
               .then((res) => res.json())
               .catch((error) => console.log(error))
-            sessionStorage.setItem('token', login.token)
-            sessionStorage.setItem('userId', login.userId)
-            document.location.assign('/home')
+
+            // Displaying error message for already used mail
+            const errors = document.getElementById('errors')
+            if (post.code === '401') {
+              errors.textContent = 'Erreur: adresse mail déjà enregistrée'
+              errors.style.color = 'red'
+            }
+            //Logging in newly created user
+            else {
+              const orderBody = {
+                mail: mail,
+                password: pass,
+              }
+              const loginOrder = {
+                method: 'POST',
+                headers: {
+                  'Content-type': 'application/json',
+                },
+                body: JSON.stringify(orderBody),
+              }
+              const login = await fetch(
+                'http://localhost:3000/api/auth/login',
+                loginOrder
+              )
+                .then((res) => res.json())
+                .catch((error) => console.log(error))
+              sessionStorage.setItem('token', login.token)
+              sessionStorage.setItem('userId', login.userId)
+              document.location.assign('/home')
+            }
+          } else {
+            // Displaying error message if name or first name is not at least 3 characters
+            nameError.textContent = '3 caractères minimum'
+            firstNameError.textContent = '3 caractères minimum'
+            nameError.style.color = 'red'
+            firstNameError.style.color = 'red'
           }
         } else {
           // Displaying error message for wrong password format
@@ -116,6 +128,7 @@ function Login() {
       } else {
         // Displaying error message for wrong mail format
         mailError.textContent = ' invalide: @groupomania.fr uniquement'
+        mailError.style.color = 'red'
       }
     } else {
       // Displaying error message for missing picture
@@ -294,11 +307,15 @@ function Login() {
                   />
                 </div>
                 <div className="textarea">
-                  <label htmlFor="name">Nom</label>
+                  <label htmlFor="name">
+                    Nom <span id="nameError"></span>
+                  </label>
                   <input type="text" id="name" name="user_name" required />
                 </div>
                 <div className="textarea">
-                  <label htmlFor="firstName">Prénom</label>
+                  <label htmlFor="firstName">
+                    Prénom <span id="firstNameError"></span>
+                  </label>
                   <input
                     type="text"
                     id="firstName"
