@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import logo from '../../assets/401-error-wordpress-featured-image.jpg'
+import logo from '../../assets/401-error-wordpress-featured-image.webp'
 import '../../styles/style.css'
 
 function Unauthorized() {

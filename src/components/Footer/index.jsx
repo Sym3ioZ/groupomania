@@ -1,4 +1,4 @@
-import logo from '../../assets/lone-logo-white.png'
+import logo from '../../assets/lone-logo-white.webp'
 import '../../styles/style.css'
 
 function Footer() {

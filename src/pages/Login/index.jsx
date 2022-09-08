@@ -1,5 +1,5 @@
-import logo from '../../assets/icon-left-font.png'
-import profileDefaultPic from '../../assets/default.png'
+import logo from '../../assets/icon-left-font.webp'
+import profileDefaultPic from '../../assets/default.webp'
 import { useState } from 'react'
 import '../../styles/style.css'
 
