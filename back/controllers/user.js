@@ -3,6 +3,14 @@ const jwt = require('jsonwebtoken')
 const connection = require('../db')
 const fs = require('fs')
 
+// Retrieving userId from token
+exports.getUserId = (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1] // Retrieves token from headers
+  const decodedToken = jwt.verify(token, process.env.TOKEN_STRING) // Decodes token
+  const userId = decodedToken.userId // Retrieves userId from the token object
+  return res.status(200).json({ userId: userId })
+}
+
 // Inserting new user into user table
 exports.signup = (req, res, next) => {
   connection.query(
@@ -155,6 +163,9 @@ exports.updateProfile = (req, res, next) => {
                 .hash(req.body.newPwd, 10)
                 .then((hash) => {
                   if (req.file) {
+                    const profilePic = req.body.profilePic
+                    const filename = profilePic.split('/profilePics/')[1]
+                    fs.unlink(`images/profilePics/${filename}`, () => {})
                     connection.query(
                       "UPDATE user SET name='" +
                         req.body.userName.toUpperCase() +
@@ -215,6 +226,10 @@ exports.updateProfile = (req, res, next) => {
   } else {
     // If no new passsword, no need to check
     if (req.file) {
+      const profilePic = req.body.profilePic
+      console.log(req.body)
+      const filename = profilePic.split('/profilePics/')[1]
+      fs.unlink(`images/profilePics/${filename}`, () => {})
       connection.query(
         "UPDATE user SET name='" +
           req.body.userName.toUpperCase() +

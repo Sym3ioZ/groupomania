@@ -85,6 +85,7 @@ function ModifyProfile() {
         formData.append('userName', userName)
         formData.append('userFirstName', userFirstName)
         formData.append('userSector', userSector)
+        formData.append('profilePic', userProfile.profilePic)
 
         let postOrder = {}
         const inputs = {
@@ -150,9 +151,7 @@ function ModifyProfile() {
       formData.append('userName', userName)
       formData.append('userFirstName', userFirstName)
       formData.append('userSector', userSector)
-      for (let value of formData.values()) {
-        console.log(value)
-      }
+      formData.append('profilePic', userProfile.profilePic)
 
       let postOrder = {}
       const inputs = {

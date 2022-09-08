@@ -127,12 +127,13 @@ exports.deletePost = (req, res, next) => {
     fs.unlink(`images/postPics/${filename}`, () => {})
   }
   connection.query(
-    "DELETE FROM post WHERE id='" + params + "'",
+    // Also deleting likes associated to that post
+    "DELETE FROM likes WHERE post_id='" + params + "'",
     function (err, resp) {
       if (err) throw err
       connection.query(
-        // Also deleting likes associated to that post
-        "DELETE FROM likes WHERE post_id='" + params + "'",
+        // Deleting post
+        "DELETE FROM post WHERE id='" + params + "'",
         function (err, resp) {
           if (err) throw err
         }

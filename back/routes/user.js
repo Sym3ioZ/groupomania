@@ -5,6 +5,7 @@ const auth = require('../middlewares/auth')
 const multerProfile = require('../middlewares/multer-profilePic')
 const userCtrl = require('../controllers/user')
 
+router.get('/getUserId', userCtrl.getUserId)
 router.get('/getProfile:id', userCtrl.getProfile)
 router.post('/login', userCtrl.login)
 router.post('/signup', multerProfile, userCtrl.signup)

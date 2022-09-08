@@ -264,7 +264,7 @@ function Home() {
       })
         .then((res) => res.json())
         .catch((err) => console.log(err))
-      document.location.assign('/home')
+      forceUpdate()
     }
   }
 
@@ -514,17 +514,17 @@ function Home() {
                         <div className="postCard__user">
                           <div className="postCard__user__profile">
                             <img
-                              src={userProfile.profilePic}
+                              src={publish.profilePic}
                               alt="profile avatar"
                               className="postCard__user__profile__pic"
                             />
                           </div>{' '}
                           <div className="postCard__user__desc">
                             <div className="postCard__user__desc__name">
-                              {userProfile.firstName} {userProfile.name}
+                              {publish.firstName} {publish.name}
                             </div>
                             <div className="postCard__user__desc__sector">
-                              Secteur: {userProfile.sector}
+                              Secteur: {publish.sector}
                             </div>
                           </div>
                         </div>

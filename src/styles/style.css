@@ -1508,6 +1508,8 @@ label {
   border-radius: 50%;
 }
 .profilePage__form__picBlock__icons__imageLabel {
+  width: 175px;
+  height: 175px;
   margin: 10px 0;
   transition: all 150ms ease-out;
   cursor: pointer;
