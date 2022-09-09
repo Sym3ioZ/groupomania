@@ -11,3 +11,11 @@ Node.js + Express
 SQL database with MySQL
 
 Fully responsive (desktop, tablet, mobile, small mobile)
+
+### DEV mode
+
+Start the app:
+
+- Set .env files in / and /back (see .env.example files to edit them)
+- From /back : enter "nodemon server"
+- From / : enter "npm run start"
