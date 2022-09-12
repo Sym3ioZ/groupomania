@@ -24,4 +24,5 @@ Start the app:
 - From /groupomania/back : enter "nodemon server" in terminal
 - From /groupomania : enter "npm run start" terminal
 
-The server should open automatically a window in your internet browser pointing to the right address. If not, run your browser and enter address manually: "http://localhost:4200/"
+The server should open automatically a window in your internet browser pointing to the right address. If not, run your browser and enter address manually:
+"localhost:<YourServerPortFrom.env>/"
