@@ -4,6 +4,8 @@ import '../../styles/style.css'
 
 function Home() {
   const [allPosts, setAllPosts] = useState([])
+  const [allComments, setAllComments] = useState([])
+  const [commentsToggle, setCommentsToggle] = useState(false)
   const [likes, setLikes] = useState([])
   const [update, forceUpdate] = useReducer((x) => x + 1, 0)
   const sessionUserId = sessionStorage.getItem('userId')
@@ -50,8 +52,25 @@ function Home() {
         document.location.assign('/unauthorized')
       }
     }
+
+    const fetchComments = async () => {
+      const fetchData = await fetch(
+        'http://localhost:3000/api/posts/getComments',
+        {
+          headers: {
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+          },
+        }
+      )
+      const jsonData = await fetchData.json()
+      setAllComments(jsonData.resp)
+      if (jsonData.code === '401') {
+        document.location.assign('/unauthorized')
+      }
+    }
     fetchPosts()
     fetchLikes()
+    fetchComments()
   }, [update])
 
   // Retrieving the selected picture and the post block elements
@@ -337,6 +356,65 @@ function Home() {
     }
   }
 
+  function postComment(e, publishId) {
+    e.preventDefault()
+    e.stopPropagation()
+    let comment = document.getElementById(`${publishId}comment`)
+    // If enter is detected, avoid line break and then submit comment
+    comment.onkeydown = function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        console.log('entrée input')
+        // Formatting the creation date to store in the DB
+        let today = new Date()
+        let createDate =
+          today.getFullYear() +
+          '/' +
+          (today.getMonth() + 1) +
+          '/' +
+          today.getDate() +
+          '-' +
+          today.getHours() +
+          ':' +
+          today.getMinutes()
+        const orderBody = {
+          postId: publishId,
+          userId: sessionUserId,
+          text: comment.value,
+          createDate: createDate,
+        }
+        const postOrder = {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+          },
+          body: JSON.stringify(orderBody),
+        }
+
+        fetch('http://localhost:3000/api/posts/postComment', postOrder)
+          .then((res) => res.json())
+          .catch((err) => console.log(err))
+        comment.value = ''
+        forceUpdate()
+      }
+    }
+
+    // Auto resizing textarea height
+    comment.style.height = comment.scrollHeight + 'px'
+  }
+
+  function toggleComments(e, publishId) {
+    const allCommentsBlock = document.getElementById('allCommentsBlock')
+    if (commentsToggle === false) {
+      allCommentsBlock.style.display = 'block'
+      setCommentsToggle(true)
+    } else {
+      allCommentsBlock.style.display = 'none'
+      setCommentsToggle(false)
+    }
+  }
+
   return (
     <div className="page">
       <div className="fullPost" id="fullPost-postBlock">
@@ -618,6 +696,46 @@ function Home() {
                   </div>
                 </div>
               </div>
+              <div className="fullPost__commentsBlock">
+                <form className="fullPost__commentsBlock__postComment">
+                  <textarea
+                    className="postBlock__textarea"
+                    id={`${publish.id}comment`}
+                    name="comment"
+                    maxLength="300"
+                    placeholder="Commentez cette publication"
+                    onInput={(e) => {
+                      postComment(e, publish.id)
+                    }}
+                  ></textarea>
+                </form>
+                <div
+                  className="fullPost__commentsBlock__displayComments"
+                  onClick={(e) => {
+                    toggleComments(e, publish.id)
+                  }}
+                >
+                  <p>
+                    Afficher les commentaires{' '}
+                    <i className="fa-solid fa-caret-down"></i>
+                  </p>
+                </div>
+                <div
+                  className="fullPost__commentsBlock__comments"
+                  id="allCommentsBlock"
+                >
+                  {allComments?.map((comments) => {
+                    // Mapping all comments to display them with the same structure
+                    if (comments.post_id === publish.id) {
+                      return (
+                        <div key={`${comments.commentsId}`}>
+                          <p>{comments.text}</p>
+                        </div>
+                      )
+                    }
+                  })}
+                </div>
+              </div>
             </div>
           )
         })}
@@ -625,5 +743,4 @@ function Home() {
     </div>
   )
 }
-
 export default Home

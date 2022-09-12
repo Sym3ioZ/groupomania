@@ -37,6 +37,17 @@ exports.getPost = (req, res, next) => {
   )
 }
 
+// Sekecting every likes and returning them
+exports.getComments = (req, res, next) => {
+  connection.query(
+    'SELECT * FROM comments JOIN user ON comments.user_id = user.userId ORDER BY createDate DESC',
+    function (err, resp) {
+      if (err) throw err
+      return res.status(200).json({ resp })
+    }
+  )
+}
+
 // Inserting data into a new entry in post table
 exports.sharePost = (req, res, next) => {
   const postText = replaceChars("'", "\\'", req.body.text)
@@ -185,6 +196,25 @@ exports.likePost = (req, res, next) => {
           }
         )
       }
+    }
+  )
+}
+
+exports.postComment = (req, res, next) => {
+  const postText = replaceChars("'", "\\'", req.body.text)
+  connection.query(
+    "INSERT INTO comments (post_id, user_id, text, createDate) VALUES ('" +
+      req.body.postId +
+      "', '" +
+      req.body.userId +
+      "', '" +
+      postText +
+      "', '" +
+      req.body.createDate +
+      "')",
+    function (err, resp) {
+      if (err) throw err
+      return res.status(200).json({ message: 'Comment published !' })
     }
   )
 }

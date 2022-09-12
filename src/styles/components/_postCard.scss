@@ -185,6 +185,31 @@
       }
     }
   }
+  &__commentsBlock {
+    width: 100%;
+    border-top: $dashedBorder;
+    & textarea {
+      margin: 0;
+      height: 26px;
+      padding: 2px 5px;
+      border-bottom: $dashedBorder;
+      overflow-y: hidden;
+    }
+    &__displayComments {
+      width: fit-content;
+      font-size: 18px;
+      padding: 0 0 5px 10px;
+      color: $tertiaryColor;
+      & :hover {
+        cursor: pointer;
+        text-decoration: underline;
+        color: lighten($tertiaryColor, 15%);
+      }
+    }
+    &__comments {
+      display: none;
+    }
+  }
 }
 .postCard {
   width: 100%;
