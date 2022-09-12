@@ -146,6 +146,18 @@
         &__imageLabel {
           width: 175px;
           height: 175px;
+          @include xsmobile {
+            width: 75px;
+            height: 75px;
+          }
+          @include tablet {
+            width: 150px;
+            height: 150px;
+          }
+          @include mobile {
+            width: 100px;
+            height: 100px;
+          }
           &__image {
             width: 175px;
             height: 175px;
@@ -216,7 +228,9 @@
         width: 130px;
       }
       @include tablet {
-        font-size: 16px;
+        font-size: 18px;
+        height: 75px;
+        width: 250px;
       }
       @include mobile {
         font-size: 14px;

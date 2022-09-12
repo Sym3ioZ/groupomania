@@ -1,6 +1,6 @@
 const mysql = require('mysql2')
 
-// Defining connection to the database to use it in each route that nedd it
+// Defining connection to the database to use it in each route that needs it
 function dbConnection() {
   const connection = mysql.createConnection(process.env.DB_CONNECTION_STRING)
 

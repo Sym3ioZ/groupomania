@@ -14,8 +14,14 @@ Fully responsive (desktop, tablet, mobile, small mobile)
 
 ### DEV mode
 
+Set up:
+
+- Create and edit .env file in /groupomania and /groupomania/back (see .env.example files to edit)
+- From /groupomania and /groupomania/back, enter npm install in terminal
+
 Start the app:
 
-- Set .env files in / and /back (see .env.example files to edit them)
-- From /back : enter "nodemon server"
-- From / : enter "npm run start"
+- From /groupomania/back : enter "nodemon server" in terminal
+- From /groupomania : enter "npm run start" terminal
+
+The server should open automatically a window in your internet browser pointing to the right address. If not, run your browser and enter address manually: "http://localhost:4200/"
