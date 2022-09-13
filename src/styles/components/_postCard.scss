@@ -227,6 +227,38 @@
     &__comments {
       display: none;
       transition: all 250ms ease-out;
+      &__unique {
+        border-top: $dashedBorder;
+        display: flex;
+        flex-direction: column;
+        &__userProfile {
+          display: flex;
+          flex-direction: row;
+          background-color: $tertiaryColor;
+          border-radius: 0 0 50% 0;
+          &__pic {
+            margin: 5px 5px 5px 5px;
+            border-radius: 50%;
+            box-shadow: $veryLightShadow;
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+          }
+          &__name {
+            margin-left: 10px;
+            color: white;
+          }
+          &__date {
+            font-style: italic;
+            font-weight: 300;
+            margin-left: 20px;
+            color: lightgrey;
+          }
+        }
+        &__commentText {
+          margin: 5px;
+        }
+      }
     }
   }
 }

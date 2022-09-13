@@ -770,10 +770,33 @@ function Home() {
                 className="fullPost__commentsBlock__comments"
                 id={`${publish.id}allCommentsBlock`}
               >
-                {allComments?.map((comments) => {
+                {allComments?.map((comment) => {
                   // Mapping all comments to display them with the same structure
-                  if (comments.post_id === publish.id) {
-                    return <p key={`${comments.commentsId}`}>{comments.text}</p>
+                  if (comment.post_id === publish.id) {
+                    return (
+                      <div
+                        key={`${comment.commentId}`}
+                        className="fullPost__commentsBlock__comments__unique"
+                      >
+                        <div className="fullPost__commentsBlock__comments__unique__userProfile">
+                          <img
+                            src={comment.profilePic}
+                            className="fullPost__commentsBlock__comments__unique__userProfile__pic"
+                            alt="Commented user profile pic"
+                          />
+                          <p className="fullPost__commentsBlock__comments__unique__userProfile__name">
+                            {comment.firstName} {comment.name} a écrit:
+                          </p>
+                          <p className="fullPost__commentsBlock__comments__unique__userProfile__date">
+                            le{' '}
+                            {dateFormat(comment.createDate, 'dd/mm/yy à HH:MM')}{' '}
+                          </p>
+                        </div>
+                        <p className="fullPost__commentsBlock__comments__unique__commentText">
+                          {comment.text}
+                        </p>
+                      </div>
+                    )
                   }
                 })}
               </div>

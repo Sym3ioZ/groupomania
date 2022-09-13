@@ -980,6 +980,39 @@ label {
   display: none;
   transition: all 250ms ease-out;
 }
+.fullPost__commentsBlock__comments__unique {
+  border-top: 2px dashed #ffd7d7;
+  display: flex;
+  flex-direction: column;
+}
+.fullPost__commentsBlock__comments__unique__userProfile {
+  display: flex;
+  flex-direction: row;
+  background-color: #4e5166;
+  border-radius: 0 0 50% 0;
+}
+.fullPost__commentsBlock__comments__unique__userProfile__pic {
+  margin: 5px 5px 5px 5px;
+  border-radius: 50%;
+  box-shadow: 0px 1px 5px -1px grey, 0px 1px 5px -1px grey;
+  width: 50px;
+  height: 50px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.fullPost__commentsBlock__comments__unique__userProfile__name {
+  margin-left: 10px;
+  color: white;
+}
+.fullPost__commentsBlock__comments__unique__userProfile__date {
+  font-style: italic;
+  font-weight: 300;
+  margin-left: 20px;
+  color: lightgrey;
+}
+.fullPost__commentsBlock__comments__unique__commentText {
+  margin: 5px;
+}
 
 .postCard {
   width: 100%;
