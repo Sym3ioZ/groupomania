@@ -199,15 +199,34 @@
       width: fit-content;
       font-size: 18px;
       padding: 0 0 5px 10px;
+      margin: 5px 0;
       color: $tertiaryColor;
+      transition: all 200ms ease-out;
+      &__OFF {
+        width: fit-content;
+        font-size: 18px;
+        margin: 5px 0;
+        padding: 0 0 5px 10px;
+        color: lightgray;
+        & p {
+          margin: 0;
+        }
+      }
+      & p {
+        margin: 0;
+      }
+      & i {
+        transform: rotateZ(0deg);
+        transition: all 200ms ease-out;
+      }
       & :hover {
         cursor: pointer;
-        text-decoration: underline;
         color: lighten($tertiaryColor, 15%);
       }
     }
     &__comments {
       display: none;
+      transition: all 250ms ease-out;
     }
   }
 }

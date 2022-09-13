@@ -97,6 +97,19 @@ function Home() {
     return likesCounter
   }
 
+  // Function to count the number of likes on each post displayed in the page
+  function checkComments(publishId) {
+    let commentsCounter = 0
+    if (allComments.length > 0) {
+      for (let i = 0; i < allComments.length; i++) {
+        if (allComments[i].post_id === publishId) {
+          commentsCounter++
+        }
+      }
+    }
+    return commentsCounter
+  }
+
   // Function to check if the connected user has already liked the post
   function checkUserLiked(publishId) {
     let checkStatus = false
@@ -221,7 +234,9 @@ function Home() {
       '-' +
       today.getHours() +
       ':' +
-      today.getMinutes()
+      today.getMinutes() +
+      ':' +
+      today.getSeconds()
 
     const inputs = {
       userId: sessionUserId,
@@ -364,7 +379,6 @@ function Home() {
     comment.onkeydown = function (e) {
       if (e.key === 'Enter') {
         e.preventDefault()
-        console.log('entrée input')
         // Formatting the creation date to store in the DB
         let today = new Date()
         let createDate =
@@ -376,7 +390,9 @@ function Home() {
           '-' +
           today.getHours() +
           ':' +
-          today.getMinutes()
+          today.getMinutes() +
+          ':' +
+          today.getSeconds()
         const orderBody = {
           postId: publishId,
           userId: sessionUserId,
@@ -397,6 +413,7 @@ function Home() {
           .catch((err) => console.log(err))
         comment.value = ''
         forceUpdate()
+        if (commentsToggle === false) toggleComments(publishId)
       }
     }
 
@@ -404,12 +421,17 @@ function Home() {
     comment.style.height = comment.scrollHeight + 'px'
   }
 
-  function toggleComments(e, publishId) {
-    const allCommentsBlock = document.getElementById('allCommentsBlock')
+  function toggleComments(publishId) {
+    const allCommentsBlock = document.getElementById(
+      `${publishId}allCommentsBlock`
+    )
+    let arrow = document.getElementById(`${publishId}commentArrow`)
     if (commentsToggle === false) {
+      arrow.style.transform = 'rotateZ(180deg)'
       allCommentsBlock.style.display = 'block'
       setCommentsToggle(true)
     } else {
+      arrow.style.transform = 'rotateZ(0deg)'
       allCommentsBlock.style.display = 'none'
       setCommentsToggle(false)
     }
@@ -696,6 +718,7 @@ function Home() {
                   </div>
                 </div>
               </div>
+
               <div className="fullPost__commentsBlock">
                 <form className="fullPost__commentsBlock__postComment">
                   <textarea
@@ -710,31 +733,49 @@ function Home() {
                   ></textarea>
                 </form>
                 <div
-                  className="fullPost__commentsBlock__displayComments"
+                  className={
+                    checkComments(publish.id) > 0
+                      ? 'fullPost__commentsBlock__displayComments'
+                      : 'fullPost__commentsBlock__displayComments__OFF'
+                  }
                   onClick={(e) => {
-                    toggleComments(e, publish.id)
+                    toggleComments(publish.id)
                   }}
                 >
-                  <p>
-                    Afficher les commentaires{' '}
-                    <i className="fa-solid fa-caret-down"></i>
+                  <p
+                    style={
+                      checkComments(publish.id) > 0
+                        ? { display: 'block' }
+                        : { display: 'none' }
+                    }
+                  >
+                    Afficher les {checkComments(publish.id)} commentaires{' '}
+                    <i
+                      className="fa-solid fa-caret-down"
+                      id={`${publish.id}commentArrow`}
+                    ></i>
+                  </p>
+                  <p
+                    style={
+                      checkComments(publish.id) === 0
+                        ? { display: 'block' }
+                        : { display: 'none' }
+                    }
+                  >
+                    Aucun commentaire
                   </p>
                 </div>
-                <div
-                  className="fullPost__commentsBlock__comments"
-                  id="allCommentsBlock"
-                >
-                  {allComments?.map((comments) => {
-                    // Mapping all comments to display them with the same structure
-                    if (comments.post_id === publish.id) {
-                      return (
-                        <div key={`${comments.commentsId}`}>
-                          <p>{comments.text}</p>
-                        </div>
-                      )
-                    }
-                  })}
-                </div>
+              </div>
+              <div
+                className="fullPost__commentsBlock__comments"
+                id={`${publish.id}allCommentsBlock`}
+              >
+                {allComments?.map((comments) => {
+                  // Mapping all comments to display them with the same structure
+                  if (comments.post_id === publish.id) {
+                    return <p key={`${comments.commentsId}`}>{comments.text}</p>
+                  }
+                })}
               </div>
             </div>
           )

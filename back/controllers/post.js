@@ -161,7 +161,6 @@ exports.likePost = (req, res, next) => {
     // Checjing if user has already liked the post
     "SELECT * FROM likes WHERE post_id = '" + req.body.postId + "'",
     function (err, resp) {
-      console.log(resp)
       if (resp.length > 0) {
         for (let i = 0; i < resp.length; i++) {
           if (+resp[i].user_id === +req.body.userId) {

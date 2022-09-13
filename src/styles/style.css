@@ -949,15 +949,36 @@ label {
   width: fit-content;
   font-size: 18px;
   padding: 0 0 5px 10px;
+  margin: 5px 0;
   color: #4e5166;
+  transition: all 200ms ease-out;
+}
+.fullPost__commentsBlock__displayComments__OFF {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 18px;
+  margin: 5px 0;
+  padding: 0 0 5px 10px;
+  color: lightgray;
+}
+.fullPost__commentsBlock__displayComments__OFF p {
+  margin: 0;
+}
+.fullPost__commentsBlock__displayComments p {
+  margin: 0;
+}
+.fullPost__commentsBlock__displayComments i {
+  transform: rotateZ(0deg);
+  transition: all 200ms ease-out;
 }
 .fullPost__commentsBlock__displayComments :hover {
   cursor: pointer;
-  text-decoration: underline;
   color: #6f7491;
 }
 .fullPost__commentsBlock__comments {
   display: none;
+  transition: all 250ms ease-out;
 }
 
 .postCard {
