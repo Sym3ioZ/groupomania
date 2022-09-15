@@ -429,10 +429,14 @@ function Home() {
     if (commentsToggle === false) {
       arrow.style.transform = 'rotateZ(180deg)'
       allCommentsBlock.style.display = 'block'
+      allCommentsBlock.style.animation = 'displayComments 200ms both ease-out'
       setCommentsToggle(true)
     } else {
       arrow.style.transform = 'rotateZ(0deg)'
-      allCommentsBlock.style.display = 'none'
+      allCommentsBlock.style.animation = 'hideComments 200ms both ease-out'
+      window.setTimeout(() => {
+        allCommentsBlock.style.display = 'none'
+      }, 210)
       setCommentsToggle(false)
     }
   }

@@ -30,3 +30,25 @@
     transform: scale(1);
   }
 }
+
+@keyframes displayComments {
+  from {
+    height: 0;
+    transform: scaleY(0);
+  }
+  to {
+    height: auto;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes hideComments {
+  from {
+    height: auto;
+    transform: scaleY(1);
+  }
+  to {
+    height: 0;
+    transform: scaleY(0);
+  }
+}
