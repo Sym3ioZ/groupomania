@@ -101,7 +101,7 @@ exports.getProfile = (req, res, next) => {
   )
 }
 
-// Deletes user profile from user table, and all his posts and likes from post and likes tables
+// Deletes user profile from user table, and all his posts, comments and likes from post, comments and likes tables
 exports.deleteProfile = (req, res, next) => {
   const profilePic = req.body.profilePic
   const filename = profilePic.split('/profilePics/')[1]
@@ -111,26 +111,32 @@ exports.deleteProfile = (req, res, next) => {
     function (err, resp) {
       if (err) throw err
       connection.query(
-        "SELECT * FROM post WHERE user_id='" + req.body.userId + "'",
+        "DELETE FROM comments WHERE user_id='" + req.body.userId + "'",
         function (err, resp) {
           if (err) throw err
-          if (resp.length > 0) {
-            for (let i = 0; i < resp.length; i++) {
-              let postPic = resp[i].imageUrl
-              if (postPic) {
-                let postFilename = postPic.split('/postPics/')[1]
-                fs.unlink(`images/postPics/${postFilename}`, () => {})
-              }
-            }
-          }
           connection.query(
-            "DELETE FROM post WHERE user_id='" + req.body.userId + "'",
+            "SELECT * FROM post WHERE user_id='" + req.body.userId + "'",
             function (err, resp) {
               if (err) throw err
+              if (resp.length > 0) {
+                for (let i = 0; i < resp.length; i++) {
+                  let postPic = resp[i].imageUrl
+                  if (postPic) {
+                    let postFilename = postPic.split('/postPics/')[1]
+                    fs.unlink(`images/postPics/${postFilename}`, () => {})
+                  }
+                }
+              }
               connection.query(
-                "DELETE FROM user WHERE userId='" + req.body.userId + "'",
+                "DELETE FROM post WHERE user_id='" + req.body.userId + "'",
                 function (err, resp) {
                   if (err) throw err
+                  connection.query(
+                    "DELETE FROM user WHERE userId='" + req.body.userId + "'",
+                    function (err, resp) {
+                      if (err) throw err
+                    }
+                  )
                 }
               )
             }

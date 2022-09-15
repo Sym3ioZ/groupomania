@@ -138,17 +138,24 @@ exports.deletePost = (req, res, next) => {
     fs.unlink(`images/postPics/${filename}`, () => {})
   }
   connection.query(
-    // Also deleting likes associated to that post
+    // Also deleting comments and likes associated to that post
     "DELETE FROM likes WHERE post_id='" + params + "'",
     function (err, resp) {
       if (err) throw err
       connection.query(
-        // Deleting post
-        "DELETE FROM post WHERE id='" + params + "'",
+        "DELETE FROM comments WHERE post_id='" + params + "'",
         function (err, resp) {
           if (err) throw err
+          connection.query(
+            // Deleting post
+            "DELETE FROM post WHERE id='" + params + "'",
+            function (err, resp) {
+              if (err) throw err
+            }
+          )
         }
       )
+
       return res.status(200).json({ message: 'Post deleted' })
     }
   )
