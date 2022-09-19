@@ -313,6 +313,29 @@
             font-size: 14px;
           }
         }
+        &__icons {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          & .fullPost__icons__creatorOnly {
+            width: fit-content;
+            border-top: solid 2px $secondaryColor;
+            border-right: solid 2px $secondaryColor;
+            border-radius: 0 20px 0 0;
+            padding: 7px 0 7px 0;
+            & i {
+              font-size: 24px;
+            }
+          }
+          & span {
+            margin: 0 10px;
+            font-size: 18px;
+            font-weight: 300;
+            font-style: italic;
+            color: $tertiaryColor;
+          }
+        }
       }
     }
   }

@@ -1134,6 +1134,31 @@ label {
     font-size: 14px;
   }
 }
+.fullPost__commentsBlock__comments__unique__icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.fullPost__commentsBlock__comments__unique__icons .fullPost__icons__creatorOnly {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  border-top: solid 2px #ffd7d7;
+  border-right: solid 2px #ffd7d7;
+  border-radius: 0 20px 0 0;
+  padding: 7px 0 7px 0;
+}
+.fullPost__commentsBlock__comments__unique__icons .fullPost__icons__creatorOnly i {
+  font-size: 24px;
+}
+.fullPost__commentsBlock__comments__unique__icons span {
+  margin: 0 10px;
+  font-size: 18px;
+  font-weight: 300;
+  font-style: italic;
+  color: #4e5166;
+}
 
 .postCard {
   width: 100%;

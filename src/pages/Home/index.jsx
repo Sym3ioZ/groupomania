@@ -819,6 +819,35 @@ function Home() {
                         <p className="fullPost__commentsBlock__comments__unique__commentText">
                           {comment.text}
                         </p>
+                        <div className="fullPost__commentsBlock__comments__unique__icons">
+                          <div
+                            className="fullPost__icons__creatorOnly"
+                            style={
+                              +sessionUserId === +comment.user_id ||
+                              userProfile.role === 'admin'
+                                ? { display: 'flex' }
+                                : { display: 'none' }
+                            }
+                          >
+                            <i
+                              className="fa-solid fa-pen-to-square"
+                              id="modifyIcon"
+                              onClick={() =>
+                                displayUpdateBlock(publish.id, publish.imageUrl)
+                              }
+                            ></i>
+                            <div>
+                              <i
+                                className="fa-solid fa-trash-can"
+                                id="deleteIcon"
+                                onClick={(e) => {
+                                  deletePost(e, publish.id, publish.imageUrl)
+                                }}
+                              ></i>
+                            </div>
+                          </div>
+                          <span>(Modifié)</span>
+                        </div>
                       </div>
                     )
                   }
