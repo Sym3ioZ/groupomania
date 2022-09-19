@@ -16,7 +16,7 @@ function Home() {
   useEffect(() => {
     const fetchProfile = async () => {
       const fetchData = await fetch(
-        `http://localhost:3000/api/auth/getProfile:${sessionUserId}`
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/auth/getProfile:${sessionUserId}`
       )
       const jsonData = await fetchData.json()
       setUserProfile(jsonData.response[0])
@@ -27,9 +27,14 @@ function Home() {
   // GET every posts and likes
   useEffect(() => {
     const fetchPosts = async () => {
-      const fetchData = await fetch('http://localhost:3000/api/posts', {
-        headers: { Authorization: 'Bearer ' + sessionStorage.getItem('token') },
-      })
+      const fetchData = await fetch(
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts`,
+        {
+          headers: {
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+          },
+        }
+      )
       const jsonData = await fetchData.json()
       setAllPosts(jsonData.resp)
       if (jsonData.code === '401') {
@@ -39,7 +44,7 @@ function Home() {
 
     const fetchLikes = async () => {
       const fetchData = await fetch(
-        'http://localhost:3000/api/posts/getLikes',
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/getLikes`,
         {
           headers: {
             Authorization: 'Bearer ' + sessionStorage.getItem('token'),
@@ -55,7 +60,7 @@ function Home() {
 
     const fetchComments = async () => {
       const fetchData = await fetch(
-        'http://localhost:3000/api/posts/getComments',
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/getComments`,
         {
           headers: {
             Authorization: 'Bearer ' + sessionStorage.getItem('token'),
@@ -136,7 +141,10 @@ function Home() {
       body: JSON.stringify({ userId: sessionUserId, postId: publishId }),
     }
 
-    fetch('http://localhost:3000/api/posts/likePost', putOrder)
+    fetch(
+      `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/likePost`,
+      putOrder
+    )
       .then((res) => res.json())
       .catch((err) => console.log(err))
 
@@ -258,7 +266,10 @@ function Home() {
         body: formData,
       }
 
-      await fetch('http://localhost:3000/api/posts/post', postOrder)
+      await fetch(
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/post`,
+        postOrder
+      )
         .then((res) => res.json())
         .catch((err) => console.log(err))
       postCancel()
@@ -274,7 +285,10 @@ function Home() {
         body: JSON.stringify(inputs),
       }
 
-      await fetch('http://localhost:3000/api/posts/post', postOrder)
+      await fetch(
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/post`,
+        postOrder
+      )
         .then((res) => res.json())
         .catch((err) => console.log(err))
       postCancel()
@@ -288,14 +302,17 @@ function Home() {
       window.confirm('Etes-vous sûr de vouloir supprimer votre publication?')
     ) {
       const reqBody = { userId: sessionUserId, imageUrl: publishImageUrl }
-      await fetch(`http://localhost:3000/api/posts/deletePost:${publishId}`, {
-        method: 'DELETE',
-        body: JSON.stringify(reqBody),
-        headers: {
-          'content-type': 'application/json',
-          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
-        },
-      })
+      await fetch(
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/deletePost:${publishId}`,
+        {
+          method: 'DELETE',
+          body: JSON.stringify(reqBody),
+          headers: {
+            'content-type': 'application/json',
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+          },
+        }
+      )
         .then((res) => res.json())
         .catch((err) => console.log(err))
       forceUpdate()
@@ -341,7 +358,7 @@ function Home() {
       }
 
       await fetch(
-        `http://localhost:3000/api/posts/updatePost${publishId}`,
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/updatePost${publishId}`,
         postOrder
       )
         .then((res) => res.json())
@@ -360,7 +377,7 @@ function Home() {
       }
 
       await fetch(
-        `http://localhost:3000/api/posts/updatePost${publishId}`,
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/updatePost${publishId}`,
         postOrder
       )
         .then((res) => res.json())
@@ -408,7 +425,10 @@ function Home() {
           body: JSON.stringify(orderBody),
         }
 
-        fetch('http://localhost:3000/api/posts/postComment', postOrder)
+        fetch(
+          `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/postComment`,
+          postOrder
+        )
           .then((res) => res.json())
           .catch((err) => console.log(err))
         comment.value = ''

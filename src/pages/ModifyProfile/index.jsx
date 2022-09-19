@@ -10,7 +10,7 @@ function ModifyProfile() {
   useEffect(() => {
     const fetchProfile = async () => {
       const fetchData = await fetch(
-        `http://localhost:3000/api/auth/getProfile:${sessionUserId}`
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/auth/getProfile:${sessionUserId}`
       )
       const jsonData = await fetchData.json()
       setUserProfile(jsonData.response[0])
@@ -41,14 +41,17 @@ function ModifyProfile() {
         userId: sessionUserId,
         profilePic: userProfile.profilePic,
       }
-      await fetch(`http://localhost:3000/api/auth/deleteProfile`, {
-        method: 'DELETE',
-        body: JSON.stringify(orderBody),
-        headers: {
-          'content-type': 'application/json',
-          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
-        },
-      })
+      await fetch(
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/auth/deleteProfile`,
+        {
+          method: 'DELETE',
+          body: JSON.stringify(orderBody),
+          headers: {
+            'content-type': 'application/json',
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+          },
+        }
+      )
         .then((res) => res.json())
         .catch((err) => console.log(err))
       sessionStorage.clear()
@@ -118,7 +121,7 @@ function ModifyProfile() {
         }
 
         const postRes = await fetch(
-          'http://localhost:3000/api/auth/updateProfile',
+          `http://localhost:${process.env.REACT_APP_PORT_API}/api/auth/updateProfile`,
           postOrder
         )
           .then((res) => res.json())
@@ -179,7 +182,10 @@ function ModifyProfile() {
         }
       }
 
-      await fetch('http://localhost:3000/api/auth/updateProfile', postOrder)
+      await fetch(
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/auth/updateProfile`,
+        postOrder
+      )
         .then((res) => res.json())
         .catch((err) => console.log(err))
 

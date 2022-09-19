@@ -77,7 +77,7 @@ function Login() {
               body: formData,
             }
             const post = await fetch(
-              'http://localhost:3000/api/auth/signup',
+              `http://localhost:${process.env.REACT_APP_PORT_API}/api/auth/signup`,
               postOrder
             )
               .then((res) => res.json())
@@ -103,7 +103,7 @@ function Login() {
                 body: JSON.stringify(orderBody),
               }
               const login = await fetch(
-                'http://localhost:3000/api/auth/login',
+                `http://localhost:${process.env.REACT_APP_PORT_API}/api/auth/login`,
                 loginOrder
               )
                 .then((res) => res.json())
@@ -154,7 +154,10 @@ function Login() {
       },
       body: JSON.stringify(inputs),
     }
-    const post = await fetch('http://localhost:3000/api/auth/login', postOrder)
+    const post = await fetch(
+      `http://localhost:${process.env.REACT_APP_PORT_API}/api/auth/login`,
+      postOrder
+    )
       .then((res) => res.json())
       .catch((error) => console.log(error))
 
