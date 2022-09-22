@@ -224,3 +224,15 @@ exports.postComment = (req, res, next) => {
     }
   )
 }
+
+exports.deleteComment = (req, res, next) => {
+  const params = req.params.id.replace(/:/g, '')
+
+  connection.query(
+    "DELETE FROM comments WHERE commentId = '" + params + "'",
+    function (err, resp) {
+      if (err) throw err
+      return res.status(200).json({ message: 'Comment deleted !' })
+    }
+  )
+}

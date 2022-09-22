@@ -832,6 +832,8 @@ label {
   margin-right: 15px;
   margin-left: 15px;
   color: #4e5166;
+  transform: scale(1);
+  transition: all 150ms ease-out;
 }
 @media screen and (max-width: 374px) {
   .fullPost__icons__creatorOnly #modifyIcon {
@@ -845,10 +847,6 @@ label {
 }
 .fullPost__icons__creatorOnly #modifyIcon:hover {
   color: #646883;
-  transform: scale(1);
-  transition: all 150ms ease-out;
-}
-.fullPost__icons__creatorOnly #modifyIcon:hover:hover {
   cursor: pointer;
   transform: scale(1.15);
 }
@@ -857,6 +855,8 @@ label {
   margin-right: 15px;
   margin-left: 15px;
   color: #fd2d01;
+  transform: scale(1);
+  transition: all 150ms ease-out;
 }
 @media screen and (max-width: 374px) {
   .fullPost__icons__creatorOnly #deleteIcon {
@@ -870,10 +870,6 @@ label {
 }
 .fullPost__icons__creatorOnly #deleteIcon:hover {
   color: #fe5633;
-  transform: scale(1);
-  transition: all 150ms ease-out;
-}
-.fullPost__icons__creatorOnly #deleteIcon:hover:hover {
   cursor: pointer;
   transform: scale(1.15);
 }
@@ -977,11 +973,26 @@ label {
   width: 100%;
   border-top: 2px dashed #ffd7d7;
 }
+.fullPost__commentsBlock__postComment {
+  padding: 5px 5px 5px 0;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 2px dashed #ffd7d7;
+  background-color: #fff6f6;
+}
+.fullPost__commentsBlock .button {
+  width: 75px;
+  height: 50px;
+  margin: 0;
+  box-shadow: none;
+}
+.fullPost__commentsBlock .button i {
+  font-size: 28px;
+  color: white;
+}
 .fullPost__commentsBlock textarea {
   margin: 0;
-  height: 26px;
   padding: 2px 5px;
-  border-bottom: 2px dashed #ffd7d7;
   overflow-y: hidden;
 }
 @media screen and (min-width: 769px) and (max-width: 900px) {
@@ -1051,7 +1062,6 @@ label {
   transition: all 250ms ease-out;
 }
 .fullPost__commentsBlock__comments__unique {
-  border-top: 2px dashed #ffd7d7;
   display: flex;
   flex-direction: column;
 }
@@ -1121,43 +1131,77 @@ label {
   }
 }
 .fullPost__commentsBlock__comments__unique__commentText {
+  display: flex;
+  flex-direction: row;
+}
+.fullPost__commentsBlock__comments__unique__commentText p {
   border-top: 2px dashed #ffd7d7;
-  margin: 0px 5px 5px 5px;
+  margin: 0px 0px 5px 5px;
+  width: 100%;
 }
 @media screen and (min-width: 375px) and (max-width: 768px) {
-  .fullPost__commentsBlock__comments__unique__commentText {
+  .fullPost__commentsBlock__comments__unique__commentText p {
     font-size: 16px;
   }
 }
 @media screen and (max-width: 374px) {
-  .fullPost__commentsBlock__comments__unique__commentText {
+  .fullPost__commentsBlock__comments__unique__commentText p {
     font-size: 14px;
   }
 }
-.fullPost__commentsBlock__comments__unique__icons {
+.fullPost__commentsBlock__comments__unique__commentText__creator {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  margin-left: 5px;
+  border-left: 2px dashed #ffd7d7;
+  border-top: 2px dashed #ffd7d7;
+  background-color: rgb(235, 235, 235);
 }
-.fullPost__commentsBlock__comments__unique__icons .fullPost__icons__creatorOnly {
+.fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  border-top: solid 2px #ffd7d7;
-  border-right: solid 2px #ffd7d7;
-  border-radius: 0 20px 0 0;
-  padding: 7px 0 7px 0;
 }
-.fullPost__commentsBlock__comments__unique__icons .fullPost__icons__creatorOnly i {
+.fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly i {
   font-size: 24px;
 }
-.fullPost__commentsBlock__comments__unique__icons span {
+.fullPost__commentsBlock__comments__unique__icons {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px dashed #ffd7d7;
+  background-color: rgb(235, 235, 235);
+}
+.fullPost__commentsBlock__comments__unique__icons .modifiedComment {
   margin: 0 10px;
   font-size: 18px;
   font-weight: 300;
   font-style: italic;
   color: #4e5166;
+}
+.fullPost__commentsBlock__comments__unique__icons .likeComment {
+  font-size: 20px;
+  margin: 5px;
+  color: #4e5166;
+  display: flex;
+  width: 10%;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.fullPost__commentsBlock__comments__unique__icons .likeComment i {
+  transform: scale(0);
+  font-size: 24px;
+  transition: all 200ms ease-out;
+}
+.fullPost__commentsBlock__comments__unique__icons .likeComment:hover {
+  cursor: pointer;
+  color: #6f7491;
+}
+.fullPost__commentsBlock__comments__unique__icons .likeComment:hover i {
+  transform: scale(1);
 }
 
 .postCard {

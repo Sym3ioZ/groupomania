@@ -68,6 +68,8 @@
       margin-right: 15px;
       margin-left: 15px;
       color: $tertiaryColor;
+      transform: scale(1);
+      transition: all 150ms ease-out;
       @include xsmobile {
         margin: 0 5px 0 5px;
       }
@@ -76,12 +78,8 @@
       }
       &:hover {
         color: lighten($tertiaryColor, 10%);
-        transform: scale(1);
-        transition: all 150ms ease-out;
-        &:hover {
-          cursor: pointer;
-          transform: scale(1.15);
-        }
+        cursor: pointer;
+        transform: scale(1.15);
       }
     }
     &__creatorOnly #deleteIcon {
@@ -89,6 +87,8 @@
       margin-right: 15px;
       margin-left: 15px;
       color: $primaryColor;
+      transform: scale(1);
+      transition: all 150ms ease-out;
       @include xsmobile {
         margin: 0 5px 0 5px;
       }
@@ -97,12 +97,8 @@
       }
       &:hover {
         color: lighten($primaryColor, 10%);
-        transform: scale(1);
-        transition: all 150ms ease-out;
-        &:hover {
-          cursor: pointer;
-          transform: scale(1.15);
-        }
+        cursor: pointer;
+        transform: scale(1.15);
       }
     }
     &__heartBlock {
@@ -189,11 +185,26 @@
   &__commentsBlock {
     width: 100%;
     border-top: $dashedBorder;
+    &__postComment {
+      padding: 5px 5px 5px 0;
+      display: flex;
+      flex-direction: row;
+      border-bottom: $dashedBorder;
+      background-color: lighten($secondaryColor, 6%);
+    }
+    & .button {
+      width: 75px;
+      height: 50px;
+      margin: 0;
+      box-shadow: none;
+      & i {
+        font-size: 28px;
+        color: white;
+      }
+    }
     & textarea {
       margin: 0;
-      height: 26px;
       padding: 2px 5px;
-      border-bottom: $dashedBorder;
       overflow-y: hidden;
       @include tablet {
         height: 25px;
@@ -248,7 +259,6 @@
       transform-origin: top;
       transition: all 250ms ease-out;
       &__unique {
-        border-top: $dashedBorder;
         display: flex;
         flex-direction: column;
         &__userProfile {
@@ -304,36 +314,71 @@
           }
         }
         &__commentText {
-          border-top: $dashedBorder;
-          margin: 0px 5px 5px 5px;
-          @include mobile {
-            font-size: 16px;
-          }
-          @include xsmobile {
-            font-size: 14px;
-          }
-        }
-        &__icons {
           display: flex;
           flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
+          & p {
+            border-top: $dashedBorder;
+            margin: 0px 0px 5px 5px;
+            width: 100%;
+            @include mobile {
+              font-size: 16px;
+            }
+            @include xsmobile {
+              font-size: 14px;
+            }
+          }
+          &__creator {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-left: 5px;
+            border-left: $dashedBorder;
+            border-top: $dashedBorder;
+            background-color: rgb(235, 235, 235);
+          }
           & .fullPost__icons__creatorOnly {
             width: fit-content;
-            border-top: solid 2px $secondaryColor;
-            border-right: solid 2px $secondaryColor;
-            border-radius: 0 20px 0 0;
-            padding: 7px 0 7px 0;
             & i {
               font-size: 24px;
             }
           }
-          & span {
+        }
+        &__icons {
+          display: flex;
+          flex-direction: row-reverse;
+          width: 100%;
+          justify-content: space-between;
+          align-items: center;
+          border-top: $dashedBorder;
+          background-color: rgb(235, 235, 235);
+
+          & .modifiedComment {
             margin: 0 10px;
             font-size: 18px;
             font-weight: 300;
             font-style: italic;
             color: $tertiaryColor;
+          }
+          & .likeComment {
+            font-size: 20px;
+            margin: 5px;
+            color: $tertiaryColor;
+            display: flex;
+            width: 10%;
+            flex-direction: row;
+            justify-content: space-around;
+            & i {
+              transform: scale(0);
+              font-size: 24px;
+              transition: all 200ms ease-out;
+            }
+            &:hover {
+              & i {
+                transform: scale(1);
+              }
+              cursor: pointer;
+              color: lighten($tertiaryColor, 15%);
+            }
           }
         }
       }

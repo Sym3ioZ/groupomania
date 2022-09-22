@@ -392,53 +392,44 @@ function Home() {
     e.preventDefault()
     e.stopPropagation()
     let comment = document.getElementById(`${publishId}comment`)
-    // If enter is detected, avoid line break and then submit comment
-    comment.onkeydown = function (e) {
-      if (e.key === 'Enter') {
-        e.preventDefault()
-        // Formatting the creation date to store in the DB
-        let today = new Date()
-        let createDate =
-          today.getFullYear() +
-          '/' +
-          (today.getMonth() + 1) +
-          '/' +
-          today.getDate() +
-          '-' +
-          today.getHours() +
-          ':' +
-          today.getMinutes() +
-          ':' +
-          today.getSeconds()
-        const orderBody = {
-          postId: publishId,
-          userId: sessionUserId,
-          text: comment.value,
-          createDate: createDate,
-        }
-        const postOrder = {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json',
-            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
-          },
-          body: JSON.stringify(orderBody),
-        }
-
-        fetch(
-          `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/postComment`,
-          postOrder
-        )
-          .then((res) => res.json())
-          .catch((err) => console.log(err))
-        comment.value = ''
-        forceUpdate()
-        if (commentsToggle === false) toggleComments(publishId)
-      }
+    // Formatting the creation date to store in the DB
+    let today = new Date()
+    let createDate =
+      today.getFullYear() +
+      '/' +
+      (today.getMonth() + 1) +
+      '/' +
+      today.getDate() +
+      '-' +
+      today.getHours() +
+      ':' +
+      today.getMinutes() +
+      ':' +
+      today.getSeconds()
+    const orderBody = {
+      postId: publishId,
+      userId: sessionUserId,
+      text: comment.value,
+      createDate: createDate,
+    }
+    const postOrder = {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+      },
+      body: JSON.stringify(orderBody),
     }
 
-    // Auto resizing textarea height
-    comment.style.height = comment.scrollHeight + 'px'
+    fetch(
+      `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/postComment`,
+      postOrder
+    )
+      .then((res) => res.json())
+      .catch((err) => console.log(err))
+    comment.value = ''
+    forceUpdate()
+    if (commentsToggle === false) toggleComments(publishId)
   }
 
   function toggleComments(publishId) {
@@ -458,6 +449,28 @@ function Home() {
         allCommentsBlock.style.display = 'none'
       }, 210)
       setCommentsToggle(false)
+    }
+  }
+
+  async function deleteComment(e, commentId) {
+    if (
+      window.confirm('Etes-vous sûr de vouloir supprimer votre commentaire?')
+    ) {
+      const reqBody = { userId: sessionUserId }
+      await fetch(
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/deleteComment:${commentId}`,
+        {
+          method: 'DELETE',
+          body: JSON.stringify(reqBody),
+          headers: {
+            'content-type': 'application/json',
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+          },
+        }
+      )
+        .then((res) => res.json())
+        .catch((err) => console.log(err))
+      forceUpdate()
     }
   }
 
@@ -749,12 +762,19 @@ function Home() {
                     className="postBlock__textarea"
                     id={`${publish.id}comment`}
                     name="comment"
+                    rows="2"
                     maxLength="300"
                     placeholder="Commentez cette publication"
-                    onInput={(e) => {
+                  ></textarea>
+                  <button
+                    type="submit"
+                    className="fullPost__commentsBlock__postComment__submitComment button unlocked"
+                    onClick={(e) => {
                       postComment(e, publish.id)
                     }}
-                  ></textarea>
+                  >
+                    <i className="fa-regular fa-comment-dots"></i>
+                  </button>
                 </form>
                 <div
                   className={
@@ -816,37 +836,46 @@ function Home() {
                             {dateFormat(comment.createDate, 'dd/mm/yy à HH:MM')}{' '}
                           </p>
                         </div>
-                        <p className="fullPost__commentsBlock__comments__unique__commentText">
-                          {comment.text}
-                        </p>
-                        <div className="fullPost__commentsBlock__comments__unique__icons">
-                          <div
-                            className="fullPost__icons__creatorOnly"
-                            style={
-                              +sessionUserId === +comment.user_id ||
-                              userProfile.role === 'admin'
-                                ? { display: 'flex' }
-                                : { display: 'none' }
-                            }
-                          >
-                            <i
-                              className="fa-solid fa-pen-to-square"
-                              id="modifyIcon"
-                              onClick={() =>
-                                displayUpdateBlock(publish.id, publish.imageUrl)
+                        <div className="fullPost__commentsBlock__comments__unique__commentText">
+                          <p>{comment.text}</p>
+                          <div className="fullPost__commentsBlock__comments__unique__commentText__creator">
+                            <div
+                              className="fullPost__icons__creatorOnly"
+                              style={
+                                +sessionUserId === +comment.user_id ||
+                                userProfile.role === 'admin'
+                                  ? { display: 'flex' }
+                                  : { display: 'none' }
                               }
-                            ></i>
-                            <div>
+                            >
                               <i
-                                className="fa-solid fa-trash-can"
-                                id="deleteIcon"
-                                onClick={(e) => {
-                                  deletePost(e, publish.id, publish.imageUrl)
-                                }}
+                                className="fa-solid fa-pen-to-square"
+                                id="modifyIcon"
+                                onClick={() =>
+                                  displayUpdateBlock(
+                                    publish.id,
+                                    publish.imageUrl
+                                  )
+                                }
                               ></i>
+                              <div>
+                                <i
+                                  className="fa-solid fa-trash-can"
+                                  id="deleteIcon"
+                                  onClick={(e) => {
+                                    deleteComment(e, comment.commentId)
+                                  }}
+                                ></i>
+                              </div>
                             </div>
                           </div>
-                          <span>(Modifié)</span>
+                        </div>
+                        <div className="fullPost__commentsBlock__comments__unique__icons">
+                          <div className="likeComment">
+                            <span>J'aime</span>
+                            <i className="fa-solid fa-heart"></i>
+                          </div>
+                          <span className="modifiedComment">(Modifié)</span>
                         </div>
                       </div>
                     )
