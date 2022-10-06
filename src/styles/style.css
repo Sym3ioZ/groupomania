@@ -744,6 +744,40 @@ label {
     transform: scaleY(0);
   }
 }
+@-webkit-keyframes heartBump {
+  0% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.25);
+  }
+  78% {
+    transform: scale(1);
+  }
+  90% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes heartBump {
+  0% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.25);
+  }
+  78% {
+    transform: scale(1);
+  }
+  90% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 .fullPost {
   width: 95%;
   max-width: 1000px;
@@ -1138,6 +1172,7 @@ label {
   border-top: 2px dashed #ffd7d7;
   margin: 0px 0px 5px 5px;
   width: 100%;
+  white-space: pre-wrap;
 }
 @media screen and (min-width: 375px) and (max-width: 768px) {
   .fullPost__commentsBlock__comments__unique__commentText p {
@@ -1149,11 +1184,27 @@ label {
     font-size: 14px;
   }
 }
+.fullPost__commentsBlock__comments__unique__commentText textarea {
+  border-top: 2px dashed #ffd7d7;
+  background-color: #fff1f1;
+  margin: 0;
+  padding: 0px 0px 5px 5px;
+  width: 100%;
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .fullPost__commentsBlock__comments__unique__commentText textarea {
+    font-size: 16px;
+  }
+}
+@media screen and (max-width: 374px) {
+  .fullPost__commentsBlock__comments__unique__commentText textarea {
+    font-size: 14px;
+  }
+}
 .fullPost__commentsBlock__comments__unique__commentText__creator {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 5px;
   border-left: 2px dashed #ffd7d7;
   border-top: 2px dashed #ffd7d7;
   background-color: rgb(235, 235, 235);
@@ -1162,6 +1213,16 @@ label {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+}
+.fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly .button {
+  width: 66px;
+  height: 43px;
+  margin: 5px;
+  box-shadow: none;
+}
+.fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly .button i {
+  font-size: 24px;
+  color: white;
 }
 .fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly i {
   font-size: 24px;
@@ -1366,6 +1427,7 @@ label {
 .postCard__text {
   margin: 15px;
   font-size: large;
+  white-space: pre-wrap;
 }
 @media screen and (max-width: 374px) {
   .postCard__text {

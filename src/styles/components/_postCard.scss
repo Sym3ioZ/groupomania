@@ -320,6 +320,20 @@
             border-top: $dashedBorder;
             margin: 0px 0px 5px 5px;
             width: 100%;
+            white-space: pre-wrap;
+            @include mobile {
+              font-size: 16px;
+            }
+            @include xsmobile {
+              font-size: 14px;
+            }
+          }
+          & textarea {
+            border-top: $dashedBorder;
+            background-color: lighten($secondaryColor, 5%);
+            margin: 0;
+            padding: 0px 0px 5px 5px;
+            width: 100%;
             @include mobile {
               font-size: 16px;
             }
@@ -331,13 +345,22 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            margin-left: 5px;
             border-left: $dashedBorder;
             border-top: $dashedBorder;
             background-color: rgb(235, 235, 235);
           }
           & .fullPost__icons__creatorOnly {
             width: fit-content;
+            & .button {
+              width: 66px;
+              height: 43px;
+              margin: 5px;
+              box-shadow: none;
+              & i {
+                font-size: 24px;
+                color: white;
+              }
+            }
             & i {
               font-size: 24px;
             }
@@ -524,6 +547,7 @@
   &__text {
     margin: 15px;
     font-size: large;
+    white-space: pre-wrap;
     @include xsmobile {
       font-size: small;
     }

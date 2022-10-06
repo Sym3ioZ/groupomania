@@ -236,3 +236,20 @@ exports.deleteComment = (req, res, next) => {
     }
   )
 }
+
+exports.modifyComment = (req, res, next) => {
+  const commentText = replaceChars("'", "\\'", req.body.text)
+  const text = replaceChars('/n', '<br/>', commentText)
+  connection.query(
+    "UPDATE comments SET text='" +
+      text +
+      "', modified='1'" +
+      " WHERE commentId ='" +
+      req.body.commentId +
+      "'",
+    function (err, resp) {
+      if (err) throw err
+      return res.status(200).json({ message: 'Comment modified' })
+    }
+  )
+}

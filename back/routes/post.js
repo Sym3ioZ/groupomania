@@ -13,6 +13,7 @@ router.post('/post', auth, multerPost, postCtrl.sharePost)
 router.post('/postComment', auth, postCtrl.postComment)
 router.put('/updatePost:id', auth, multerPost, postCtrl.updatePost)
 router.put('/likePost', auth, postCtrl.likePost)
+router.put('/modifyComment', auth, postCtrl.modifyComment)
 router.delete('/deletePost:id', auth, postCtrl.deletePost)
 router.delete('/deleteComment:id', auth, postCtrl.deleteComment)
 

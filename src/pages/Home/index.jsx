@@ -329,6 +329,63 @@ function Home() {
     }
   }
 
+  // Displaying the comment update block
+  function displayCommentUpdateBlock(commentId) {
+    document.getElementById(`${commentId}uniqueComment`).style.display = 'none'
+    document.getElementById(`${commentId}creatorIcons`).style.display = 'none'
+    document.getElementById(`${commentId}modifyComment`).style.display = 'block'
+    const commentUpdateBlock = document.getElementById(
+      `${commentId}commentUpdateBlock`
+    )
+    commentUpdateBlock.style.display = 'flex'
+    commentUpdateBlock.focus()
+    commentUpdateBlock.setSelectionRange(
+      commentUpdateBlock.value.length,
+      commentUpdateBlock.value.length
+    )
+  }
+
+  // Funtion to call the route to modify a comment
+  async function modifyComment(e, commentId) {
+    const commentText = document.getElementById(
+      `${commentId}commentUpdateBlock`
+    )
+    const orderBody = { commentId: commentId, text: commentText.value }
+    const postOrder = JSON.stringify(orderBody)
+
+    await fetch(
+      `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/modifyComment`,
+      {
+        method: 'PUT',
+        body: postOrder,
+        headers: {
+          'content-type': 'application/json',
+          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+        },
+      }
+    )
+      .then((res) => res.json())
+      .catch((err) => console.log(err))
+    commentText.style.display = 'none'
+    document.getElementById(`${commentId}uniqueComment`).style.display = 'flex'
+    document.getElementById(`${commentId}creatorIcons`).style.display = 'flex'
+    document.getElementById(`${commentId}modifyComment`).style.display = 'none'
+    forceUpdate()
+  }
+
+  // Function to like a comment
+  async function likeComment(e, commentId) {
+    const likeHeart = document.getElementById(`${commentId}likeHeart`)
+    const likedHeart = document.getElementById(`${commentId}likedHeart`)
+    likeHeart.style.display = 'none'
+    likedHeart.style.display = 'flex'
+    likedHeart.style.color = 'red'
+    likedHeart.style.transform = 'scaleX(1)'
+    likedHeart.style.transform = 'scaleY(1)'
+    likedHeart.style.transform = 'translateY(0)'
+    likedHeart.style.animation = 'heart-click 650ms ease-in-out both'
+  }
+
   // UPDATE method to update the post, then reload home
   async function updatePost(e, publishId, publishImageUrl) {
     e.preventDefault()
@@ -837,10 +894,22 @@ function Home() {
                           </p>
                         </div>
                         <div className="fullPost__commentsBlock__comments__unique__commentText">
-                          <p>{comment.text}</p>
+                          <p id={`${comment.commentId}uniqueComment`}>
+                            {comment.text}
+                          </p>
+                          <textarea
+                            className="postBlock__textarea"
+                            id={`${comment.commentId}commentUpdateBlock`}
+                            name="uniqueComment"
+                            rows="2"
+                            maxLength="300"
+                            defaultValue={comment.text}
+                            style={{ display: 'none' }}
+                          ></textarea>
                           <div className="fullPost__commentsBlock__comments__unique__commentText__creator">
                             <div
                               className="fullPost__icons__creatorOnly"
+                              id={`${comment.commentId}creatorIcons`}
                               style={
                                 +sessionUserId === +comment.user_id ||
                                 userProfile.role === 'admin'
@@ -852,10 +921,7 @@ function Home() {
                                 className="fa-solid fa-pen-to-square"
                                 id="modifyIcon"
                                 onClick={() =>
-                                  displayUpdateBlock(
-                                    publish.id,
-                                    publish.imageUrl
-                                  )
+                                  displayCommentUpdateBlock(comment.commentId)
                                 }
                               ></i>
                               <div>
@@ -868,14 +934,52 @@ function Home() {
                                 ></i>
                               </div>
                             </div>
+                            <div
+                              className="fullPost__icons__creatorOnly"
+                              id={`${comment.commentId}modifyComment`}
+                              style={{ display: 'none' }}
+                            >
+                              <button
+                                type="submit"
+                                id={`${comment.commentId}submitComment`}
+                                className="fullPost__commentsBlock__postComment__submitComment button unlocked"
+                                onClick={(e) => {
+                                  modifyComment(e, comment.commentId)
+                                }}
+                              >
+                                <i className="fa-regular fa-comment-dots"></i>
+                              </button>
+                            </div>
                           </div>
                         </div>
                         <div className="fullPost__commentsBlock__comments__unique__icons">
-                          <div className="likeComment">
+                          <div
+                            className="likeComment"
+                            onClick={(e) => {
+                              likeComment(e, comment.commentId)
+                            }}
+                          >
                             <span>J'aime</span>
-                            <i className="fa-solid fa-heart"></i>
+                            <i
+                              className="fa-solid fa-heart"
+                              id={`${comment.commentId}likeHeart`}
+                            ></i>
+                            <i
+                              className="fa-solid fa-heart"
+                              id={`${comment.commentId}likedHeart`}
+                              style={{ display: 'none' }}
+                            ></i>
                           </div>
-                          <span className="modifiedComment">(Modifié)</span>
+                          <span
+                            className="modifiedComment"
+                            style={
+                              comment.modified === 1
+                                ? { display: 'block' }
+                                : { display: 'none' }
+                            }
+                          >
+                            (Modifié)
+                          </span>
                         </div>
                       </div>
                     )
