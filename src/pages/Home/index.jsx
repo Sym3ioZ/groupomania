@@ -420,9 +420,7 @@ function Home() {
 
   // Function to like a comment
   async function likeComment(e, commentId) {
-    const likeHeartHover = document.getElementById(`${commentId}likeHeartHover`)
     const likeHeart = document.getElementById(`${commentId}likeHeart`)
-    const likedHeart = document.getElementById(`${commentId}likedHeart`)
     const orderBody = { commentId: commentId, userId: sessionUserId }
 
     const fetchData = await fetch(
@@ -440,24 +438,16 @@ function Home() {
     const fetchJSON = await fetchData.json()
 
     if (fetchJSON.message === 'Comment liked !') {
-      likeHeartHover.style.display = 'none'
-      likeHeart.style.display = 'none'
-      likedHeart.style.display = 'block'
-      likedHeart.style.transform = 'scaleX(1)'
-      likedHeart.style.transform = 'scaleY(1)'
-      likedHeart.style.transform = 'translateY(0)'
-      likedHeart.style.color = '$tertiaryColor'
-      likedHeart.style.animation = 'commentHeart-click 650ms ease-in-out both'
+      likeHeart.style.animation = 'commentHeart-click 650ms ease-in-out both'
+      window.setTimeout(() => {
+        likeHeart.style.animation = ''
+      }, 651)
     } else {
-      likeHeartHover.style.display = 'none'
-      likeHeart.style.display = 'block'
-      likedHeart.style.display = 'none'
       likeHeart.style.transform = 'scale(1)'
       likeHeart.style.animation = 'commentUnlike 500ms ease-in-out both'
       window.setTimeout(() => {
-        likeHeartHover.style.display = 'block'
-        likeHeart.style.display = 'none'
-      }, 500)
+        likeHeart.style.animation = ''
+      }, 501)
     }
     forceUpdate()
   }
@@ -1047,21 +1037,17 @@ function Home() {
                             <span>J'aime</span>
                             <i
                               className="fa-solid fa-heart"
-                              id={`${comment.commentId}likeHeartHover`}
-                              style={{
-                                display: 'block',
-                                color: '$tertiaryColor',
-                              }}
-                            ></i>
-                            <i
-                              className="fa-solid fa-heart"
                               id={`${comment.commentId}likeHeart`}
-                              style={{ display: 'none' }}
-                            ></i>
-                            <i
-                              className="fa-solid fa-heart"
-                              id={`${comment.commentId}likedHeart`}
-                              style={{ display: 'none', color: 'red' }}
+                              style={
+                                checkUserCommentLiked(comment.commentId)
+                                  ? {
+                                      transform: 'scale(1)',
+                                      color: '#fd2d01',
+                                    }
+                                  : {
+                                      color: '#4e5166',
+                                    }
+                              }
                             ></i>
                           </div>
 
