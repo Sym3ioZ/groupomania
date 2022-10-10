@@ -7,6 +7,7 @@ function Home() {
   const [allComments, setAllComments] = useState([])
   const [commentsToggle, setCommentsToggle] = useState(false)
   const [likes, setLikes] = useState([])
+  const [commentsLikes, setCommentsLikes] = useState([])
   const [update, forceUpdate] = useReducer((x) => x + 1, 0)
   const sessionUserId = sessionStorage.getItem('userId')
 
@@ -58,6 +59,22 @@ function Home() {
       }
     }
 
+    const fetchCommentsLikes = async () => {
+      const fetchData = await fetch(
+        `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/getCommentsLikes`,
+        {
+          headers: {
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+          },
+        }
+      )
+      const jsonData = await fetchData.json()
+      setCommentsLikes(jsonData.resp)
+      if (jsonData.code === '401') {
+        document.location.assign('/unauthorized')
+      }
+    }
+
     const fetchComments = async () => {
       const fetchData = await fetch(
         `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/getComments`,
@@ -75,6 +92,7 @@ function Home() {
     }
     fetchPosts()
     fetchLikes()
+    fetchCommentsLikes()
     fetchComments()
   }, [update])
 
@@ -95,6 +113,19 @@ function Home() {
     if (likes.length > 0) {
       for (let i = 0; i < likes.length; i++) {
         if (likes[i].post_id === publishId) {
+          likesCounter++
+        }
+      }
+    }
+    return likesCounter
+  }
+
+  // Function to count the number of comments likes on each comment displayed in the page
+  function checkCommentsLikes(commentId) {
+    let likesCounter = 0
+    if (commentsLikes.length > 0) {
+      for (let i = 0; i < commentsLikes.length; i++) {
+        if (commentsLikes[i].comment_id === commentId) {
           likesCounter++
         }
       }
@@ -130,10 +161,24 @@ function Home() {
     return checkStatus
   }
 
+  // Function to check if the connected user has already liked the comment
+  function checkUserCommentLiked(commentId) {
+    let checkStatus = false
+    if (commentsLikes.length > 0) {
+      for (let i = 0; i < commentsLikes.length; i++) {
+        if (commentsLikes[i].comment_id === commentId) {
+          if (commentsLikes[i].user_id === userProfile.userId) {
+            checkStatus = true
+          }
+        }
+      }
+    }
+    return checkStatus
+  }
   // Function to handle the click on the like icon
   function heartClick(publishId) {
-    const putOrder = {
-      method: 'PUT',
+    const postOrder = {
+      method: 'POST',
       headers: {
         'content-type': 'application/json',
         Authorization: 'Bearer ' + sessionStorage.getItem('token'),
@@ -143,7 +188,7 @@ function Home() {
 
     fetch(
       `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/likePost`,
-      putOrder
+      postOrder
     )
       .then((res) => res.json())
       .catch((err) => console.log(err))
@@ -375,15 +420,46 @@ function Home() {
 
   // Function to like a comment
   async function likeComment(e, commentId) {
+    const likeHeartHover = document.getElementById(`${commentId}likeHeartHover`)
     const likeHeart = document.getElementById(`${commentId}likeHeart`)
     const likedHeart = document.getElementById(`${commentId}likedHeart`)
-    likeHeart.style.display = 'none'
-    likedHeart.style.display = 'flex'
-    likedHeart.style.color = 'red'
-    likedHeart.style.transform = 'scaleX(1)'
-    likedHeart.style.transform = 'scaleY(1)'
-    likedHeart.style.transform = 'translateY(0)'
-    likedHeart.style.animation = 'heart-click 650ms ease-in-out both'
+    const orderBody = { commentId: commentId, userId: sessionUserId }
+
+    const fetchData = await fetch(
+      `http://localhost:${process.env.REACT_APP_PORT_API}/api/posts/likeComment`,
+      {
+        method: 'POST',
+        body: JSON.stringify(orderBody),
+        headers: {
+          'content-type': 'application/json',
+          Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+        },
+      }
+    )
+
+    const fetchJSON = await fetchData.json()
+
+    if (fetchJSON.message === 'Comment liked !') {
+      likeHeartHover.style.display = 'none'
+      likeHeart.style.display = 'none'
+      likedHeart.style.display = 'block'
+      likedHeart.style.transform = 'scaleX(1)'
+      likedHeart.style.transform = 'scaleY(1)'
+      likedHeart.style.transform = 'translateY(0)'
+      likedHeart.style.color = '$tertiaryColor'
+      likedHeart.style.animation = 'commentHeart-click 650ms ease-in-out both'
+    } else {
+      likeHeartHover.style.display = 'none'
+      likeHeart.style.display = 'block'
+      likedHeart.style.display = 'none'
+      likeHeart.style.transform = 'scale(1)'
+      likeHeart.style.animation = 'commentUnlike 500ms ease-in-out both'
+      window.setTimeout(() => {
+        likeHeartHover.style.display = 'block'
+        likeHeart.style.display = 'none'
+      }, 500)
+    }
+    forceUpdate()
   }
 
   // UPDATE method to update the post, then reload home
@@ -959,17 +1035,36 @@ function Home() {
                               likeComment(e, comment.commentId)
                             }}
                           >
+                            <span
+                              style={
+                                checkCommentsLikes(comment.commentId) > 0
+                                  ? { color: 'black' }
+                                  : { color: 'transparent' }
+                              }
+                            >
+                              {checkCommentsLikes(comment.commentId)}
+                            </span>
                             <span>J'aime</span>
                             <i
                               className="fa-solid fa-heart"
+                              id={`${comment.commentId}likeHeartHover`}
+                              style={{
+                                display: 'block',
+                                color: '$tertiaryColor',
+                              }}
+                            ></i>
+                            <i
+                              className="fa-solid fa-heart"
                               id={`${comment.commentId}likeHeart`}
+                              style={{ display: 'none' }}
                             ></i>
                             <i
                               className="fa-solid fa-heart"
                               id={`${comment.commentId}likedHeart`}
-                              style={{ display: 'none' }}
+                              style={{ display: 'none', color: 'red' }}
                             ></i>
                           </div>
+
                           <span
                             className="modifiedComment"
                             style={

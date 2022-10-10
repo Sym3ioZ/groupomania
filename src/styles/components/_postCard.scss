@@ -351,6 +351,7 @@
           }
           & .fullPost__icons__creatorOnly {
             width: fit-content;
+            margin: 5px 0;
             & .button {
               width: 66px;
               height: 43px;
@@ -374,7 +375,9 @@
           align-items: center;
           border-top: $dashedBorder;
           background-color: rgb(235, 235, 235);
-
+          & span {
+            margin-right: 5px;
+          }
           & .modifiedComment {
             margin: 0 10px;
             font-size: 18px;
@@ -390,10 +393,17 @@
             width: 10%;
             flex-direction: row;
             justify-content: space-around;
+            @include mobile {
+              font-size: 18px;
+            }
             & i {
               transform: scale(0);
               font-size: 24px;
-              transition: all 200ms ease-out;
+              transition: all 200ms ease-in-out;
+              margin: 0 10px 0 5px;
+              @include mobile {
+                font-size: 20px;
+              }
             }
             &:hover {
               & i {

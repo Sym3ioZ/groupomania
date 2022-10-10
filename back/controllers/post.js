@@ -25,6 +25,14 @@ exports.getLikes = (req, res, next) => {
   })
 }
 
+// Sekecting every comments likes and returning them
+exports.getCommentsLikes = (req, res, next) => {
+  connection.query('SELECT * FROM commentsLikes', function (err, resp) {
+    if (err) throw err
+    return res.status(200).json({ resp })
+  })
+}
+
 // Selecting 1 post with sent id and returning it
 exports.getPost = (req, res, next) => {
   const params = req.params.id.replace(/:/g, '')
@@ -165,7 +173,7 @@ exports.deletePost = (req, res, next) => {
 exports.likePost = (req, res, next) => {
   let checkUser = false
   connection.query(
-    // Checjing if user has already liked the post
+    // Checking if user has already liked the post
     "SELECT * FROM likes WHERE post_id = '" + req.body.postId + "'",
     function (err, resp) {
       if (resp.length > 0) {
@@ -199,6 +207,53 @@ exports.likePost = (req, res, next) => {
           function (err, resp) {
             if (err) throw err
             return res.status(200).json({ message: 'post liked !' })
+          }
+        )
+      }
+    }
+  )
+}
+
+// Function to like or unlike a comment
+exports.likeComment = (req, res, next) => {
+  let checkUser = false
+  connection.query(
+    // Checking if user has already liked the comment
+    "SELECT * FROM commentsLikes WHERE comment_id = '" +
+      req.body.commentId +
+      "'",
+    function (err, resp) {
+      if (resp.length > 0) {
+        for (let i = 0; i < resp.length; i++) {
+          if (+resp[i].user_id === +req.body.userId) {
+            checkUser = true
+          }
+        }
+      }
+
+      if (checkUser === true) {
+        // If user already liked the comment, deleting the entry (as unlike)
+        connection.query(
+          "DELETE FROM commentsLikes WHERE user_id = '" +
+            req.body.userId +
+            "' AND comment_id = '" +
+            req.body.commentId +
+            "'",
+          function (err, resp) {
+            if (err) throw err
+            return res.status(200).json({ message: 'Comment unliked !' })
+          }
+        )
+      } else {
+        connection.query(
+          "INSERT INTO commentsLikes (comment_id, user_id) VALUES ('" +
+            req.body.commentId +
+            "', '" +
+            req.body.userId +
+            "')",
+          function (err, resp) {
+            if (err) throw err
+            return res.status(200).json({ message: 'Comment liked !' })
           }
         )
       }

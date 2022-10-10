@@ -688,6 +688,76 @@ label {
     transform: translateY(0);
   }
 }
+@-webkit-keyframes commentHeart-click {
+  0% {
+    transform: scaleX(1) scaleY(1) translateY(0);
+    color: #4e5166;
+  }
+  33% {
+    transform: scaleX(1.33) scaleY(0.4) translateY(-20px);
+  }
+  45% {
+    transform: scaleX(1) scaleY(1) translateY(0);
+    color: #fd2d01;
+  }
+  60% {
+    transform: translateY(-4px);
+  }
+  72% {
+    transform: translateY(0);
+  }
+  87% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes commentHeart-click {
+  0% {
+    transform: scaleX(1) scaleY(1) translateY(0);
+    color: #4e5166;
+  }
+  33% {
+    transform: scaleX(1.33) scaleY(0.4) translateY(-20px);
+  }
+  45% {
+    transform: scaleX(1) scaleY(1) translateY(0);
+    color: #fd2d01;
+  }
+  60% {
+    transform: translateY(-4px);
+  }
+  72% {
+    transform: translateY(0);
+  }
+  87% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@-webkit-keyframes commentUnlike {
+  from {
+    transform: scale(1);
+    color: #fd2d01;
+  }
+  to {
+    transform: scale(0);
+    color: #4e5166;
+  }
+}
+@keyframes commentUnlike {
+  from {
+    transform: scale(1);
+    color: #fd2d01;
+  }
+  to {
+    transform: scale(0);
+    color: #4e5166;
+  }
+}
 @-webkit-keyframes zoom {
   from {
     transform: scale(0);
@@ -1213,6 +1283,7 @@ label {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  margin: 5px 0;
 }
 .fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly .button {
   width: 66px;
@@ -1236,6 +1307,9 @@ label {
   border-top: 2px dashed #ffd7d7;
   background-color: rgb(235, 235, 235);
 }
+.fullPost__commentsBlock__comments__unique__icons span {
+  margin-right: 5px;
+}
 .fullPost__commentsBlock__comments__unique__icons .modifiedComment {
   margin: 0 10px;
   font-size: 18px;
@@ -1252,10 +1326,21 @@ label {
   flex-direction: row;
   justify-content: space-around;
 }
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .fullPost__commentsBlock__comments__unique__icons .likeComment {
+    font-size: 18px;
+  }
+}
 .fullPost__commentsBlock__comments__unique__icons .likeComment i {
   transform: scale(0);
   font-size: 24px;
-  transition: all 200ms ease-out;
+  transition: all 200ms ease-in-out;
+  margin: 0 10px 0 5px;
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .fullPost__commentsBlock__comments__unique__icons .likeComment i {
+    font-size: 20px;
+  }
 }
 .fullPost__commentsBlock__comments__unique__icons .likeComment:hover {
   cursor: pointer;

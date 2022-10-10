@@ -22,6 +22,43 @@
   }
 }
 
+@keyframes commentHeart-click {
+  0% {
+    transform: scaleX(1) scaleY(1) translateY(0);
+    color: $tertiaryColor;
+  }
+  33% {
+    transform: scaleX(1.33) scaleY(0.4) translateY(-20px);
+  }
+  45% {
+    transform: scaleX(1) scaleY(1) translateY(0);
+    color: $primaryColor;
+  }
+  60% {
+    transform: translateY(-4px);
+  }
+  72% {
+    transform: translateY(0);
+  }
+  87% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes commentUnlike {
+  from {
+    transform: scale(1);
+    color: $primaryColor;
+  }
+  to {
+    transform: scale(0);
+    color: $tertiaryColor;
+  }
+}
+
 @keyframes zoom {
   from {
     transform: scale(0);
