@@ -1090,9 +1090,31 @@ label {
   margin: 0;
   box-shadow: none;
 }
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .fullPost__commentsBlock .button {
+    width: 50px;
+    height: 33px;
+  }
+}
+@media screen and (max-width: 374px) {
+  .fullPost__commentsBlock .button {
+    width: 50px;
+    height: 33px;
+  }
+}
 .fullPost__commentsBlock .button i {
   font-size: 28px;
   color: white;
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .fullPost__commentsBlock .button i {
+    font-size: 22px;
+  }
+}
+@media screen and (max-width: 374px) {
+  .fullPost__commentsBlock .button i {
+    font-size: 22px;
+  }
 }
 .fullPost__commentsBlock textarea {
   margin: 0;
@@ -1291,12 +1313,44 @@ label {
   margin: 5px;
   box-shadow: none;
 }
+@media screen and (min-width: 769px) and (max-width: 900px) {
+  .fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly .button {
+    width: 50px;
+    height: 33px;
+  }
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly .button {
+    width: 40px;
+    height: 27px;
+  }
+}
+@media screen and (max-width: 374px) {
+  .fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly .button {
+    width: 35px;
+    height: 25px;
+  }
+}
 .fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly .button i {
-  font-size: 24px;
   color: white;
 }
 .fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly i {
   font-size: 24px;
+}
+@media screen and (min-width: 769px) and (max-width: 900px) {
+  .fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly i {
+    font-size: 20px;
+  }
+}
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly i {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 374px) {
+  .fullPost__commentsBlock__comments__unique__commentText .fullPost__icons__creatorOnly i {
+    font-size: 16px;
+  }
 }
 .fullPost__commentsBlock__comments__unique__icons {
   display: flex;
@@ -1317,18 +1371,32 @@ label {
   font-style: italic;
   color: #4e5166;
 }
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .fullPost__commentsBlock__comments__unique__icons .modifiedComment {
+    font-size: 15px;
+  }
+}
+@media screen and (max-width: 374px) {
+  .fullPost__commentsBlock__comments__unique__icons .modifiedComment {
+    font-size: 14px;
+  }
+}
 .fullPost__commentsBlock__comments__unique__icons .likeComment {
   font-size: 20px;
-  margin: 5px;
+  margin: 5px 2px;
   color: #4e5166;
   display: flex;
-  width: 10%;
   flex-direction: row;
   justify-content: space-around;
 }
 @media screen and (min-width: 375px) and (max-width: 768px) {
   .fullPost__commentsBlock__comments__unique__icons .likeComment {
-    font-size: 18px;
+    font-size: 16px;
+  }
+}
+@media screen and (max-width: 374px) {
+  .fullPost__commentsBlock__comments__unique__icons .likeComment {
+    font-size: 15px;
   }
 }
 .fullPost__commentsBlock__comments__unique__icons .likeComment i {
@@ -1340,6 +1408,11 @@ label {
 @media screen and (min-width: 375px) and (max-width: 768px) {
   .fullPost__commentsBlock__comments__unique__icons .likeComment i {
     font-size: 20px;
+  }
+}
+@media screen and (max-width: 374px) {
+  .fullPost__commentsBlock__comments__unique__icons .likeComment i {
+    font-size: 18px;
   }
 }
 .fullPost__commentsBlock__comments__unique__icons .likeComment:hover {

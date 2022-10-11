@@ -197,9 +197,23 @@
       height: 50px;
       margin: 0;
       box-shadow: none;
+      @include mobile {
+        width: 50px;
+        height: 33px;
+      }
+      @include xsmobile {
+        width: 50px;
+        height: 33px;
+      }
       & i {
         font-size: 28px;
         color: white;
+        @include mobile {
+          font-size: 22px;
+        }
+        @include xsmobile {
+          font-size: 22px;
+        }
       }
     }
     & textarea {
@@ -357,13 +371,33 @@
               height: 43px;
               margin: 5px;
               box-shadow: none;
+              @include tablet {
+                width: 50px;
+                height: 33px;
+              }
+              @include mobile {
+                width: 40px;
+                height: 27px;
+              }
+              @include xsmobile {
+                width: 35px;
+                height: 25px;
+              }
               & i {
-                font-size: 24px;
                 color: white;
               }
             }
             & i {
               font-size: 24px;
+              @include tablet {
+                font-size: 20px;
+              }
+              @include mobile {
+                font-size: 18px;
+              }
+              @include xsmobile {
+                font-size: 16px;
+              }
             }
           }
         }
@@ -384,17 +418,26 @@
             font-weight: 300;
             font-style: italic;
             color: $tertiaryColor;
+            @include mobile {
+              font-size: 15px;
+            }
+            @include xsmobile {
+              font-size: 14px;
+            }
           }
           & .likeComment {
             font-size: 20px;
-            margin: 5px;
+            margin: 5px 2px;
             color: $tertiaryColor;
             display: flex;
-            width: 10%;
+            // width: 10%;
             flex-direction: row;
             justify-content: space-around;
             @include mobile {
-              font-size: 18px;
+              font-size: 16px;
+            }
+            @include xsmobile {
+              font-size: 15px;
             }
             & i {
               transform: scale(0);
@@ -403,6 +446,9 @@
               margin: 0 10px 0 5px;
               @include mobile {
                 font-size: 20px;
+              }
+              @include xsmobile {
+                font-size: 18px;
               }
             }
             &:hover {
