@@ -1,7 +1,7 @@
 const connection = require('../db')
 const fs = require('fs')
 
-// Function to handle "'" characters by escaping them
+// Function to handle "'" characters by escaping them and to display correctly line breaks (replaces /n by <br/>)
 function replaceChars(search, replacement, string) {
   return string.split(search).join(replacement)
 }
@@ -59,13 +59,14 @@ exports.getComments = (req, res, next) => {
 // Inserting data into a new entry in post table
 exports.sharePost = (req, res, next) => {
   const postText = replaceChars("'", "\\'", req.body.text)
+  const text = replaceChars('/n', '<br/>', postText)
   if (req.file) {
     // If a file is present, adding it to the entry
     connection.query(
       "INSERT INTO post (user_id, text, imageUrl, createDate) VALUES ('" +
         req.body.userId +
         "','" +
-        postText +
+        text +
         "','" +
         `${req.protocol}://${req.get('host')}/images/postPics/${
           req.file.filename
@@ -83,7 +84,7 @@ exports.sharePost = (req, res, next) => {
       "INSERT INTO post (user_id, text, createDate) VALUES ('" +
         req.body.userId +
         "','" +
-        postText +
+        text +
         "','" +
         req.body.createDate +
         "')",
@@ -99,6 +100,7 @@ exports.sharePost = (req, res, next) => {
 exports.updatePost = (req, res, next) => {
   const publishId = req.params.id.replace(/:/g, '')
   const postText = replaceChars("'", "\\'", req.body.text)
+  const text = replaceChars('/n', '<br/>', postText)
   if (req.file) {
     // If a file is present, deleting the old one before adding the new one
     const imageUrl = req.body.imageUrl
@@ -106,7 +108,7 @@ exports.updatePost = (req, res, next) => {
     fs.unlink(`images/postPics/${filename}`, () => {})
     connection.query(
       "UPDATE post SET text='" +
-        postText +
+        text +
         "', imageUrl='" +
         `${req.protocol}://${req.get('host')}/images/postPics/${
           req.file.filename
@@ -123,7 +125,7 @@ exports.updatePost = (req, res, next) => {
   } else {
     connection.query(
       "UPDATE post SET text='" +
-        postText +
+        text +
         "', modified='1'" +
         " WHERE id ='" +
         publishId +
@@ -263,13 +265,14 @@ exports.likeComment = (req, res, next) => {
 
 exports.postComment = (req, res, next) => {
   const postText = replaceChars("'", "\\'", req.body.text)
+  const text = replaceChars('/n', '<br/>', postText)
   connection.query(
     "INSERT INTO comments (post_id, user_id, text, createDate) VALUES ('" +
       req.body.postId +
       "', '" +
       req.body.userId +
       "', '" +
-      postText +
+      text +
       "', '" +
       req.body.createDate +
       "')",
